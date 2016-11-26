@@ -19,6 +19,7 @@ Dockerfile
 .dockerignore
 docker-compose.yml
 *.pem
+.semaphore-cache/
 
 
 ## Specific to RubyMotion:
