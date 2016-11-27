@@ -3,17 +3,22 @@ class JiraHookHandler
 
   def queue!(payload)
     Rails.logger.info('Processing JIRA hook')
-    jira_issue = JIRA::Resource::IssueFactory.new(nil).build(payload['issue'])
+    jira_data = JIRA::Resource::IssueFactory.new(nil).build(payload['issue'])
     Rails.logger.info(payload)
 
-    pushes = Push.with_jira_issue(jira_issue.key)
+    pushes = Push.with_jira_issue(jira_data.key)
     if pushes.any?
-      Rails.logger.info("Queueing #{pushes.length} pushes related to JIRA issue #{jira_issue.key}")
-      pushes.each do |push|
-        PushChangeHandler.new.submit_push_for_processing!(push)
+      jira_issue = JiraIssue.create_from_jira_data(jira_data)
+      if jira_issue.changed.empty?
+        Rails.logger.info("Ignoring JIRA issue #{jira_data.key} because it did not contain any material changes")
+      else
+        Rails.logger.info("Queueing #{pushes.length} pushes related to JIRA issue #{jira_data.key}")
+        pushes.each do |push|
+          PushChangeHandler.new.submit_push_for_processing!(push)
+        end
       end
     else
-      Rails.logger.info("Ignoring JIRA issue #{jira_issue.key} because it is not related to any existing pushes")
+      Rails.logger.info("Ignoring JIRA issue #{jira_data.key} because it is not related to any existing pushes")
     end
   end
   handle_asynchronously(:queue!, queue: PROCESSING_QUEUE)

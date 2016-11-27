@@ -24,6 +24,12 @@ class JiraIssue < ActiveRecord::Base
 
   class << self
     def create_from_jira_data!(jira_data)
+      issue = create_from_jira_data(jira_data)
+      issue.save!
+      issue
+    end
+
+    def create_from_jira_data(jira_data)
       issue = JiraIssue.where(key: jira_data.key).first_or_initialize
       issue.summary = jira_data.summary.truncate(1024)
       issue.issue_type = jira_data.issuetype.name
@@ -39,7 +45,7 @@ class JiraIssue < ActiveRecord::Base
       if jira_data.respond_to?(:parent)
         issue.parent_issue = create_from_jira_data!(JIRA::Resource::IssueFactory.new(nil).build(jira_data.parent))
       end
-      issue.save!
+
       issue
     end
 

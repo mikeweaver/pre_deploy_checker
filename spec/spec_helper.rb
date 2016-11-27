@@ -31,6 +31,13 @@ RSpec.configure do |config|
       example.run
     end
   end
+
+  config.around(:each, :disable_delayed_job) do |example|
+    old_value = Delayed::Worker.delay_jobs
+    Delayed::Worker.delay_jobs = false
+    example.run
+    Delayed::Worker.delay_jobs = old_value
+  end
 end
 
 def load_json_fixture(fixture_name)

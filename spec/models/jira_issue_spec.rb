@@ -9,9 +9,7 @@ describe 'JiraIssue' do
     @jira_sub_task ||= JIRA::Resource::IssueFactory.new(nil).build(load_json_fixture('jira_sub_task_response'))
   end
 
-  it 'can create be constructed from jira data' do
-    issue = JiraIssue.create_from_jira_data!(jira_issue)
-
+  def assert_issue_properly_constructed(issue)
     expect(issue.key).to eq('STORY-4380')
     expect(issue.summary).to eq('This is the issue summary')
     expect(issue.issue_type).to eq('Story')
@@ -24,8 +22,24 @@ describe 'JiraIssue' do
     expect(issue.pushes).to eq([])
     expect(issue.assignee.name).to eq('Author Name')
     expect(issue.assignee.email).to eq('author@email.com')
-    expect(issue.created_at).not_to be_nil
-    expect(issue.updated_at).not_to be_nil
+  end
+
+  context 'construction' do
+    it 'can be constructed and saved from jira data' do
+      issue = JiraIssue.create_from_jira_data!(jira_issue)
+      assert_issue_properly_constructed(issue)
+      expect(issue.new_record?).to be_falsey
+      expect(issue.created_at).not_to be_nil
+      expect(issue.updated_at).not_to be_nil
+    end
+
+    it 'can be constructed from jira data' do
+      issue = JiraIssue.create_from_jira_data(jira_issue)
+      assert_issue_properly_constructed(issue)
+      expect(issue.new_record?).to be_truthy
+      expect(issue.created_at).to be_nil
+      expect(issue.updated_at).to be_nil
+    end
   end
 
   it 'does not create duplicate database records' do
