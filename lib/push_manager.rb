@@ -4,12 +4,14 @@ class PushManager
       push.status = Github::Api::Status::STATE_PENDING
       push.save!
 
+      Rails.logger.info("Getting commits for push id #{push.id}")
       commits = get_commits_from_push(push)
 
       # get issue keys from commits
       issue_keys = extract_jira_issue_keys(commits)
 
       # lookup issues in JIRA
+      Rails.logger.info("Getting #{issue_keys.length} JIRA issues for push id #{push.id}")
       jira_issues = get_jira_issues!(issue_keys)
 
       # get issues from JIRA that should have been in the commits, but were not

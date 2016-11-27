@@ -22,6 +22,9 @@ Rails.application.routes.draw do
         scope '/github' do
           post '/push' => 'github#push'
         end
+        scope '/jira' do
+          post '/hook' => 'jira#hook'
+        end
       end
     end
   end

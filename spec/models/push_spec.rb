@@ -88,6 +88,13 @@ describe 'Push' do
       expect(@push.jira_issues_with_unignored_errors?).to be_falsey
     end
 
+    it 'can be found by jira issue key' do
+      jira_issue = create_test_jira_issue
+      JiraIssuesAndPushes.create_or_update!(jira_issue, @push)
+      expect(Push.with_jira_issue(jira_issue.key).count).to eq(1)
+      expect(Push.with_jira_issue('STORY-0000')).to be_empty
+    end
+
     it 'can detect ones with errors' do
       JiraIssuesAndPushes.create_or_update!(create_test_jira_issue, @push)
       expect(@push.jira_issues_with_errors?).to be_falsey

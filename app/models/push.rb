@@ -23,11 +23,7 @@ class Push < ActiveRecord::Base
     push.reload
   end
 
-  scope :from_repository, lambda { |repository_name|
-    joins(:branch).joins(:repository).where('repositories.name = ?', repository_name)
-  }
-
-  scope :with_sha, lambda { |sha| joins(:commit).where(sha: sha) }
+  scope :with_jira_issue, lambda { |key| joins(:jira_issues).where('jira_issues.key = ?', key) }
 
   def to_s
     "#{branch.name}/#{head_commit.sha}"
