@@ -14,7 +14,7 @@ describe 'JiraHookHandler' do
     expect(handler).not_to be_nil
   end
 
-  it 'should be handled by a delayed job' do
+  it 'is handled by a delayed job' do
     push = Push.create_from_github_data!(github_payload)
     JiraIssuesAndPushes.create_or_update!(create_test_jira_issue(key: 'STORY-4380'), push)
 
@@ -29,7 +29,7 @@ describe 'JiraHookHandler' do
     expect(Delayed::Worker.new.work_off(1)).to eq([1, 0])
   end
 
-  it 'should submit pushes for processing', disable_delayed_job: true do
+  it 'submits pushes for processing', disable_delayed_job: true do
     push = Push.create_from_github_data!(github_payload)
     JiraIssuesAndPushes.create_or_update!(create_test_jira_issue(key: 'STORY-4380'), push)
 

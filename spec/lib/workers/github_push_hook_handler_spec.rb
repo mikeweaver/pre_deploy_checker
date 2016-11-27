@@ -10,7 +10,7 @@ describe 'GithubPushHookHandler' do
     expect(handler).not_to be_nil
   end
 
-  it 'should submit pushes for processing' do
+  it 'submits pushes for processing' do
     expect_any_instance_of(PushChangeHandler).to receive(:submit_push_for_processing!)
 
     GithubPushHookHandler.new.queue!(payload)
