@@ -292,7 +292,11 @@
     "customfield_10600": "2016-09-21",
     "customfield_10006": "9223372036854775807",
     "customfield_12700": "com.atlassian.servicedesk.plugins.approvals.internal.customfield.ApprovalsCFValue@1c231a9",
-    "customfield_10601": null,
+    "customfield_10601": [{
+      "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/customFieldOption\/11300",
+      "value": "No",
+      "id": "11300"
+    }],
     "customfield_10007": null,
     "customfield_12900": null,
     "customfield_10008": null,

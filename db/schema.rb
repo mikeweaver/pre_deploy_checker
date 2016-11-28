@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124002706) do
+ActiveRecord::Schema.define(version: 20161128004637) do
 
   create_table "branches", force: :cascade do |t|
     t.datetime "git_updated_at",              null: false
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(version: 20161124002706) do
     t.datetime "updated_at"
     t.integer  "assignee_id"
     t.integer  "parent_issue_id"
+    t.text     "secrets_modified",         limit: 255
+    t.text     "long_running_migration",   limit: 255
   end
 
   add_index "jira_issues", ["assignee_id"], name: "index_jira_issues_on_assignee_id"

@@ -12,7 +12,9 @@ module Jira
           JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE.to_s => 'JIRA issue(s) with a deploy date in the past',
           JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE.to_s => 'JIRA issue(s) with no deploy date',
           JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS.to_s =>
-            'JIRA issue(s) with the wrong post deploy check status'
+            'JIRA issue(s) with the wrong post deploy check status',
+          JiraIssuesAndPushes::ERROR_BLANK_SECRETS_MODIFIED.to_s => 'JIRA issue(s) with blank secrets fields',
+          JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION.to_s => 'JIRA issue(s) with blank migration fields'
         }
       }.freeze
       ERROR_CODE_SINGULAR_MAP = {
@@ -25,7 +27,9 @@ module Jira
           JiraIssuesAndPushes::ERROR_NO_COMMITS.to_s => 'Has no commits',
           JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE.to_s => 'The deploy date in the past',
           JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE.to_s => 'Has no deploy date',
-          JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS.to_s => 'Wrong post deploy check status'
+          JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS.to_s => 'Wrong post deploy check status',
+          JiraIssuesAndPushes::ERROR_BLANK_SECRETS_MODIFIED.to_s => 'Secrets field is blank',
+          JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION.to_s => 'Migrations field is blank'
         }
       }.freeze
 

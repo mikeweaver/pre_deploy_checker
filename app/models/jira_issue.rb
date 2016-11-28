@@ -9,6 +9,8 @@ class JiraIssue < ActiveRecord::Base
     targeted_deploy_date :date, null: true
     post_deploy_check_status :text, limit: 255, null: true
     deploy_type :text, limit: 255, null: true
+    secrets_modified :text, limit: 255, null: true
+    long_running_migration :text, limit: 255, null: true
     timestamps
   end
 
@@ -34,9 +36,11 @@ class JiraIssue < ActiveRecord::Base
       issue.summary = jira_data.summary.truncate(1024)
       issue.issue_type = jira_data.issuetype.name
       issue.status = jira_data.fields['status']['name']
-      issue.targeted_deploy_date = targeted_deploy_date_from_jira_data(jira_data)
-      issue.post_deploy_check_status = post_deploy_check_status_from_jira_data(jira_data)
-      issue.deploy_type = deploy_type_from_jira_data(jira_data)
+      issue.targeted_deploy_date = extract_custom_date_field_from_jira_data(jira_data, 10600)
+      issue.post_deploy_check_status = extract_custom_select_field_from_jira_data(jira_data, 12202)
+      issue.deploy_type = extract_custom_multi_select_field_from_jira_data(jira_data, 12501)
+      issue.secrets_modified = extract_custom_select_field_from_jira_data(jira_data, 12500)
+      issue.long_running_migration = extract_custom_multi_select_field_from_jira_data(jira_data, 10601)
 
       if jira_data.assignee
         issue.assignee = User.create_from_jira_data!(jira_data.assignee)
@@ -51,22 +55,24 @@ class JiraIssue < ActiveRecord::Base
 
     private
 
-    def targeted_deploy_date_from_jira_data(jira_data)
-      # TODO: extract field names to settings?
-      if jira_data.fields['customfield_10600']
-        Date.parse(jira_data.fields['customfield_10600'])
+    def extract_custom_select_field_from_jira_data(jira_data, field_number)
+      field_name = "customfield_#{field_number}"
+      if jira_data.fields[field_name]
+        jira_data.fields[field_name]['value']
       end
     end
 
-    def post_deploy_check_status_from_jira_data(jira_data)
-      if jira_data.fields['customfield_12202']
-        jira_data.fields['customfield_12202']['value']
+    def extract_custom_date_field_from_jira_data(jira_data, field_number)
+      field_name = "customfield_#{field_number}"
+      if jira_data.fields[field_name]
+        Date.parse(jira_data.fields[field_name])
       end
     end
 
-    def deploy_type_from_jira_data(jira_data)
-      if jira_data.fields['customfield_12501']
-        jira_data.fields['customfield_12501'].collect do |value|
+    def extract_custom_multi_select_field_from_jira_data(jira_data, field_number)
+      field_name = "customfield_#{field_number}"
+      if jira_data.fields[field_name]
+        jira_data.fields[field_name].collect do |value|
           value['value']
         end.join ', '
       end

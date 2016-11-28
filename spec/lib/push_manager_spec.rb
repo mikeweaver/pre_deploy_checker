@@ -14,12 +14,16 @@ describe 'PushManager' do
   def mock_jira_find_issue_response(key,
                                     status: 'Ready to Deploy',
                                     targeted_deploy_date: Time.current.tomorrow,
-                                    post_deploy_check_status: 'Ready to Run')
+                                    post_deploy_check_status: 'Ready to Run',
+                                    secrets_modified: 'No',
+                                    long_running_migration: 'No')
     response = create_test_jira_issue_json(
       key: key,
       status: status,
       targeted_deploy_date: targeted_deploy_date,
-      post_deploy_check_status: post_deploy_check_status
+      post_deploy_check_status: post_deploy_check_status,
+      secrets_modified: secrets_modified,
+      long_running_migration: long_running_migration
     )
     stub_request(:get, /\/rest\/api\/2\/issue\/#{key}/).to_return(status: 200, body: response.to_json)
   end
@@ -99,6 +103,20 @@ describe 'PushManager' do
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
         expect(push.jira_issues_and_pushes.first.error_list).to \
           match_array([JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE])
+      end
+
+      it 'with a blank secrets field' do
+        mock_jira_find_issue_response('STORY-1234', secrets_modified: nil)
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        expect(push.jira_issues_and_pushes.first.error_list).to \
+          match_array([JiraIssuesAndPushes::ERROR_BLANK_SECRETS_MODIFIED])
+      end
+
+      it 'with a blank migration field' do
+        mock_jira_find_issue_response('STORY-1234', long_running_migration: nil)
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        expect(push.jira_issues_and_pushes.first.error_list).to \
+          match_array([JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION])
       end
     end
 

@@ -6,6 +6,8 @@ class JiraIssuesAndPushes < ActiveRecord::Base
   ERROR_NO_COMMITS = 'no_commits'.freeze
   ERROR_WRONG_DEPLOY_DATE = 'wrong_deploy_date'.freeze
   ERROR_NO_DEPLOY_DATE = 'no_deploy_date'.freeze
+  ERROR_BLANK_SECRETS_MODIFIED = 'blank_secrets_modified'.freeze
+  ERROR_BLANK_LONG_RUNNING_MIGRATION = 'blank_long_running_migration'.freeze
 
   belongs_to :push, inverse_of: :jira_issues_and_pushes, required: true
   belongs_to :jira_issue, inverse_of: :jira_issues_and_pushes, required: true

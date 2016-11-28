@@ -62,7 +62,9 @@ def create_test_jira_issue_json(key: nil,
                                 targeted_deploy_date: Time.current.tomorrow,
                                 post_deploy_check_status: 'Ready to Run',
                                 deploy_type: nil,
-                                parent_key: nil)
+                                parent_key: nil,
+                                secrets_modified: 'No',
+                                long_running_migration: 'No')
   json = if parent_key
            load_json_fixture('jira_sub_task_response')
          else
@@ -72,25 +74,44 @@ def create_test_jira_issue_json(key: nil,
   if key
     json['key'] = key
   end
+
   if status
     json['fields']['status']['name'] = status
   end
-  if targeted_deploy_date
-    json['fields']['customfield_10600'] = targeted_deploy_date.to_time.iso8601
-  else
-    json['fields'].except!('customfield_10600')
-  end
-  if post_deploy_check_status
-    json['fields']['customfield_12202']['value'] = post_deploy_check_status
-  else
-    json['fields'].except!('customfield_12202')
-  end
-  if deploy_type
-    json['fields']['customfield_12501']['value'] = deploy_type
-  end
+
   if parent_key
     json['fields']['parent']['key'] = parent_key
+  else
+    # these fields are only valid for non-sub-tasks
+    if targeted_deploy_date
+      json['fields']['customfield_10600'] = targeted_deploy_date.to_time.iso8601
+    else
+      json['fields'].except!('customfield_10600')
+    end
+
+    if post_deploy_check_status
+      json['fields']['customfield_12202']['value'] = post_deploy_check_status
+    else
+      json['fields'].except!('customfield_12202')
+    end
+
+    if deploy_type
+      json['fields']['customfield_12501'][0]['value'] = deploy_type
+    end
+
+    if secrets_modified
+      json['fields']['customfield_12500']['value'] = secrets_modified
+    else
+      json['fields'].except!('customfield_12500')
+    end
+
+    if long_running_migration
+      json['fields']['customfield_10601'][0]['value'] = long_running_migration
+    else
+      json['fields'].except!('customfield_10601')
+    end
   end
+
   json
 end
 
