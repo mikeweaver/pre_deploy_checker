@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   # respond to root for load balancer health checks
   get '/', to: proc { [200, {}, ['']] }
 
