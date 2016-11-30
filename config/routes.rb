@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  # respond to root for load balancer health checks
+  get '/', to: proc { [200, {}, ['']] }
+
   get '/400' => 'errors#bad_request'
 
   get '/404' => 'errors#not_found'
