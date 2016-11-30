@@ -31,4 +31,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  # catch all route
+  match ':all' => 'errors#not_found', via: [:all]
 end
