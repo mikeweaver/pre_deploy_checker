@@ -1,0 +1,29 @@
+<h4><%=@push.commits_with_errors.count%> Commit(s) with errors</h4>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Approve</th>
+    <th>SHA</th>
+    <th>Author Name</th>
+    <th>Commit Message</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%@push.commits_and_pushes.with_errors.each do |commit_and_push|%>
+    <%
+       commit = commit_and_push.commit
+       row_class = if commit_and_push.unignored_errors?
+                     'danger'
+                   elsif commit_and_push.ignored_errors?
+                     'warning'
+                   end
+    %>
+    <tr class="<%=row_class%>" title="<%=commit_error_messages(commit_and_push.error_list)%>">
+      <td align="center" style="width: 50px;"><%= check_box_tag "push[commit_shas_to_ignore][]", commit.sha, commit_and_push.ignored_errors?, disabled: !commit_and_push.errors? %></td>
+      <td><%=link_to(commit.short_sha, github_url_for_commit(commit), target: '_blank')%></td>
+      <td nowrap><%=commit.author.name%></td>
+      <td><%=commit.message%></td>
+    </tr>
+  <%end%>
+  </tbody>
+</table>

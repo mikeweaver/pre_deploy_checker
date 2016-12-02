@@ -1,0 +1,25 @@
+<%case push.status%>
+<%when Github::Api::Status::STATE_PENDING.to_s%>
+  <div class="alert alert-warning">
+    Push is being processed, please refresh in a moment
+  </div>
+<%when Github::Api::Status::STATE_SUCCESS.to_s%>
+  <div class="alert alert-success">
+    <%if push.errors? %>
+      Push failed some checks, but all of them have been approved
+    <%else%>
+      Push passed all checks
+    <%end%>
+  </div>
+<%when Github::Api::Status::STATE_FAILED.to_s%>
+  <div class="alert alert-danger">
+    Warning: Branch is not ready to deploy.<br>
+    <ul>
+      <% combined_error_counts.each do |error_object, error_counts|%>
+        <%error_counts.each do |error_code, count|%>
+          <li><%=count%> <%=map_error_code_to_message(error_object, error_code)%>
+        <%end%>
+      <%end%>
+    </ul>
+  </div>
+<%end%>
