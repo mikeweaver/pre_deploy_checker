@@ -11,5 +11,8 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require jquery.dataTables.min
+ *= require dataTables.bootstrap4.min
+ *= require colReorder.bootstrap4.min
  *= require_self
  */

@@ -12,5 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.dataTables.min
+//= require dataTables.bootstrap4.min
+//= require dataTables.colReorder.min
+//= require dataTables.domCheckbox
 //= require turbolinks
 //= require_tree .

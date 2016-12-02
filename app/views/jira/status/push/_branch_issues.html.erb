@@ -1,29 +1,36 @@
+<script type="application/javascript">
+  $(document).ready(function() {
+    $("#jira_issues").DataTable( {
+      paging: false,
+      colReorder: true,
+      columns: [
+        { title: "Approve", orderDataType: "dom-checkbox" },
+        { title: "Key" },
+        { title: "Last " },
+        { title: "Commits" },
+        { title: "Assignee" },
+        { title: "Deploy Type" },
+        { title: "Status" },
+        { title: "Post Deploy</br>Check Status" },
+        { title: "Deploy Date" },
+        { title: "Secrets?" },
+        { title: "Long</br>Migration?" },
+        { title: "Summary" }
+      ]
+    });
+  });
+</script>
+
 <div>
-  <h4><%=@push.jira_issues.count%> JIRA issues(s) in this branch
+  <h4><%=push.jira_issues.count%> JIRA issues(s) in this branch
     <button class="btn btn-default" type="button" data-clipboard-target="#jira_issues_clipboard">
       <%= image_tag('clippy.svg', width: "13", alt: "Copy to clipboard") %>
     </button>
   </h4>
 </div>
 <table class="table table-striped" id="jira_issues">
-  <thead>
-  <tr>
-    <th>Approve</th>
-    <th>Key</th>
-    <th>Last SHA</th>
-    <th>Commits</th>
-    <th>Assignee</th>
-    <th>Deploy Type</th>
-    <th>Status</th>
-    <th>Post Deploy</br>Check Status</th>
-    <th>Deploy Date</th>
-    <th>Secrets?</th>
-    <th>Long<br/>Migration?</th>
-    <th>Summary</th>
-  </tr>
-  </thead>
-  <tbody>
-  <%@push.jira_issues_and_pushes.sort.each do |jira_issue_and_push|%>
+
+  <%push.jira_issues_and_pushes.sort.each do |jira_issue_and_push|%>
     <%
        jira_issue = jira_issue_and_push.jira_issue
        row_class = if jira_issue_and_push.unignored_errors?
