@@ -51,10 +51,10 @@ module Jira
 
         if updated_record_count > 0
           flash[:alert] = 'Push updated, refreshing JIRA and Git data'
-          PushChangeHandler.new.submit_push_for_processing!(@push)
+          PushChangeHandler.new.process_push!(@push.id)
         elsif params['refresh']
           flash[:alert] = 'Refreshing JIRA and Git data'
-          PushChangeHandler.new.submit_push_for_processing!(@push)
+          PushChangeHandler.new.process_push!(@push.id)
         else
           flash[:alert] = 'No changes made'
         end
