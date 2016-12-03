@@ -120,12 +120,33 @@ describe 'PushManager' do
       end
     end
 
-    it 'without any commits' do
-      expect_any_instance_of(Git::Git).to receive(:clone_repository)
-      expect_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([])
-      mock_jira_jql_response(['STORY-1234'])
-      push = PushManager.process_push!(Push.create_from_github_data!(payload))
-      expect(push.jira_issues_and_pushes.first.error_list).to match_array([JiraIssuesAndPushes::ERROR_NO_COMMITS])
+    context 'without commits' do
+      before do
+        expect_any_instance_of(Git::Git).to receive(:clone_repository)
+        expect_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([])
+        mock_jira_jql_response(['STORY-1234'])
+      end
+
+      it 'for this push' do
+        other_push = create_test_push(sha: Git::TestHelpers::create_sha)
+        commit = GitModels::TestHelpers::create_commit(sha: Git::TestHelpers::create_sha)
+        CommitsAndPushes.create_or_update!(commit, other_push)
+
+        issue = create_test_jira_issue(key: 'STORY-1234')
+        issue.commits << commit
+        issue.save!
+        JiraIssuesAndPushes.create_or_update!(issue, other_push)
+
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        expect(push.jira_issues_and_pushes.first.error_list).to match_array([JiraIssuesAndPushes::ERROR_NO_COMMITS])
+        expect(push.jira_issues_and_pushes.first.jira_issue.commits).to_not be_empty
+      end
+
+      it 'for any push' do
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        expect(push.jira_issues_and_pushes.first.error_list).to match_array([JiraIssuesAndPushes::ERROR_NO_COMMITS])
+        expect(push.jira_issues_and_pushes.first.jira_issue.commits).to be_empty
+      end
     end
 
     it 'some with and some without any commits' do
@@ -232,7 +253,7 @@ describe 'PushManager' do
       mock_jira_jql_response([])
     end
 
-    context 'can have a failure status' do
+    context 'has a failure status' do
       it 'when there is a jira error' do
         mock_jira_find_issue_response('STORY-1234', targeted_deploy_date: nil)
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
@@ -246,7 +267,7 @@ describe 'PushManager' do
       end
     end
 
-    context 'can have a success status' do
+    context 'has a success status' do
       it 'when there are no errors' do
         mock_jira_find_issue_response('STORY-1234')
         push = PushManager.process_push!(Push.create_from_github_data!(payload))

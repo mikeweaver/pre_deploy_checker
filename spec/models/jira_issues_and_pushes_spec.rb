@@ -85,7 +85,7 @@ describe 'JiraIssuesAndPushes' do
         expect(@record.unignored_errors?).to be_falsey
       end
 
-      it 'copies the ingore_errors flag from its predecessor' do
+      it 'copies the ignore_errors flag from its predecessor' do
         new_push = create_test_push(sha: Git::TestHelpers.create_sha)
         record = JiraIssuesAndPushes.create_or_update!(
           @issue,
@@ -94,6 +94,30 @@ describe 'JiraIssuesAndPushes' do
         )
         expect(record.ignore_errors).to be_truthy
       end
+    end
+  end
+
+  context 'with commits' do
+    it 'that are related' do
+      commit = GitModels::TestHelpers::create_commit(sha: Git::TestHelpers::create_sha)
+      CommitsAndPushes.create_or_update!(commit, @push)
+      @issue.commits << commit
+      @issue.save!
+
+      issue_or_push = JiraIssuesAndPushes.create_or_update!(@issue, @push)
+      expect(issue_or_push.commits).not_to be_empty
+    end
+
+    it 'that are not related' do
+      other_push = create_test_push(sha: Git::TestHelpers::create_sha)
+      commit = GitModels::TestHelpers::create_commit(sha: Git::TestHelpers::create_sha)
+      CommitsAndPushes.create_or_update!(commit, other_push)
+      JiraIssuesAndPushes.create_or_update!(@issue, other_push)
+      @issue.commits << commit
+      @issue.save!
+
+      issue_or_push = JiraIssuesAndPushes.create_or_update!(@issue, @push)
+      expect(issue_or_push.commits).to be_empty
     end
   end
 

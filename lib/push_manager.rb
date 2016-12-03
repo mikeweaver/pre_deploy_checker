@@ -7,10 +7,10 @@ class PushManager
       Rails.logger.info("Getting commits for push id #{push.id}")
       commits = get_commits_from_push(push)
 
-      # get issue keys from commits
       issue_keys = extract_jira_issue_keys(commits)
 
-      # lookup issues in JIRA
+      link_commits_to_push(push, commits)
+
       Rails.logger.info("Getting #{issue_keys.length} JIRA issues for push id #{push.id}")
       jira_issues = get_jira_issues!(issue_keys)
 
@@ -19,17 +19,19 @@ class PushManager
 
       link_commits_to_jira_issues(jira_issues, commits)
 
-      link_jira_issues_to_push_and_detect_errors(push, jira_issues)
-
-      # destroy relationship to issues that are no longer in the push
-      JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(push, jira_issues)
-
-      link_commits_to_push_and_detect_errors(push, commits)
+      link_jira_issues_to_push(push, jira_issues)
 
       # destroy relationship to commits that are no longer in the push
       CommitsAndPushes.destroy_if_commit_not_in_list(push, commits)
 
+      # destroy relationship to issues that are no longer in the push
+      JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(push, jira_issues)
+
       push.reload
+
+      # detect errors in the commit and pushes
+      detect_errors_for_linked_jira_issues(push)
+      detect_errors_for_linked_commits(push)
 
       # compute status
       push.compute_status!
@@ -109,13 +111,20 @@ class PushManager
       end
     end
 
-    def link_jira_issues_to_push_and_detect_errors(push, jira_issues)
+    def link_jira_issues_to_push(push, jira_issues)
       jira_issues.each do |jira_issue|
-        JiraIssuesAndPushes.create_or_update!(jira_issue, push, detect_errors_for_jira_issue(jira_issue))
+        JiraIssuesAndPushes.create_or_update!(jira_issue, push)
       end
     end
 
-    def detect_errors_for_jira_issue(jira_issue)
+    def detect_errors_for_linked_jira_issues(push)
+      push.jira_issues_and_pushes.each do |jira_issue_and_push|
+        jira_issue_and_push.error_list = detect_errors_for_jira_issue(push, jira_issue_and_push.jira_issue)
+        jira_issue_and_push.save!
+      end
+    end
+
+    def detect_errors_for_jira_issue(push, jira_issue)
       errors = []
       unless valid_jira_state?(jira_issue.status)
         errors << JiraIssuesAndPushes::ERROR_WRONG_STATE
@@ -125,7 +134,7 @@ class PushManager
         errors << JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS
       end
 
-      if jira_issue.commits.empty?
+      if jira_issue.commits_for_push(push).empty?
         errors << JiraIssuesAndPushes::ERROR_NO_COMMITS
       end
 
@@ -148,24 +157,30 @@ class PushManager
       errors
     end
 
-    def link_commits_to_push_and_detect_errors(push, commits)
+    def link_commits_to_push(push, commits)
       commits.each do |commit|
-        # need to reload to determine if we have a JIRA issue or not
-        # TODO: try commit.jira_issue(true) to force a reload instead
-        commit.reload
-        CommitsAndPushes.create_or_update!(commit, push, detect_errors_for_commit(commit))
+        CommitsAndPushes.create_or_update!(commit, push)
+      end
+    end
+
+    def detect_errors_for_linked_commits(push)
+      push.commits_and_pushes.each do |commit_and_push|
+        commit_and_push.error_list = detect_errors_for_commit(commit_and_push.commit)
+        commit_and_push.save!
       end
     end
 
     def detect_errors_for_commit(commit)
       errors = []
-      unless commit.jira_issue
+      unless commit.jira_issue(true)
         errors << if commit.message.match(jira_issue_regexp)
                     CommitsAndPushes::ERROR_ORPHAN_JIRA_ISSUE_NOT_FOUND
                   else
                     CommitsAndPushes::ERROR_ORPHAN_NO_JIRA_ISSUE_NUMBER
                   end
       end
+
+      errors
     end
 
     def get_commits_from_push(push)

@@ -14,6 +14,10 @@ class JiraIssuesAndPushes < ActiveRecord::Base
 
   scope :for_push, lambda { |push| where(push: push) }
 
+  def commits
+    jira_issue.commits_for_push(push)
+  end
+
   def self.create_or_update!(jira_issue, push, error_list = nil)
     record = JiraIssuesAndPushes.where(jira_issue: jira_issue, push: push).first_or_initialize
     # preserve existing errors if not specified

@@ -24,6 +24,10 @@ class JiraIssue < ActiveRecord::Base
   has_many :jira_issues_and_pushes, class_name: :JiraIssuesAndPushes, inverse_of: :jira_issue
   has_many :pushes, through: :jira_issues_and_pushes
 
+  def commits_for_push(push)
+    commits.joins(:commits_and_pushes).where('commits_and_pushes.push_id = ?', push.id)
+  end
+
   class << self
     def create_from_jira_data!(jira_data)
       issue = create_from_jira_data(jira_data)
