@@ -128,8 +128,8 @@ describe 'PushManager' do
       end
 
       it 'for this push' do
-        other_push = create_test_push(sha: Git::TestHelpers::create_sha)
-        commit = GitModels::TestHelpers::create_commit(sha: Git::TestHelpers::create_sha)
+        other_push = create_test_push(sha: Git::TestHelpers.create_sha)
+        commit = GitModels::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha)
         CommitsAndPushes.create_or_update!(commit, other_push)
 
         issue = create_test_jira_issue(key: 'STORY-1234')
@@ -139,7 +139,7 @@ describe 'PushManager' do
 
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
         expect(push.jira_issues_and_pushes.first.error_list).to match_array([JiraIssuesAndPushes::ERROR_NO_COMMITS])
-        expect(push.jira_issues_and_pushes.first.jira_issue.commits).to_not be_empty
+        expect(push.jira_issues_and_pushes.first.jira_issue.commits).not_to be_empty
       end
 
       it 'for any push' do

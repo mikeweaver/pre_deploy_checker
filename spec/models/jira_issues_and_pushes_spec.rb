@@ -99,7 +99,7 @@ describe 'JiraIssuesAndPushes' do
 
   context 'with commits' do
     it 'that are related' do
-      commit = GitModels::TestHelpers::create_commit(sha: Git::TestHelpers::create_sha)
+      commit = GitModels::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha)
       CommitsAndPushes.create_or_update!(commit, @push)
       @issue.commits << commit
       @issue.save!
@@ -109,8 +109,8 @@ describe 'JiraIssuesAndPushes' do
     end
 
     it 'that are not related' do
-      other_push = create_test_push(sha: Git::TestHelpers::create_sha)
-      commit = GitModels::TestHelpers::create_commit(sha: Git::TestHelpers::create_sha)
+      other_push = create_test_push(sha: Git::TestHelpers.create_sha)
+      commit = GitModels::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha)
       CommitsAndPushes.create_or_update!(commit, other_push)
       JiraIssuesAndPushes.create_or_update!(@issue, other_push)
       @issue.commits << commit

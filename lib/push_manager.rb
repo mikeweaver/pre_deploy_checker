@@ -16,7 +16,9 @@ class PushManager
 
       # get issues from JIRA that should have been in the commits, but were not
       unrelated_jira_issues = get_other_jira_issues_in_valid_states(issue_keys)
-      Rails.logger.info("Found #{unrelated_jira_issues.length} JIRA issues that are in valid states but not in push id #{push.id}")
+      Rails.logger.info(
+        "Found #{unrelated_jira_issues.length} JIRA issues that are in valid states but not in push id #{push.id}"
+      )
       jira_issues += unrelated_jira_issues
 
       link_commits_to_jira_issues(jira_issues, commits)
