@@ -43,7 +43,7 @@ class PushManager
     private
 
     def jira_issue_regexp
-      /(?:^|\s|\/|_|-)((?:#{GlobalSettings.jira.project_keys.join('|')})[- _]\d+)/i
+      /(?:^|\s|\/|_|-|"|')((?:#{GlobalSettings.jira.project_keys.join('|')})[- _]\d+)/i
     end
 
     def valid_jira_state?(status)

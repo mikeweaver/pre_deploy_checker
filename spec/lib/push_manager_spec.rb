@@ -192,7 +192,9 @@ describe 'PushManager' do
       '-STORY-1234-',
       '_STORY-1234',
       'STORY-1234_',
-      '_STORY-1234_'
+      '_STORY-1234_',
+      '"STORY-1234',
+      "'STORY-1234"
     ]
     commits = messages.collect do |message|
       Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: message)
@@ -200,7 +202,7 @@ describe 'PushManager' do
     expect_any_instance_of(Git::Git).to receive(:clone_repository)
     expect_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return(commits)
     push = PushManager.process_push!(Push.create_from_github_data!(payload))
-    expect(push.commits.count).to eq(17)
+    expect(push.commits.count).to eq(19)
     push.commits.each do |commit|
       expect(commit.jira_issue.key).to eq('STORY-1234')
     end
