@@ -14,13 +14,6 @@ class PushManager
       Rails.logger.info("Getting #{issue_keys.length} JIRA issues for push id #{push.id}")
       jira_issues = get_jira_issues!(issue_keys)
 
-      # get issues from JIRA that should have been in the commits, but were not
-      unrelated_jira_issues = get_other_jira_issues_in_valid_states(issue_keys)
-      Rails.logger.info(
-        "Found #{unrelated_jira_issues.length} JIRA issues that are in valid states but not in push id #{push.id}"
-      )
-      jira_issues += unrelated_jira_issues
-
       link_commits_to_jira_issues(jira_issues, commits)
 
       link_jira_issues_to_push(push, jira_issues)
@@ -85,22 +78,6 @@ class PushManager
         if issue
           JiraIssue.create_from_jira_data!(issue)
         end
-      end.compact
-    end
-
-    def get_other_jira_issues_in_valid_states(issue_keys)
-      quoted_statuses = GlobalSettings.jira.valid_statuses.map do |status|
-        "\"#{status}\""
-      end
-      jql = "status IN (#{quoted_statuses.join(', ')}) " \
-            "AND project IN (#{GlobalSettings.jira.project_keys.join(', ').upcase})"
-
-      if issue_keys.any?
-        jql += " AND key NOT IN (#{issue_keys.join(', ')})"
-      end
-      jira_client = JIRA::ClientWrapper.new(Rails.application.secrets.jira)
-      jira_client.find_issues_by_jql(jql).collect do |issue|
-        JiraIssue.create_from_jira_data!(issue)
       end.compact
     end
 
