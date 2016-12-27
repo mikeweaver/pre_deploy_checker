@@ -51,10 +51,10 @@ module Jira
 
         if updated_record_count > 0
           flash[:alert] = 'Push updated, refreshing JIRA and Git data'
-          GithubPushHookHandler.new.submit_push_for_processing!(@push)
+          PushChangeHandler.new.process_push!(@push.id)
         elsif params['refresh']
           flash[:alert] = 'Refreshing JIRA and Git data'
-          GithubPushHookHandler.new.submit_push_for_processing!(@push)
+          PushChangeHandler.new.process_push!(@push.id)
         else
           flash[:alert] = 'No changes made'
         end
@@ -67,7 +67,7 @@ module Jira
       helper_method :github_url_for_commit
 
       def jira_url_for_issue(jira_issue)
-        "#{GlobalSettings.jira.site}/browse/#{jira_issue.key}"
+        "#{Rails.application.secrets.jira['site']}/browse/#{jira_issue.key}"
       end
       helper_method :jira_url_for_issue
 

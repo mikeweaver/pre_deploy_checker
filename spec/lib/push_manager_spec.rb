@@ -119,24 +119,6 @@ describe 'PushManager' do
           match_array([JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION])
       end
     end
-
-    it 'without any commits' do
-      expect_any_instance_of(Git::Git).to receive(:clone_repository)
-      expect_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([])
-      mock_jira_jql_response(['STORY-1234'])
-      push = PushManager.process_push!(Push.create_from_github_data!(payload))
-      expect(push.jira_issues_and_pushes.first.error_list).to match_array([JiraIssuesAndPushes::ERROR_NO_COMMITS])
-    end
-
-    it 'some with and some without any commits' do
-      expect_any_instance_of(Git::Git).to receive(:clone_repository)
-      expect_any_instance_of(Git::Git).to \
-        receive(:commit_diff_refs).and_return([Git::TestHelpers.create_commit(message: 'STORY-1234 Description')])
-      mock_jira_find_issue_response('STORY-1234', status: 'Wrong State')
-      mock_jira_jql_response(['STORY-9999'])
-      push = PushManager.process_push!(Push.create_from_github_data!(payload))
-      expect(push.jira_issues_and_pushes.second.error_list).to match_array([JiraIssuesAndPushes::ERROR_NO_COMMITS])
-    end
   end
 
   context 'detect commit issues' do
@@ -210,7 +192,9 @@ describe 'PushManager' do
       '-STORY-1234-',
       '_STORY-1234',
       'STORY-1234_',
-      '_STORY-1234_'
+      '_STORY-1234_',
+      '"STORY-1234',
+      "'STORY-1234"
     ]
     commits = messages.collect do |message|
       Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: message)
@@ -218,7 +202,7 @@ describe 'PushManager' do
     expect_any_instance_of(Git::Git).to receive(:clone_repository)
     expect_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return(commits)
     push = PushManager.process_push!(Push.create_from_github_data!(payload))
-    expect(push.commits.count).to eq(17)
+    expect(push.commits.count).to eq(19)
     push.commits.each do |commit|
       expect(commit.jira_issue.key).to eq('STORY-1234')
     end
@@ -232,7 +216,7 @@ describe 'PushManager' do
       mock_jira_jql_response([])
     end
 
-    context 'can have a failure status' do
+    context 'has a failure status' do
       it 'when there is a jira error' do
         mock_jira_find_issue_response('STORY-1234', targeted_deploy_date: nil)
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
@@ -246,7 +230,7 @@ describe 'PushManager' do
       end
     end
 
-    context 'can have a success status' do
+    context 'has a success status' do
       it 'when there are no errors' do
         mock_jira_find_issue_response('STORY-1234')
         push = PushManager.process_push!(Push.create_from_github_data!(payload))

@@ -83,7 +83,7 @@ describe 'CommitsAndPushes' do
         expect(@record.unignored_errors?).to be_falsey
       end
 
-      it 'copies the ingore_errors flag from its predecessor' do
+      it 'copies the ignore_errors flag from its predecessor' do
         new_push = create_test_push(sha: Git::TestHelpers.create_sha)
         record = CommitsAndPushes.create_or_update!(
           @commit,

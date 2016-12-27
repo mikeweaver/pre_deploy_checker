@@ -1,15 +1,15 @@
 GIT
   remote: https://github.com/mikeweaver/git_lib.git
-  revision: 41dcc374b195d0cd2b78763918343eb713e44fe0
-  ref: 41dcc374b195d0cd2b78763918343eb713e44fe0
+  revision: 033b5ff6376a138f90a7debaf05c0f9549764f9f
+  ref: 033b5ff6376a138f90a7debaf05c0f9549764f9f
   specs:
     git_lib (1.0.0)
       activesupport (= 4.2.7.1)
 
 GIT
   remote: https://github.com/mikeweaver/git_models.git
-  revision: a38c1aed270689dc174a1e4f904cf34e9ecca4d3
-  ref: a38c1aed270689dc174a1e4f904cf34e9ecca4d3
+  revision: f64190a0a20e465bdff8dfb796651be14047cefe
+  ref: f64190a0a20e465bdff8dfb796651be14047cefe
   specs:
     git_models (1.0.0)
       git_lib (= 1.0.0)
@@ -338,3 +338,6 @@ DEPENDENCIES
   unicorn
   web-console (~> 2.0)
   webmock
+
+BUNDLED WITH
+   1.12.5
