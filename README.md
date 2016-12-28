@@ -81,10 +81,19 @@ ancestor_branches:
     * JIRA_PRIVATE_KEY_FILE: Path to pem file for JIRA OAuth
 
 ## Running Locally
-The PDC consists of Ruby on Rails web application and a delayed job processor. You must run two processes to operate the application:
-* ```bundle exec rails server```
-* ```bundle exec rake jobs:work```
-* Navigate to http://localhost:3000
+* ### Manually
+	* The PDC consists of Ruby on Rails web application and a delayed job processor. You must run two processes to operate the application:
+
+			bundle exec rails server
+			bundle exec rake jobs:work
+
+* ### With Foreman
+	* Foreman is installed during the `bundle install` phase. Just run:
+
+			foreman start
+
+* [Simulate a push from Github](#simulating-pushes-from-github)
+* Navigate to http://localhost:3000/jira/status/push/<id from simulated push>/edit
 
 ## Running with Docker
 The PDC is designed to be run in docker. To do so:
