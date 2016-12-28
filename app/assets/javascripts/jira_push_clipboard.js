@@ -21,7 +21,7 @@ function hideTooltip(btn) {
 }
 
 $(document).ready(function() {
-    var clipboard = new Clipboard('.btn', {
+    var clipboard = new Clipboard('#copy-btn', {
         target: function (trigger) {
             prepareClipboardTable();
             return $('#jira_issues_clipboard')[0];
@@ -40,7 +40,7 @@ $(document).ready(function() {
         });
     }
 
-    $('.btn').tooltip({
+    $('#copy-btn').tooltip({
         trigger: 'click',
         placement: 'bottom'
     });

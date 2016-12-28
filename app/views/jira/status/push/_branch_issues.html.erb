@@ -1,8 +1,26 @@
 <script type="application/javascript">
   $(document).ready(function() {
-    $("#jira_issues").DataTable( {
+    var table = $("#jira_issues").DataTable( {
+      dom: "Bfrtip",
       paging: false,
-      colReorder: true,
+      buttons: [
+        {
+          text: "All",
+          action: function(e, table, node, config) { table.columns(5).search("").draw(); }
+        },
+        {
+          text: "Web",
+          action: function(e, table, node, config) { table.columns(5).search("web").draw(); }
+        },
+        {
+          text: "PNAPI",
+          action: function(e, table, node, config) { table.columns(5).search("pnapi").draw(); }
+        },
+        {
+          text: "Ringswitch",
+          action: function(e, table, node, config) { table.columns(5).search("ringswitch").draw(); }
+        },
+      ],
       columns: [
         { title: "Approve", orderDataType: "dom-checkbox" },
         { title: "Key" },
@@ -23,7 +41,7 @@
 
 <div>
   <h4><%=push.jira_issues.count%> JIRA issues(s) in this branch
-    <button class="btn btn-default" type="button" data-clipboard-target="#jira_issues_clipboard">
+    <button id="copy-btn" class="btn btn-default" type="button" data-clipboard-target="#jira_issues_clipboard">
       <%= image_tag('clippy.svg', width: "13", alt: "Copy to clipboard") %>
     </button>
   </h4>

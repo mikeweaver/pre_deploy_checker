@@ -12,9 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-sprockets
 //= require jquery.dataTables.min
-//= require dataTables.bootstrap4.min
+//= require dataTables.bootstrap.min
 //= require dataTables.colReorder.min
 //= require dataTables.domCheckbox
+//= require dataTables.buttons.min
+//= require buttons.bootstrap.min
+//= require buttons.html5
 //= require turbolinks
 //= require_tree .
