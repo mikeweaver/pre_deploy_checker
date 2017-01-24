@@ -119,6 +119,33 @@ describe 'PushManager' do
           match_array([JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION])
       end
     end
+
+    context 'when merged' do
+      before do
+        allow_any_instance_of(Git::Git).to receive(:clone_repository)
+        allow_any_instance_of(Git::Git).to \
+          receive(:commit_diff_refs).and_return([Git::TestHelpers.create_commit(message: 'STORY-1234 Description')])
+      end
+
+      it 'ignores all errors' do
+        mock_jira_find_issue_response('STORY-1234', status: 'Wrong State', post_deploy_check_status: nil)
+
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        jira_issue_and_push = push.jira_issues_and_pushes.first
+        expect(jira_issue_and_push.error_list).to \
+          match_array([JiraIssuesAndPushes::ERROR_WRONG_STATE, JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS])
+
+        # mark the push as merged
+        jira_issue_and_push.merged = true
+        jira_issue_and_push.save
+
+        # the error should be cleared
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        jira_issue_and_push = push.jira_issues_and_pushes.first
+        expect(jira_issue_and_push.error_list).to \
+          match_array([])
+      end
+    end
   end
 
   context 'detect commit issues' do
@@ -295,14 +322,16 @@ describe 'PushManager' do
       mock_jira_find_issue_response('STORY-5678')
       allow_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([@commits[0], @commits[1]])
       push = PushManager.process_push!(Push.create_from_github_data!(payload))
-      expect(push.jira_issues.count).to eq(2)
-      expect(push.jira_issues[0].key).to eq('STORY-1234')
+      expect(push.jira_issues_and_pushes.merged.count).to eq(0)
+      expect(push.jira_issues_and_pushes.not_merged.count).to eq(2)
+      expect(push.jira_issues_and_pushes.not_merged[0].jira_issue.key).to eq('STORY-1234')
 
       mock_jira_find_issue_response('STORY-5678')
       allow_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([@commits[1]])
       push = PushManager.process_push!(push)
-      expect(push.jira_issues.count).to eq(1)
-      expect(push.jira_issues[0].key).to eq('STORY-5678')
+      expect(push.jira_issues_and_pushes.merged.count).to eq(1)
+      expect(push.jira_issues_and_pushes.not_merged.count).to eq(1)
+      expect(push.jira_issues_and_pushes.not_merged[0].jira_issue.key).to eq('STORY-5678')
     end
   end
 

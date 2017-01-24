@@ -21,8 +21,8 @@ class PushManager
       # destroy relationship to commits that are no longer in the push
       CommitsAndPushes.destroy_if_commit_not_in_list(push, commits)
 
-      # destroy relationship to issues that are no longer in the push
-      JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(push, jira_issues)
+      # assume that issues no longer found in the push have been merged to the ancestor branch
+      JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(push, jira_issues)
 
       push.reload
 
@@ -100,8 +100,16 @@ class PushManager
 
     def detect_errors_for_linked_jira_issues(push)
       push.jira_issues_and_pushes.each do |jira_issue_and_push|
-        jira_issue_and_push.error_list = detect_errors_for_jira_issue(push, jira_issue_and_push.jira_issue)
+        jira_issue_and_push.error_list = detect_errors_for_un_merged_jira_issue(push, jira_issue_and_push)
         jira_issue_and_push.save!
+      end
+    end
+
+    def detect_errors_for_un_merged_jira_issue(push, jira_issue_and_push)
+      if jira_issue_and_push.merged
+        []
+      else
+        detect_errors_for_jira_issue(push, jira_issue_and_push.jira_issue)
       end
     end
 

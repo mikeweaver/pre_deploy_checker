@@ -9,10 +9,16 @@ class JiraIssuesAndPushes < ActiveRecord::Base
   ERROR_BLANK_SECRETS_MODIFIED = 'blank_secrets_modified'.freeze
   ERROR_BLANK_LONG_RUNNING_MIGRATION = 'blank_long_running_migration'.freeze
 
+  fields do
+    merged :boolean, null: false, default: false
+  end
+
   belongs_to :push, inverse_of: :jira_issues_and_pushes, required: true
   belongs_to :jira_issue, inverse_of: :jira_issues_and_pushes, required: true
 
   scope :for_push, lambda { |push| where(push: push) }
+  scope :merged, lambda { where(merged: true) }
+  scope :not_merged, lambda { where(merged: false) }
 
   def commits
     jira_issue.commits_for_push(push)
@@ -36,11 +42,15 @@ class JiraIssuesAndPushes < ActiveRecord::Base
     get_error_counts(with_unignored_errors.for_push(push))
   end
 
-  def self.destroy_if_jira_issue_not_in_list(push, jira_issues)
+  def self.mark_as_merged_if_jira_issue_not_in_list(push, jira_issues)
+    jira_issue_not_in_list(push, jira_issues).update_all(merged: true)
+  end
+
+  def self.jira_issue_not_in_list(push, jira_issues)
     if jira_issues.any?
-      for_push(push).where('jira_issue_id NOT IN (?)', jira_issues).destroy_all
+      for_push(push).where('jira_issue_id NOT IN (?)', jira_issues)
     else
-      for_push(push).destroy_all
+      for_push(push)
     end
   end
 

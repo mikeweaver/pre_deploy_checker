@@ -28,7 +28,7 @@
         { title: "Commits" },
         { title: "Assignee" },
         { title: "Deploy Type" },
-        { title: "Status" },
+        { title: "JIRA Status" },
         { title: "Post Deploy</br>Check Status" },
         { title: "Deploy Date" },
         { title: "Secrets?" },
@@ -72,7 +72,11 @@
           &mdash;
         <%end%>
       </td>
-      <td class="<%=error_class_if_error_present(jira_issue_and_push, [JiraIssuesAndPushes::ERROR_NO_COMMITS])%>"><%=jira_issue_and_push.commits.count%></td>
+      <%if jira_issue_and_push.merged %>
+        <td nowrap>Merged</td>
+      <%else%>
+        <td class="<%=error_class_if_error_present(jira_issue_and_push, [JiraIssuesAndPushes::ERROR_NO_COMMITS])%>"><%=jira_issue_and_push.commits.count%></td>
+      <%end%>
       <td nowrap><%=jira_issue.assignee._?.name%></td>
       <td nowrap><%=jira_issue.deploy_type%></td>
       <td nowrap class="<%=error_class_if_error_present(jira_issue_and_push, [JiraIssuesAndPushes::ERROR_WRONG_STATE])%>"><%=jira_issue.status%></td>

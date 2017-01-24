@@ -147,7 +147,7 @@ describe 'JiraIssuesAndPushes' do
     end
   end
 
-  context 'destroy_if_jira_issue_not_in_list' do
+  context 'mark_as_merged_if_jira_issue_not_in_list' do
     context 'with jira_issues' do
       before do
         JiraIssuesAndPushes.create_or_update!(@issue, @push)
@@ -155,25 +155,28 @@ describe 'JiraIssuesAndPushes' do
         JiraIssuesAndPushes.create_or_update!(@second_issue, @push)
         @third_issue = create_test_jira_issue(key: 'WEB-5678')
         JiraIssuesAndPushes.create_or_update!(@third_issue, @push)
-        expect(@push.jira_issues.count).to eq(3)
+        expect(@push.jira_issues_and_pushes.count).to eq(3)
+        expect(@push.jira_issues_and_pushes.merged.count).to eq(0)
       end
 
-      it 'only destroys issues not in the list' do
-        JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(@push, [@second_issue])
-        expect(@push.jira_issues.count).to eq(1)
-        expect(@push.jira_issues.first).to eq(@second_issue)
+      it 'only marks issues not in the list' do
+        JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(@push, [@second_issue])
+        expect(@push.jira_issues_and_pushes.merged.count).to eq(2)
+        expect(@push.jira_issues_and_pushes.not_merged.count).to eq(1)
+        expect(@push.jira_issues_and_pushes.not_merged.first.jira_issue).to eq(@second_issue)
       end
 
-      it 'destroys all issues if the list is empty' do
-        JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(@push, [])
-        expect(@push.jira_issues).to be_empty
+      it 'marks all issues if the list is empty' do
+        JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(@push, [])
+        expect(@push.jira_issues_and_pushes.merged.count).to eq(3)
+        expect(@push.jira_issues_and_pushes.not_merged).to be_empty
       end
     end
 
     context 'without jira_issues' do
-      it 'does not fail if there are no issues to destroy' do
-        expect(@push.jira_issues).to be_empty
-        JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(@push, [@issue])
+      it 'does not fail if there are no issues to mark' do
+        expect(@push.jira_issues_and_pushes).to be_empty
+        JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(@push, [@issue])
       end
     end
   end

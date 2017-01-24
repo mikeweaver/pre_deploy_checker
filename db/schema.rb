@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128004637) do
+ActiveRecord::Schema.define(version: 20170123051044) do
 
   create_table "branches", force: :cascade do |t|
     t.datetime "git_updated_at",              null: false
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20161128004637) do
     t.boolean "ignore_errors",             default: false
     t.integer "push_id"
     t.integer "jira_issue_id"
+    t.boolean "merged",                    default: false, null: false
   end
 
   add_index "jira_issues_and_pushes", ["jira_issue_id"], name: "index_jira_issues_and_pushes_on_jira_issue_id"
