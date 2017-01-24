@@ -28,13 +28,6 @@ describe 'PushManager' do
     stub_request(:get, /\/rest\/api\/2\/issue\/#{key}/).to_return(status: 200, body: response.to_json)
   end
 
-  def mock_jira_jql_response(keys)
-    response = {
-      'issues' => json_jira_issues(keys)
-    }
-    stub_request(:get, /\/rest\/api\/2\/search\?jql.*/).to_return(status: 200, body: response.to_json)
-  end
-
   it 'can create jira issues, commits, and link them together' do
     commits = [Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: 'STORY-1234 Description1'),
                Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: 'STORY-5678 Description2')]
@@ -43,7 +36,6 @@ describe 'PushManager' do
 
     ['STORY-1234', 'STORY-5678'].each do |key|
       mock_jira_find_issue_response(key)
-      mock_jira_jql_response([])
     end
     push = PushManager.process_push!(Push.create_from_github_data!(payload))
     expect(push.commits.count).to eq(2)
@@ -67,7 +59,6 @@ describe 'PushManager' do
         expect_any_instance_of(Git::Git).to receive(:clone_repository)
         expect_any_instance_of(Git::Git).to \
           receive(:commit_diff_refs).and_return([Git::TestHelpers.create_commit(message: 'STORY-1234 Description')])
-        mock_jira_jql_response([])
       end
 
       it 'in the wrong state' do
@@ -151,7 +142,6 @@ describe 'PushManager' do
   context 'detect commit issues' do
     it 'without a matching JIRA issue' do
       stub_request(:get, /.*STORY-1234/).to_return(status: 404, body: 'Not Found')
-      mock_jira_jql_response([])
       expect_any_instance_of(Git::Git).to receive(:clone_repository)
       expect_any_instance_of(Git::Git).to \
         receive(:commit_diff_refs).and_return([Git::TestHelpers.create_commit(message: 'STORY-1234 Description')])
@@ -161,7 +151,6 @@ describe 'PushManager' do
     end
 
     it 'without a JIRA issue number' do
-      mock_jira_jql_response([])
       expect_any_instance_of(Git::Git).to receive(:clone_repository)
       expect_any_instance_of(Git::Git).to \
         receive(:commit_diff_refs).and_return(
@@ -174,7 +163,6 @@ describe 'PushManager' do
   end
 
   it 'ignore commits with matching messages, regardless of case' do
-    mock_jira_jql_response([])
     GlobalSettings.jira.ignore_commits_with_messages = ['.*ignore1.*', '.*ignore2.*']
     commits = [Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: '--Ignore1--'),
                Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: '--Ignore2--'),
@@ -188,7 +176,6 @@ describe 'PushManager' do
 
   it 'can handle commits with multiple issue numbers' do
     mock_jira_find_issue_response('STORY-1234')
-    mock_jira_jql_response([])
     expect_any_instance_of(Git::Git).to receive(:clone_repository)
     expect_any_instance_of(Git::Git).to \
       receive(:commit_diff_refs).and_return(
@@ -201,7 +188,6 @@ describe 'PushManager' do
 
   it 'can handle unclean issue numbers' do
     mock_jira_find_issue_response('STORY-1234')
-    mock_jira_jql_response([])
     messages = [
       'STORY-1234',
       'STORY_1234',
@@ -240,7 +226,6 @@ describe 'PushManager' do
       allow_any_instance_of(Git::Git).to receive(:clone_repository)
       allow_any_instance_of(Git::Git).to \
         receive(:commit_diff_refs).and_return([Git::TestHelpers.create_commit(message: 'STORY-1234 Description')])
-      mock_jira_jql_response([])
     end
 
     context 'has a failure status' do
@@ -300,7 +285,6 @@ describe 'PushManager' do
     before do
       @commits = [Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: 'STORY-1234 Description'),
                   Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: 'STORY-5678 Description')]
-      mock_jira_jql_response([])
       allow_any_instance_of(Git::Git).to receive(:clone_repository).with(anything)
     end
 
@@ -336,10 +320,6 @@ describe 'PushManager' do
   end
 
   context 'uses appropriate ancestor branch' do
-    before do
-      mock_jira_jql_response([])
-    end
-
     it 'for default' do
       expect_any_instance_of(Git::Git).to receive(:clone_repository).with('default_ancestor')
       GlobalSettings.jira.ancestor_branches['default'] = 'default_ancestor'
