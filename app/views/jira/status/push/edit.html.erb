@@ -32,13 +32,9 @@
 
   <%= form.submit('Save Approvals', name: 'save', class: 'btn btn-default') %>
   <%= form.submit('Refresh JIRA and Git data', name: 'refresh', class: 'btn btn-default') %>
-  <div style="margin-top: 15px">
-    '<%=@push.branch.name%>' branch compared with '<%=ancestor_branch%>' branch on <%=@push.updated_at%>
-  </div>
   <!--
   TODO:
-  Copy/Paste deploy list
-  Show the tags on the commit, autobahn clean, build clean
+    Show the tags on the commit, autobahn clean, build clean
   -->
 </div>
 <% end %>

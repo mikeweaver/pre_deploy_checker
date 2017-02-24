@@ -1,0 +1,20 @@
+<%
+  background =  if errors
+                  " bg-danger"
+                elsif warning
+                  " bg-warning"
+                else
+                  " bg-success"
+                end
+%>
+
+<div class="col-md-4">
+  <div class="summary-tile<%= background %>">
+    <div class="text-center summary-tile-title">
+      <%= title %>
+    </div>
+    <div class="text-center summary-tile-value">
+      <%= value %>
+    </div>
+  </div>
+</div>

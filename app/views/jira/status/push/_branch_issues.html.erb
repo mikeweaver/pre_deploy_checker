@@ -49,6 +49,7 @@
       <%= image_tag('clippy.svg', width: "13", alt: "Copy to clipboard") %>
     </button>
   </h4>
+  <h5>Comparing <%= link_to("#{push.branch.name} (#{push.head_commit.short_sha})", github_url_for_commit(push.head_commit)) %> to '<%=ancestor_branch%>' branch on <%=@push.updated_at%></h5>
 </div>
 <table class="table table-striped" id="jira_issues">
 

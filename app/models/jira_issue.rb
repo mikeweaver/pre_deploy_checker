@@ -28,6 +28,14 @@ class JiraIssue < ActiveRecord::Base
     commits.joins(:commits_and_pushes).where('commits_and_pushes.push_id = ?', push.id)
   end
 
+  def secrets_modified?
+    secrets_modified && secrets_modified == "Yes"
+  end
+
+  def long_running_migration?
+    long_running_migration && long_running_migration == "Yes"
+  end
+
   class << self
     def create_from_jira_data!(jira_data)
       issue = create_from_jira_data(jira_data)

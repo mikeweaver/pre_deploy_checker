@@ -1,0 +1,63 @@
+#summary-table {
+  font-size: 2em;
+}
+
+.summary-title {
+  font-size: 4em;
+  //padding-bottom: 1em;
+}
+
+.summary-subtitle {
+  font-size: 2em;
+  padding-bottom: 1em;
+}
+
+.jira-tickets {
+  .ticket-title {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+  }
+
+  .ticket-list {
+    .ticket {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 1.5em;
+    }
+  }
+}
+
+.summary-tile {
+  border: solid;
+  min-height: 10em;
+  margin-bottom: 1em;
+
+  .summary-tile-title {
+    padding-top: 10%;
+    font-size: 2em;
+  }
+
+  .summary-tile-value {
+    font-size: 1.5em;
+  }
+
+  &.committer-tile {
+    .summary-tile-title {
+      padding-top: 0%;
+      font-size: 4em;
+    }
+
+    .summary-tile-value {
+      font-size: 2.5em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}
+
+.overview-link {
+  font-size: 2em;
+  padding-top: 1em;
+}

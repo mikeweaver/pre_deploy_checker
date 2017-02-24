@@ -19,6 +19,10 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'sha/:id' => "jira/status/push#edit"
+  get 'branch/:branch' => "jira/status/push#branch"
+  get 'summary' => "jira/status/push#summary"
+
   namespace 'api' do
     scope '/v1' do
       namespace 'callbacks' do

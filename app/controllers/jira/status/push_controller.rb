@@ -33,7 +33,8 @@ module Jira
         }
       }.freeze
 
-      before_action :find_resources
+      before_action :find_sha_resources, only: [:edit, :sha]
+      before_action :find_branch_resources, only: [:branch]
 
       def edit
       end
@@ -61,6 +62,14 @@ module Jira
         redirect_to action: 'edit', id: @push.head_commit.sha
       end
 
+      def branch
+        render 'edit'
+      end
+
+      def summary
+        @push = Branch.where(name: "master").first!.pushes.last
+      end
+
       def github_url_for_commit(commit)
         "https://github.com/#{@push.branch.repository.name}/commit/#{commit.sha}"
       end
@@ -78,6 +87,31 @@ module Jira
         error_counts
       end
       helper_method :combined_error_counts
+
+      def total_error_count
+        combined_error_counts.reduce(0) do |sum, (key, counts)|
+          sum + counts.reduce(0) do |count_sum, (count_key, count)|
+                  count_sum + count
+                end
+        end
+      end
+      helper_method :total_error_count
+
+      def deploy_reps
+        Hash.new(0).tap do |hash|
+          @push.jira_issues_and_pushes.map do |jira_issue_and_push|
+            hash[jira_issue_and_push.jira_issue.assignee._?.name] += 1
+          end
+        end.compact
+      end
+      helper_method :deploy_reps
+
+      def any_secrets_modified?
+        @push.jira_issues_and_pushes.any? do |issue_and_push|
+          issue_and_push.jira_issue.secrets_modified?
+        end
+      end
+      helper_method :any_secrets_modified?
 
       def map_error_code_to_message(error_object, error_code)
         ERROR_CODE_PLURAL_MAP[error_object][error_code]
@@ -113,10 +147,17 @@ module Jira
 
       private
 
-      def find_resources
+      def find_sha_resources
         @push = Push.joins(:head_commit).where('commits.sha = ?', params[:id]).first!
       rescue ActiveRecord::RecordNotFound
-        flash[:alert] = 'The push could not be found'
+        flash[:alert] = "The push #{params[:id]} could not be found"
+        redirect_to controller: '/errors', action: 'bad_request'
+      end
+
+      def find_branch_resources
+        @push = Branch.where(name: params[:branch]).first!.pushes.last
+      rescue ActiveRecord::RecordNotFound
+        flash[:alert] = "The branch #{params[:branch]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'
       end
 

@@ -1,0 +1,12 @@
+<div class="col-md-12 summary-tile text-center jira-tickets">
+  <div class="ticket-title">
+    JIRA Tickets
+  </div>
+  <div class="ticket-list">
+    <% issues.each do |issue| %>
+      <p class="ticket">
+        <%= link_to("#{issue.key} - #{issue.summary}", jira_url_for_issue(issue), target: '_blank') %>
+      </p>
+    <% end %>
+  </div>
+</div>

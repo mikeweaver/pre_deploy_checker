@@ -1,0 +1,10 @@
+<div class="col-md-12">
+  <div class="summary-tile committer-tile">
+    <div class="text-center summary-tile-title">
+      Deploy Reps
+    </div>
+    <div class="text-center summary-tile-value">
+      <%= deploy_reps.map { |(rep, count)| "#{count}: #{rep}" }.join("<br>").html_safe %>
+    </div>
+  </div>
+</div>

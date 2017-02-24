@@ -61,6 +61,22 @@ class Push < ActiveRecord::Base
     commits_with_errors? || jira_issues_with_errors?
   end
 
+  def deploy_types
+    jira_issues.any? && jira_issues.map(&:deploy_type).uniq.compact
+  end
+
+  def secrets_modified?
+    jira_issues.any? { |issue| issue.secrets_modified? }
+  end
+
+  def long_migration?
+    jira_issues.any? { |issue| issue.long_running_migration? }
+  end
+
+  def sorted_jira_issues
+    jira_issues.sort_by { |issue| issue.project }
+  end
+
   def <=>(other)
     to_s <=> other.to_s
   end
