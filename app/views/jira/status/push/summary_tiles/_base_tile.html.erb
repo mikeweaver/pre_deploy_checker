@@ -1,20 +1,21 @@
 <%
-  background =  if errors
+  background =  if local_assigns[:errors]
                   " bg-danger"
-                elsif warning
+                elsif local_assigns[:warning]
                   " bg-warning"
-                else
+                elsif local_assigns[:success]
                   " bg-success"
                 end
+  col_width = local_assigns[:col_width] || "col-md-4"
 %>
 
-<div class="col-md-4">
+<div class=<%= col_width %>>
   <div class="summary-tile<%= background %>">
-    <div class="text-center summary-tile-title">
-      <%= title %>
-    </div>
     <div class="text-center summary-tile-value">
       <%= value %>
+    </div>
+    <div class="text-center summary-tile-title">
+      <%= title %>
     </div>
   </div>
 </div>

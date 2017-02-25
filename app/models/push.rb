@@ -77,6 +77,10 @@ class Push < ActiveRecord::Base
     jira_issues.sort_by { |issue| issue.project }
   end
 
+  def deploy_types
+    jira_issues.map { |issue| issue.deploy_type }.uniq.compact
+  end
+
   def <=>(other)
     to_s <=> other.to_s
   end

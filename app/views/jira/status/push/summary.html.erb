@@ -18,6 +18,7 @@
         </div>
       </div>
       <div class="col-md-4">
+        <%= render partial: "jira/status/push/summary_tiles/deploy_types", locals: { deploy_types: @push.deploy_types } %>
         <%= render partial: "jira/status/push/summary_tiles/committers" %>
       </div>
     </div>
