@@ -67,7 +67,7 @@ module Jira
       end
 
       def summary
-        @push = Branch.where(name: "master").first!.pushes.last
+        @push = Branch.where(name: 'master').first!.pushes.last
       end
 
       def github_url_for_commit(commit)
@@ -89,8 +89,8 @@ module Jira
       helper_method :combined_error_counts
 
       def total_error_count
-        combined_error_counts.reduce(0) do |sum, (key, counts)|
-          sum + counts.reduce(0) do |count_sum, (count_key, count)|
+        combined_error_counts.reduce(0) do |sum, (_, counts)|
+          sum + counts.reduce(0) do |count_sum, (_, count)|
                   count_sum + count
                 end
         end

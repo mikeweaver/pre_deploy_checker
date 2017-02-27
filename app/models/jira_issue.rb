@@ -29,11 +29,11 @@ class JiraIssue < ActiveRecord::Base
   end
 
   def secrets_modified?
-    secrets_modified && secrets_modified == "Yes"
+    secrets_modified && secrets_modified == 'Yes'
   end
 
   def long_running_migration?
-    long_running_migration && long_running_migration == "Yes"
+    long_running_migration && long_running_migration == 'Yes'
   end
 
   class << self

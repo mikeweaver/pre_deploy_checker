@@ -66,19 +66,15 @@ class Push < ActiveRecord::Base
   end
 
   def secrets_modified?
-    jira_issues.any? { |issue| issue.secrets_modified? }
+    jira_issues.any?(&:secrets_modified?)
   end
 
   def long_migration?
-    jira_issues.any? { |issue| issue.long_running_migration? }
+    jira_issues.any?(&:long_running_migration?)
   end
 
   def sorted_jira_issues
-    jira_issues.sort_by { |issue| issue.project }
-  end
-
-  def deploy_types
-    jira_issues.map { |issue| issue.deploy_type }.uniq.compact
+    jira_issues.sort_by(&:project)
   end
 
   def <=>(other)
