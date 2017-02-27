@@ -33,7 +33,7 @@ module Jira
         }
       }.freeze
 
-      before_action :find_sha_resources, only: [:edit, :sha]
+      before_action :find_sha_resources, except: [:branch]
       before_action :find_branch_resources, only: [:branch]
 
       def edit
