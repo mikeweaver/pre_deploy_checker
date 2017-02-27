@@ -155,7 +155,7 @@ module Jira
       end
 
       def find_branch_resources
-        @push = Branch.where("branches.name = ?", params[:branch]).first!.pushes.last
+        @push = Branch.where(name: params[:branch]).first!.pushes.last
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The branch #{params[:branch]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'
