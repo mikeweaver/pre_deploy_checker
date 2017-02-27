@@ -3,8 +3,8 @@
     <div class="text-center summary-tile-title">
       Deploy Reps
     </div>
-    <div class="text-center summary-tile-value">
-      <%= deploy_reps.map { |(rep, count)| "#{count}: #{rep}" }.join("<br>").html_safe %>
+    <div class="summary-tile-value">
+      <%= deploy_reps.map { |(rep, count)| "#{rep}: #{count}" }.join("<br>").html_safe %>
     </div>
   </div>
 </div>

@@ -15,15 +15,15 @@
 .jira-tickets {
   .ticket-title {
     font-size: 2em;
-    margin-bottom: 0.5em;
+    //margin-bottom: 0.5em;
   }
 
   .ticket-list {
     .ticket {
-      text-overflow: ellipsis;
-      overflow: hidden;
       white-space: nowrap;
-      font-size: 1.5em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 1.25em;
     }
   }
 }
@@ -34,21 +34,23 @@
   margin-bottom: 1em;
 
   .summary-tile-title {
-    padding-top: 10%;
+    padding-top: 5%;
     font-size: 1.5em;
   }
 
   .summary-tile-value {
+    padding-top: 5%;
     font-size: 2em;
   }
 
   &.committer-tile {
     .summary-tile-title {
       padding-top: 0%;
-      font-size: 3em;
+      font-size: 2em;
     }
 
     .summary-tile-value {
+      padding-left: .5em;
       font-size: 2em;
       text-overflow: ellipsis;
       overflow: hidden;

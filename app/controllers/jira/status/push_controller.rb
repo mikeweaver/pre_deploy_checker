@@ -98,11 +98,12 @@ module Jira
       helper_method :total_error_count
 
       def deploy_reps
-        Hash.new(0).tap do |hash|
+        reps = Hash.new(0).tap do |hash|
           @push.jira_issues_and_pushes.map do |jira_issue_and_push|
             hash[jira_issue_and_push.jira_issue.assignee._?.name] += 1
           end
         end.compact
+        reps.sort_by { |name, _| name }
       end
       helper_method :deploy_reps
 

@@ -74,7 +74,7 @@ class Push < ActiveRecord::Base
   end
 
   def sorted_jira_issues
-    jira_issues.sort_by(&:project)
+    jira_issues.sort_by(&:key).reverse
   end
 
   def <=>(other)
