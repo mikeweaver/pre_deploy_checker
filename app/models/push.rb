@@ -61,20 +61,24 @@ class Push < ActiveRecord::Base
     commits_with_errors? || jira_issues_with_errors?
   end
 
+  def unmerged_jira_issues
+    jira_issues_and_pushes.where(merged: false).map(&:jira_issue)
+  end
+
   def deploy_types
-    jira_issues.any? && jira_issues.map(&:deploy_type).uniq.compact
+    jira_issues.map(&:deploy_type).uniq.compact
   end
 
   def secrets_modified?
-    jira_issues.any?(&:secrets_modified?)
+    unmerged_jira_issues.any?(&:secrets_modified?)
   end
 
   def long_migration?
-    jira_issues.any?(&:long_running_migration?)
+    unmerged_jira_issues.any?(&:long_running_migration?)
   end
 
   def sorted_jira_issues
-    jira_issues.sort_by(&:key).reverse
+    unmerged_jira_issues.sort_by(&:key).reverse
   end
 
   def <=>(other)
