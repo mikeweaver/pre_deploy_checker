@@ -99,8 +99,8 @@ module Jira
 
       def deploy_reps
         reps = Hash.new(0).tap do |hash|
-          @push.unmerged_jira_issues.map do |jira_issue_and_push|
-            hash[jira_issue_and_push.jira_issue.assignee._?.name] += 1
+          @push.unmerged_jira_issues.map do |jira_issue|
+            hash[jira_issue.assignee._?.name] += 1
           end
         end.compact
         reps.sort_by { |name, _| name }
