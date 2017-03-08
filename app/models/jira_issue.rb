@@ -36,6 +36,14 @@ class JiraIssue < ActiveRecord::Base
     long_running_migration && long_running_migration == 'Yes'
   end
 
+  def deploy_types
+    if deploy_type
+      deploy_type.split(',').map(&:strip).compact
+    else
+      []
+    end
+  end
+
   class << self
     def create_from_jira_data!(jira_data)
       issue = create_from_jira_data(jira_data)

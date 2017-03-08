@@ -66,7 +66,7 @@ class Push < ActiveRecord::Base
   end
 
   def deploy_types
-    jira_issues.map(&:deploy_type).uniq.compact
+    jira_issues.map(&:deploy_types).flatten.uniq
   end
 
   def secrets_modified?
