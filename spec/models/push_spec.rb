@@ -86,6 +86,7 @@ describe 'Push' do
       expect(@push.jira_issues_with_errors.count).to eq(0)
       expect(@push.errors?).to be_falsey
       expect(@push.jira_issues_with_unignored_errors?).to be_falsey
+      expect(@push.jira_issue_keys).to match_array(['STORY-4380'])
     end
 
     it 'can be found by jira issue key' do

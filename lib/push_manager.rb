@@ -7,12 +7,15 @@ class PushManager
       Rails.logger.info("Getting commits for push id #{push.id}")
       commits = get_commits_from_push(push)
 
-      issue_keys = extract_jira_issue_keys(commits)
+      issue_keys_from_commits = extract_jira_issue_keys(commits)
+      # we include the keys from existing issues on the push so we can update
+      # issues for merged commits when they change
+      all_issue_keys = (issue_keys_from_commits + push.jira_issue_keys).uniq
 
       link_commits_to_push(push, commits)
 
-      Rails.logger.info("Getting #{issue_keys.length} JIRA issues for push id #{push.id}")
-      jira_issues = get_jira_issues!(issue_keys)
+      Rails.logger.info("Getting #{all_issue_keys.length} JIRA issues for push id #{push.id}")
+      jira_issues = get_jira_issues!(all_issue_keys)
 
       link_commits_to_jira_issues(jira_issues, commits)
 
@@ -21,8 +24,9 @@ class PushManager
       # destroy relationship to commits that are no longer in the push
       CommitsAndPushes.destroy_if_commit_not_in_list(push, commits)
 
-      # assume that issues no longer found in the push have been merged to the ancestor branch
-      JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(push, jira_issues)
+      # assume that issues no longer found in the commits have been merged to the ancestor branch
+      jira_issues_from_commits = jira_issues.select { |j| issue_keys_from_commits.include?(j.key) }
+      JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(push, jira_issues_from_commits)
 
       push.reload
 

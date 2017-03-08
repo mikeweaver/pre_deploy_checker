@@ -33,6 +33,10 @@ class Push < ActiveRecord::Base
     jira_issues.any?
   end
 
+  def jira_issue_keys
+    jira_issues.map(&:key)
+  end
+
   def jira_issues_with_errors?
     jira_issues_with_errors.any?
   end
