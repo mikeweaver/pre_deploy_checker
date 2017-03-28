@@ -100,9 +100,10 @@ module Jira
       def deploy_reps
         reps = Hash.new(0).tap do |hash|
           @push.unmerged_jira_issues.map do |jira_issue|
-            hash[jira_issue.assignee._?.name] += 1
+            name = jira_issue.assignee._?.name || "Unknown"
+            hash[name] += 1
           end
-        end.compact
+        end
         reps.sort_by { |name, _| name }
       end
       helper_method :deploy_reps
