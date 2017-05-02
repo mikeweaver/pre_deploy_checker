@@ -51,12 +51,12 @@ class PushManager
     end
 
     def valid_jira_state?(status)
-      GlobalSettings.jira.valid_statuses.any? { |valid_status| valid_status.casecmp(status) == 0 }
+      GlobalSettings.jira.valid_statuses.any? { |valid_status| valid_status.casecmp(status).zero? }
     end
 
     def valid_post_deploy_check_status?(status)
       if status
-        GlobalSettings.jira.valid_post_deploy_check_statuses.any? { |valid_status| valid_status.casecmp(status) == 0 }
+        GlobalSettings.jira.valid_post_deploy_check_statuses.any? { |valid_status| valid_status.casecmp(status).zero? }
       else
         false
       end

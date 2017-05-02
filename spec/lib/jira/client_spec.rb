@@ -15,7 +15,7 @@ describe 'JIRA::ClientWrapper' do
       'consumer_key' => 'fake_key',
       'access_token' => 'fake_access_token',
       'access_key' => 'fake_access_key',
-      'private_key_file' => Rails.root.join('spec/fixtures/rsakey.pem')
+      'private_key_file' => Rails.root.join('spec', 'fixtures', 'rsakey.pem')
     }
     client = JIRA::ClientWrapper.new(settings)
     expect(client).not_to be_nil
@@ -28,7 +28,7 @@ describe 'JIRA::ClientWrapper' do
         'consumer_key' => 'fake_key',
         'access_token' => 'fake_access_token',
         'access_key' => 'fake_access_key',
-        'private_key_file' => Rails.root.join('spec/fixtures/rsakey.pem')
+        'private_key_file' => Rails.root.join('spec', 'fixtures', 'rsakey.pem')
       }
       @client = JIRA::ClientWrapper.new(settings)
     end
