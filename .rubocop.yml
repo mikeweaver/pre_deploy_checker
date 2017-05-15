@@ -55,6 +55,8 @@ RSpec/MessageSpies:
   Enabled: false
 Style/NumericLiterals:
   Enabled: false
+Style/NumericPredicate:
+  Enabled: false
 Metrics/ParameterLists:
   Enabled: false
 Metrics/BlockLength:

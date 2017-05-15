@@ -49,7 +49,7 @@ module Jira
         updated_record_count = update_ignored_jira_issues(jira_issue_keys_to_ignore) + \
                                update_ignored_commits(commit_shas_to_ignore)
 
-        if updated_record_count.positive?
+        if updated_record_count > 0
           flash[:alert] = 'Push updated, refreshing JIRA and Git data'
           PushChangeHandler.new.process_push!(@push.id)
         elsif params['refresh']
