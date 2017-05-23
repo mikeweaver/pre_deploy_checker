@@ -1,0 +1,18 @@
+.jira-issues, .jira-commits {
+  margin-bottom: 3em;
+}
+
+.jira-issues-header {
+  margin-bottom: 2em;
+}
+
+
+/* dataTable overrides */
+table.dataTable, table.dataTable.no-footer {
+  border: 1px solid #ddd;
+  border-top-width: 0;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+  border-color: #ccc;
+}

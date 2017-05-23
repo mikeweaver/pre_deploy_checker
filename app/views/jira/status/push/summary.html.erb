@@ -1,19 +1,19 @@
 <div class="container">
-  <div class="col-md-12 summary-overview-container">
-    <div class="col-md-12 text-center summary-title">
+  <div class="row summary-overview-container">
+    <div class="text-center summary-title">
       Deploy Overview
     </div>
-    <div class="col-md-12 text-center summary-subtitle">
-      <%= @push.branch.name %> => <%= ancestor_branch %>
+    <div class="text-center summary-subtitle">
+      <span class="code-text"><%= @push.branch.name %> => <%= ancestor_branch %></span>
     </div>
-    <div class="tile-list-container">
+    <div class="tile-list-container row">
       <div class="col-md-8">
-        <div class="col-md-12 summary-tile-container">
+        <div class="row summary-tile-container">
           <%= render partial: "jira/status/push/summary_tiles/issue_count"%>
           <%= render partial: "jira/status/push/summary_tiles/secrets",        locals: { push: @push } %>
           <%= render partial: "jira/status/push/summary_tiles/long_migration", locals: { push: @push } %>
         </div>
-        <div class="col-md-12 summary-tile-container">
+        <div class="summary-tile-container">
           <%= render partial: "jira/status/push/summary_tiles/tickets", locals: { issues: @push.sorted_jira_issues } %>
         </div>
       </div>
@@ -24,7 +24,7 @@
     </div>
 
 
-    <div class="col-md-12 hidden">
+    <div class="hidden">
       <!-- Move to a partial -->
       <table id="summary-table" class="table table-striped table-bordered">
         <tr class="<%= total_error_count > 0 ? "danger" : "success" %>">
@@ -53,8 +53,9 @@
         </tr>
       </table>
     </div>
-    <div class="col-md-12 text-center overview-link">
+    <div class="text-center overview-link">
       <%= link_to "View commit (#{@push.head_commit.short_sha})", controller: "push", action: "edit", id: @push.head_commit.sha %>
     </div>
   </div>
+ </div>
 </div>

@@ -1,0 +1,54 @@
+body {
+  background-color: #efefef;
+}
+
+$invoca_green: #2CBF58;
+$invoca_blue: #00ACF1;
+
+a {
+  color: $invoca_blue;
+
+  &:hover {
+    color: darken($invoca_blue, 5%);
+  }
+}
+
+.btn-primary {
+  background-color: $invoca_blue;
+  border-color: $invoca_blue;
+
+  &:hover {
+    background-color: darken($invoca_blue, 5%);
+    border-color: darken($invoca_blue, 5%);
+  }
+}
+
+.label-success, .btn-success {
+  background-color: $invoca_green;
+  border-color: $invoca_green;
+}
+
+.navbar {
+  background-color: #fff;
+}
+
+.navbar-brand-title {
+  float: left;
+  padding: 15px 0;
+  line-height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.page-title {
+  margin-top: 0;
+  margin-bottom: .5em;
+}
+
+.panel-content {
+  padding: 1em;
+}
+
+.code-text {
+  font-family: "Courier", monospace;
+}

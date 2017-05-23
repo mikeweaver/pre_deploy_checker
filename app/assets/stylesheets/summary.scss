@@ -3,8 +3,8 @@
 }
 
 .summary-title {
-  font-size: 4em;
-  //padding-bottom: 1em;
+  font-size: 3em;
+  font-weight: 500;
 }
 
 .summary-subtitle {
@@ -12,46 +12,46 @@
   padding-bottom: 1em;
 }
 
-.jira-tickets {
-  .ticket-title {
-    font-size: 2em;
-    //margin-bottom: 0.5em;
-  }
-
-  .ticket-list {
-    .ticket {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 1.25em;
-    }
-  }
-}
-
 .summary-tile {
-  border: solid;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1), 0 1px 5px 0 rgba(0, 0, 0, .1);
+
   min-height: 10em;
-  margin-bottom: 1em;
+  margin-bottom: 1.75em;
 
   .summary-tile-title {
-    padding-top: 5%;
+    padding-top: .5em;
     font-size: 1.5em;
   }
 
   .summary-tile-value {
-    padding-top: 5%;
+    padding-top: .5em;
     font-size: 2em;
+
+    h2 {
+      margin-top: .25em;
+    }
   }
 
-  &.committer-tile {
+  &.jira-tickets {
     .summary-tile-title {
-      padding-top: 0%;
       font-size: 2em;
     }
 
+    .ticket-list {
+      .ticket {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 1.25em;
+      }
+    }
+  }
+
+  &.committer-tile {
     .summary-tile-value {
       padding-left: .5em;
-      font-size: 2em;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;

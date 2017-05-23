@@ -1,40 +1,49 @@
 
 
 <%= form_for @push, url: "/jira/status/push/#{@push.head_commit.sha}.html" do |form| %>
-<style>
-.error {color: red; font-weight: bold;}
-</style>
-<div class="container-fluid">
+  <style>
+  .error {color: red; font-weight: bold;}
+  </style>
+
+  <h2 class="page-title">Comparing <%= link_to("#{@push.branch.name} (#{@push.head_commit.short_sha})", github_url_for_commit(@push.head_commit)) %> to '<%=ancestor_branch%>' branch on <%= @push.updated_at%></h2>
+
   <% if flash[:alert] %>
     <div class="alert alert-success"><%= flash[:alert] %></div>
   <% end %>
 
   <%= render partial: "status_notifications", locals: { push: @push } %>
 
-  <%if @push.jira_issues?%>
-    <%= render partial: "branch_issues", locals: { push: @push }  %>
-  <%else%>
-    <h4>No JIRA issues in this branch</h4><br/>
-  <%end%>
+  <div class="summary-tile">
+    <div class="panel-content">
+      <div class="jira-issues">
+        <%if @push.jira_issues?%>
+          <%= render partial: "branch_issues", locals: { push: @push }  %>
+        <%else%>
+          <h4>No JIRA issues in this branch</h4>
+        <%end%>
 
-  <%= render partial: "clipboard_formatting" %>
+        <%= render partial: "clipboard_formatting" %>
+      </div>
 
+      <div class="jira-commits">
+        <%if @push.commits_with_errors? %>
+          <%= render partial: "commits_with_errors", locals: { push: @push } %>
+        <%else%>
+          <h4>All commits in this branch are OK</h4>
+        <%end%>
+      </div>
 
-  <%if @push.commits_with_errors? %>
-    <%= render partial: "commits_with_errors", locals: { push: @push } %>
-  <%else%>
-      <h4>All commits in this branch are OK</h4><br/>
-  <%end%>
+      <%if false%>
+        <%= render partial: "ready_missing_issues" %>
+      <%end%>
 
-  <%if false%>
-    <%= render partial: "ready_missing_issues" %>
-  <%end%>
-
-  <%= form.submit('Save Approvals', name: 'save', class: 'btn btn-default') %>
-  <%= form.submit('Refresh JIRA and Git data', name: 'refresh', class: 'btn btn-default') %>
-  <!--
-  TODO:
-    Show the tags on the commit, autobahn clean, build clean
-  -->
+      <%= form.submit('Save Approvals', name: 'save', class: 'btn btn-primary') %>
+      <%= form.submit('Refresh JIRA and Git data', name: 'refresh', class: 'btn btn-default') %>
+      <!--
+      TODO:
+        Show the tags on the commit, autobahn clean, build clean
+      -->
+    </div>
+  </div>
 </div>
 <% end %>
