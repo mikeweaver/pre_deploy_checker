@@ -3,22 +3,23 @@
     {
       "warning_type": "Cross Site Scripting",
       "warning_code": 4,
-      "fingerprint": "203fe24de9db81782d859e2b2a4a72513e87394d9dfa8d62a558b95c2424e3c7",
+      "fingerprint": "75884259f04c7f44437617900f9e4d010e97d5e3e115588acaa069f362893d35",
+      "check_name": "LinkToHref",
       "message": "Unsafe model attribute in link_to href",
-      "file": "app/views/jira/status/push/_branch_issues.html.erb",
-      "line": 52,
+      "file": "app/views/jira/status/push/edit.html.erb",
+      "line": 8,
       "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
       "code": "link_to(\"#{Branch.where(:name => params[:branch]).first!.pushes.last.branch.name} (#{Branch.where(:name => params[:branch]).first!.pushes.last.head_commit.short_sha})\", github_url_for_commit(Branch.where(:name => params[:branch]).first!.pushes.last.head_commit))",
-      "render_path": [{"type":"controller","class":"Jira::Status::PushController","method":"branch","line":66,"file":"app/controllers/jira/status/push_controller.rb"},{"type":"template","name":"jira/status/push/edit","line":15,"file":"app/views/jira/status/push/edit.html.erb"}],
+      "render_path": [{"type":"controller","class":"Jira::Status::PushController","method":"branch","line":65,"file":"app/controllers/jira/status/push_controller.rb"}],
       "location": {
         "type": "template",
-        "template": "jira/status/push/_branch_issues"
+        "template": "jira/status/push/edit"
       },
       "user_input": "Branch.where(:name => params[:branch])",
       "confidence": "Medium",
-      "note": "Brakeman does not know where \"head_commit\" comes from and warns due the params[:branch] lookup"
+      "note": ""
     }
   ],
-  "updated": "2017-02-27 10:34:16 -0800",
-  "brakeman_version": "3.4.0"
+  "updated": "2017-05-23 22:20:20 -0700",
+  "brakeman_version": "3.6.2"
 }
