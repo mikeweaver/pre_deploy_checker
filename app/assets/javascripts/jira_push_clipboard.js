@@ -20,7 +20,7 @@ function hideTooltip(btn) {
     }, 1000);
 }
 
-$(document).ready(function() {
+$(document).on('turbolinks:load', function() {
     var clipboard = new Clipboard('#copy-btn', {
         target: function (trigger) {
             prepareClipboardTable();

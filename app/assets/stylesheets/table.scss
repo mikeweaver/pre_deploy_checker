@@ -12,6 +12,15 @@ $table-border-color: #ddd;
   border: 1px solid $table-border-color;
 }
 
+#jira_issues_clipboard {
+  font-size: 13px;
+  border: 1px solid #ccc;
+
+  a {
+    color: #15c;
+  }
+}
+
 /* dataTable overrides */
 table.dataTable, table.dataTable.no-footer {
   border: 1px solid $table-border-color;
