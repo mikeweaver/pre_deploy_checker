@@ -1,4 +1,4 @@
-class CommitsAndPushes < ActiveRecord::Base
+class CommitsAndPushes < ApplicationRecord
   include ErrorsJson
 
   ERROR_ORPHAN_NO_JIRA_ISSUE_NUMBER = 'orphan_no_jira_issue_number'.freeze

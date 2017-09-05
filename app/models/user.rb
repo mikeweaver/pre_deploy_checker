@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include GitModels::User
 
   def self.create_from_jira_data!(jira_user_data)
