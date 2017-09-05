@@ -1,4 +1,4 @@
-class JiraIssue < ApplicationRecord
+class JiraIssue < ActiveRecord::Base
   KEY_PROJECT_NUMBER_SEPARATOR = '-'.freeze
 
   fields do

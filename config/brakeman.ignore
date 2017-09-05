@@ -3,25 +3,6 @@
     {
       "warning_type": "Cross Site Scripting",
       "warning_code": 4,
-      "fingerprint": "3db972d3020e4d6fef0709ebb63a06a398479be843746f1a21f3e0583f4ad84b",
-      "check_name": "LinkToHref",
-      "message": "Unsafe model attribute in link_to href",
-      "file": "app/views/jira/status/push/_branch_issues.html.erb",
-      "line": 75,
-      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to((Unresolved Model).new.jira_issue.latest_commit.short_sha, github_url_for_commit((Unresolved Model).new.jira_issue.latest_commit), :target => \"_blank\")",
-      "render_path": [{"type":"controller","class":"Jira::Status::PushController","method":"branch","line":65,"file":"app/controllers/jira/status/push_controller.rb"},{"type":"template","name":"jira/status/push/edit","line":20,"file":"app/views/jira/status/push/edit.html.erb"}],
-      "location": {
-        "type": "template",
-        "template": "jira/status/push/_branch_issues"
-      },
-      "user_input": "(Unresolved Model).new",
-      "confidence": "Medium",
-      "note": ""
-    },
-    {
-      "warning_type": "Cross Site Scripting",
-      "warning_code": 4,
       "fingerprint": "75884259f04c7f44437617900f9e4d010e97d5e3e115588acaa069f362893d35",
       "check_name": "LinkToHref",
       "message": "Unsafe model attribute in link_to href",
@@ -37,84 +18,8 @@
       "user_input": "Branch.where(:name => params[:branch])",
       "confidence": "Medium",
       "note": ""
-    },
-    {
-      "warning_type": "Cross Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "77214d75c2bbfec27915d0ddef6b7154bfdd052e6e7c5504d97344e1882a96cb",
-      "check_name": "LinkToHref",
-      "message": "Unsafe model attribute in link_to href",
-      "file": "app/views/jira/status/push/_branch_issues.html.erb",
-      "line": 69,
-      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to((Unresolved Model).new.jira_issue.parent_issue.key, jira_url_for_issue((Unresolved Model).new.jira_issue.parent_issue), :target => \"_blank\")",
-      "render_path": [{"type":"controller","class":"Jira::Status::PushController","method":"branch","line":65,"file":"app/controllers/jira/status/push_controller.rb"},{"type":"template","name":"jira/status/push/edit","line":20,"file":"app/views/jira/status/push/edit.html.erb"}],
-      "location": {
-        "type": "template",
-        "template": "jira/status/push/_branch_issues"
-      },
-      "user_input": "(Unresolved Model).new",
-      "confidence": "Medium",
-      "note": ""
-    },
-    {
-      "warning_type": "Cross Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "a1eb077a4ccbc4ab2e8a03158c812a59701968671f9d0e7322211447a6b4ae02",
-      "check_name": "LinkToHref",
-      "message": "Unsafe model attribute in link_to href",
-      "file": "app/views/jira/status/push/summary_tiles/_tickets.html.erb",
-      "line": 8,
-      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"#{(Unresolved Model).new.key} - #{(Unresolved Model).new.summary}\", jira_url_for_issue((Unresolved Model).new), :target => \"_blank\")",
-      "render_path": [{"type":"controller","class":"Jira::Status::PushController","method":"summary","line":70,"file":"app/controllers/jira/status/push_controller.rb"},{"type":"template","name":"jira/status/push/summary","line":17,"file":"app/views/jira/status/push/summary.html.erb"}],
-      "location": {
-        "type": "template",
-        "template": "jira/status/push/summary_tiles/_tickets"
-      },
-      "user_input": "(Unresolved Model).new",
-      "confidence": "Medium",
-      "note": ""
-    },
-    {
-      "warning_type": "Cross Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "a71a4a1da7f81c21644ef4010d1bf924f8775ae2ebc8e752649228233af8c280",
-      "check_name": "LinkToHref",
-      "message": "Unsafe model attribute in link_to href",
-      "file": "app/views/jira/status/push/_branch_issues.html.erb",
-      "line": 71,
-      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to((Unresolved Model).new.jira_issue.key, jira_url_for_issue((Unresolved Model).new.jira_issue), :target => \"_blank\")",
-      "render_path": [{"type":"controller","class":"Jira::Status::PushController","method":"branch","line":65,"file":"app/controllers/jira/status/push_controller.rb"},{"type":"template","name":"jira/status/push/edit","line":20,"file":"app/views/jira/status/push/edit.html.erb"}],
-      "location": {
-        "type": "template",
-        "template": "jira/status/push/_branch_issues"
-      },
-      "user_input": "(Unresolved Model).new",
-      "confidence": "Medium",
-      "note": ""
-    },
-    {
-      "warning_type": "Cross Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "e48eb06289f96fda3f110d0b5503bf1897be43dbf7481a816a31333da51a4481",
-      "check_name": "LinkToHref",
-      "message": "Unsafe model attribute in link_to href",
-      "file": "app/views/jira/status/push/_commits_with_errors.html.erb",
-      "line": 23,
-      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to((Unresolved Model).new.commit.short_sha, github_url_for_commit((Unresolved Model).new.commit), :target => \"_blank\")",
-      "render_path": [{"type":"controller","class":"Jira::Status::PushController","method":"branch","line":65,"file":"app/controllers/jira/status/push_controller.rb"},{"type":"template","name":"jira/status/push/edit","line":30,"file":"app/views/jira/status/push/edit.html.erb"}],
-      "location": {
-        "type": "template",
-        "template": "jira/status/push/_commits_with_errors"
-      },
-      "user_input": "(Unresolved Model).new",
-      "confidence": "Medium",
-      "note": ""
     }
   ],
-  "updated": "2017-09-05 12:12:24 -0700",
-  "brakeman_version": "3.7.2"
+  "updated": "2017-05-23 22:20:20 -0700",
+  "brakeman_version": "3.6.2"
 }

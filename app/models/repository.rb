@@ -1,3 +1,3 @@
-class Repository < ApplicationRecord
+class Repository < ActiveRecord::Base
   include GitModels::Repository
 end

@@ -1,4 +1,4 @@
-class Push < ApplicationRecord
+class Push < ActiveRecord::Base
   fields do
     status :string, limit: 32
     timestamps

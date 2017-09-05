@@ -1,4 +1,4 @@
-class JiraIssuesAndPushes < ApplicationRecord
+class JiraIssuesAndPushes < ActiveRecord::Base
   include ErrorsJson
 
   ERROR_WRONG_STATE = 'wrong_state'.freeze

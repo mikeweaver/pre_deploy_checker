@@ -1,4 +1,4 @@
-class Commit < ApplicationRecord
+class Commit < ActiveRecord::Base
   include GitModels::Commit
 
   belongs_to :jira_issue, class_name: JiraIssue, inverse_of: :commits, required: false
