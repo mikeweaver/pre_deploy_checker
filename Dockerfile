@@ -1,4 +1,4 @@
-FROM ruby:2.1.10
+FROM ruby:2.3.1
 
 ARG RAILS_ENV
 ENV HOME_DIR="/usr/src/pre_deploy_checker"
