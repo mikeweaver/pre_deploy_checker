@@ -144,7 +144,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_portile2 (2.2.0)
+    mini_portile2 (2.3.0)
     minitest (5.10.1)
     morpher (0.2.6)
       abstract_type (~> 0.0.7)
@@ -175,8 +175,8 @@ GEM
     mutant-rspec (0.8.11)
       mutant (~> 0.8.11)
       rspec-core (>= 3.4.0, < 3.6.0)
-    nokogiri (1.8.0)
-      mini_portile2 (~> 2.2.0)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     oauth (0.4.7)
     parallel (1.11.1)
     parser (2.3.3.1)
@@ -351,4 +351,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.15.1
+   1.15.4
