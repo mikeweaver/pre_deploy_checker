@@ -50,8 +50,12 @@ class PushManager
       /(?:^|\s|\/|_|-|"|')((?:#{GlobalSettings.jira.project_keys.join('|')})[- _]\d+)/i
     end
 
-    def valid_jira_state?(status)
-      GlobalSettings.jira.valid_statuses.any? { |valid_status| valid_status.casecmp(status).zero? }
+    def valid_jira_status?(jira_issue)
+      if jira_issue.sub_task?
+        GlobalSettings.jira.valid_sub_task_statuses
+      else
+        GlobalSettings.jira.valid_statuses
+      end.any? { |valid_status| valid_status.casecmp(jira_issue.status).zero? }
     end
 
     def valid_post_deploy_check_status?(status)
@@ -119,32 +123,34 @@ class PushManager
 
     def detect_errors_for_jira_issue(push, jira_issue)
       errors = []
-      unless valid_jira_state?(jira_issue.status)
+      unless valid_jira_status?(jira_issue)
         errors << JiraIssuesAndPushes::ERROR_WRONG_STATE
       end
 
-      unless valid_post_deploy_check_status?(jira_issue.post_deploy_check_status)
-        errors << JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS
-      end
-
-      if jira_issue.commits_for_push(push).empty?
-        errors << JiraIssuesAndPushes::ERROR_NO_COMMITS
-      end
-
-      if jira_issue.targeted_deploy_date
-        if jira_issue.targeted_deploy_date.to_date < Time.zone.today
-          errors << JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE
+      unless jira_issue.sub_task?
+        unless valid_post_deploy_check_status?(jira_issue.post_deploy_check_status)
+          errors << JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS
         end
-      else
-        errors << JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE
-      end
 
-      unless jira_issue.secrets_modified
-        errors << JiraIssuesAndPushes::ERROR_BLANK_SECRETS_MODIFIED
-      end
+        if jira_issue.commits_for_push(push).empty?
+          errors << JiraIssuesAndPushes::ERROR_NO_COMMITS
+        end
 
-      unless jira_issue.long_running_migration
-        errors << JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION
+        if jira_issue.targeted_deploy_date
+          if jira_issue.targeted_deploy_date.to_date < Time.zone.today
+            errors << JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE
+          end
+        else
+          errors << JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE
+        end
+
+        unless jira_issue.secrets_modified
+          errors << JiraIssuesAndPushes::ERROR_BLANK_SECRETS_MODIFIED
+        end
+
+        unless jira_issue.long_running_migration
+          errors << JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION
+        end
       end
 
       errors

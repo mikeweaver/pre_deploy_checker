@@ -139,4 +139,8 @@ class JiraIssue < ActiveRecord::Base
     # TODO: add commit date to commits and sort by that instead
     commits.order('created_at ASC').first
   end
+
+  def sub_task?
+    !!parent_issue
+  end
 end

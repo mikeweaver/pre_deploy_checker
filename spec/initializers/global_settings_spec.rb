@@ -36,7 +36,8 @@ describe 'GlobalSettings' do
         'jira' => DEFAULT_JIRA_SETTINGS.merge(
           'ancestor_branches' => { 'default' => 'master' },
           'project_keys' => ['STORY'],
-          'valid_statuses' => ['Ready to Deploy']
+          'valid_statuses' => ['Ready to Deploy'],
+          'valid_sub_task_statuses' => ['Ready to Deploy','Closed']
         )
       )
     end
@@ -114,6 +115,13 @@ describe 'GlobalSettings' do
 
       File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
       expect { load_global_settings }.to raise_exception(InvalidSettings, /status/)
+    end
+
+    it 'valid_sub_task_statuses is required' do
+      @required_settings['jira'].except!('valid_sub_task_statuses')
+
+      File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
+      expect { load_global_settings }.to raise_exception(InvalidSettings, /sub-task/)
     end
 
     it 'web_server_url is required' do

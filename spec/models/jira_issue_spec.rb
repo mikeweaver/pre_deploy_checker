@@ -124,6 +124,7 @@ describe 'JiraIssue' do
       child_issue = JiraIssue.create_from_jira_data!(jira_sub_task)
       expect(child_issue.key).to eq('STORY-4240')
       expect(child_issue.parent_issue.key).to eq('STORY-4380')
+      expect(child_issue.sub_task?).to be_truthy
       expect(JiraIssue.count).to eq(2)
     end
 

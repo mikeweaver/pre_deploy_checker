@@ -12,6 +12,7 @@ DEFAULT_JIRA_SETTINGS = {
   private_key_file: './rsakey.pem',
   project_keys: [],
   valid_statuses: [],
+  valid_sub_task_statuses: [],
   valid_post_deploy_check_statuses: [],
   ignore_commits_with_messages: [],
   ignore_branches: [],
@@ -64,6 +65,9 @@ def validate_jira_settings(settings)
   end
   if settings.valid_statuses.empty?
     raise InvalidSettings, 'Must specify at least one valid JIRA status'
+  end
+  if settings.valid_sub_task_statuses.empty?
+    raise InvalidSettings, 'Must specify at least one valid JIRA sub-task status'
   end
   settings.ancestor_branches.each do |branch, ancestor_branch|
     if ancestor_branch.blank?

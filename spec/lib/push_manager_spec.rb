@@ -12,6 +12,7 @@ describe 'PushManager' do
   end
 
   def mock_jira_find_issue_response(key,
+                                    parent_key: nil,
                                     status: 'Ready to Deploy',
                                     targeted_deploy_date: Time.current.tomorrow,
                                     post_deploy_check_status: 'Ready to Run',
@@ -19,6 +20,7 @@ describe 'PushManager' do
                                     long_running_migration: 'No')
     response = create_test_jira_issue_json(
       key: key,
+      parent_key: parent_key,
       status: status,
       targeted_deploy_date: targeted_deploy_date,
       post_deploy_check_status: post_deploy_check_status,
@@ -108,6 +110,45 @@ describe 'PushManager' do
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
         expect(push.jira_issues_and_pushes.first.error_list).to \
           match_array([JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION])
+      end
+    end
+
+    context 'when sub-task' do
+      before do
+        expect_any_instance_of(Git::Git).to receive(:clone_repository)
+        expect_any_instance_of(Git::Git).to \
+          receive(:commit_diff_refs).and_return([Git::TestHelpers.create_commit(message: 'STORY-1234 Description')])
+      end
+
+      it 'ignores all errors except state' do
+        mock_jira_find_issue_response(
+          'STORY-1234',
+          parent_key: 'STORY-5678',
+          status: 'Wrong State',
+          post_deploy_check_status: nil,
+          targeted_deploy_date: nil,
+          secrets_modified: nil,
+          long_running_migration: nil)
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        expect(push.jira_issues_and_pushes.first.error_list).to \
+          match_array([JiraIssuesAndPushes::ERROR_WRONG_STATE])
+      end
+
+      it 'has different set of valid states' do
+        expect(GlobalSettings.jira.valid_statuses).not_to include('Closed')
+        expect(GlobalSettings.jira.valid_sub_task_statuses).to include('Closed')
+
+        mock_jira_find_issue_response(
+          'STORY-1234',
+          parent_key: 'STORY-5678',
+          status: 'Closed',
+          post_deploy_check_status: nil,
+          targeted_deploy_date: nil,
+          secrets_modified: nil,
+          long_running_migration: nil)
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        expect(push.jira_issues_and_pushes.first.error_list).to \
+          match_array([])
       end
     end
 
