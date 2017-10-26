@@ -92,7 +92,7 @@ describe 'PushManager' do
       end
 
       it 'with a deploy date in the past' do
-        mock_jira_find_issue_response('STORY-1234', targeted_deploy_date: Time.current.yesterday)
+        mock_jira_find_issue_response('STORY-1234', targeted_deploy_date: Time.zone.yesterday)
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
         expect(push.jira_issues_and_pushes.first.error_list).to \
           match_array([JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE])
