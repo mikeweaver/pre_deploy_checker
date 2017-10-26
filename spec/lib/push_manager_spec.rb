@@ -128,7 +128,8 @@ describe 'PushManager' do
           post_deploy_check_status: nil,
           targeted_deploy_date: nil,
           secrets_modified: nil,
-          long_running_migration: nil)
+          long_running_migration: nil
+        )
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
         expect(push.jira_issues_and_pushes.first.error_list).to \
           match_array([JiraIssuesAndPushes::ERROR_WRONG_STATE])
@@ -145,7 +146,8 @@ describe 'PushManager' do
           post_deploy_check_status: nil,
           targeted_deploy_date: nil,
           secrets_modified: nil,
-          long_running_migration: nil)
+          long_running_migration: nil
+        )
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
         expect(push.jira_issues_and_pushes.first.error_list).to \
           match_array([])

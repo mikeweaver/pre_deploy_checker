@@ -73,6 +73,8 @@ Style/FileName:
   Exclude:
     - 'Gemfile'
     - 'Rakefile'
+Style/DoubleNegation:
+  Enabled: false
 AllCops:
   Include:
     - '**/*.rb'

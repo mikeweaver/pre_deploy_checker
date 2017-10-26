@@ -37,7 +37,7 @@ describe 'GlobalSettings' do
           'ancestor_branches' => { 'default' => 'master' },
           'project_keys' => ['STORY'],
           'valid_statuses' => ['Ready to Deploy'],
-          'valid_sub_task_statuses' => ['Ready to Deploy','Closed']
+          'valid_sub_task_statuses' => ['Ready to Deploy', 'Closed']
         )
       )
     end
