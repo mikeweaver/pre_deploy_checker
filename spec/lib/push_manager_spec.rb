@@ -206,9 +206,15 @@ describe 'PushManager' do
   end
 
   it 'ignore commits with matching messages, regardless of case' do
-    GlobalSettings.jira.ignore_commits_with_messages = ['.*ignore1.*', '.*ignore2.*']
+    GlobalSettings.jira.ignore_commits_with_messages = ['.*ignore1.*', '.*This reverts commit [a-z0-9]*\..*']
+    revert_message =
+<<-EOF
+Revert "WEB-1234 Fix bug #1234"
+
+This reverts commit a1024e52e3b4a04b6ef866f62917jb22bffd35d4.
+EOF
     commits = [Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: '--Ignore1--'),
-               Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: '--Ignore2--'),
+               Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: revert_message),
                Git::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha, message: 'KeepMe')]
     expect_any_instance_of(Git::Git).to receive(:clone_repository)
     expect_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return(commits)
