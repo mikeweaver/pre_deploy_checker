@@ -126,6 +126,7 @@ These are the contents of private key files with the linebreaks replaced by \n. 
 4. Base64 encode the edited settings
 5. Save the LastPass pdc-secrets.yaml secret with the new value
 6. Run `kubectl --namespace=deploy-tools edit secrets gcd-secrets` and edit the secrets there too (deploy-tools is the name of the K8 cluster running the PDC; this may change)
+7. Delete the pod so that it will restart with the new settings
 
 ## Known Issues
 * There is a load order problem that may cause the application to complain about required settings missing when running rake tasks. Prepend you command with VALIDATE_SETTINGS=false to disable validation in those cases.
