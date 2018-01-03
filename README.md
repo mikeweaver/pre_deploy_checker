@@ -7,7 +7,7 @@ The pre-deploy checker (PDC) is a tool that correlates commits made to GitHub wi
     * Do not have post deploy checks, secrets checks, migration checks
     * Are not in the Ready to Deploy state
 The PDC sets the status of the branch to Failed if any of the above checks fail. Users can approve the errant JIRA issues or commits via the UI which will then change the status of the branch to Passed.
- 
+
 The tool also allows the user to copy the list of JIRA issues to the clipboard for use in pre-deploy announcements.
 
 ## How it works
@@ -21,7 +21,7 @@ The PDC can be triggered several ways:
     * Requests the details of the JIRA issues from JIRA
     * Examines the commits and JIRA issues for errors
     * Sets the status of the push in GitHub to Passed or Failed, depending on the results of the examination
-    
+
 ### JIRA Push
 * You change the status of an issue in JIRA
 * JIRA sends a notification about the change to the PDC
@@ -98,7 +98,7 @@ ancestor_branches:
 ## Running with Docker
 The PDC is designed to be run in docker. To do so:
 * Create a docker-secrets.env file that contains the same secrets as you are using in your local ENV plus:
-    * GITHUB_PRIVATE_KEY 
+    * GITHUB_PRIVATE_KEY
     * JIRA_PRIVATE_KEY
 These are the contents of private key files with the linebreaks replaced by \n. This is necessary so the keys can be loaded into the containers using environment variables. Sorry.
 * Run docker-compose build
@@ -118,6 +118,15 @@ These are the contents of private key files with the linebreaks replaced by \n. 
 * Use an HTTP client like curl, to POST a GitHub push hook body to http://localhost:3000/api/v1/callbacks/jira/hook
 * You can also find an example hook body in the spec/fixtures/jira_hook_payload.json file in this repo
 * Otherwise, you will need to setup the PDC to receive hooks from JIRA and check the log, or use a service like requestb.in to receive hooks from JIRA.
+
+## Editing the Settings
+1. Open pdc-secrets.yaml in LastPass
+2. Copy the value of settings-file-content and Base64 decode it
+3. Edit what you want
+4. Base64 encode the edited settings
+5. Save the LastPass pdc-secrets.yaml secret with the new value
+6. Run `kubectl --namespace=deploy-tools edit secrets gcd-secrets` and edit the secrets there too (deploy-tools is the name of the K8 cluster running the PDC; this may change)
+7. Delete the pod so that it will restart with the new settings
 
 ## Known Issues
 * There is a load order problem that may cause the application to complain about required settings missing when running rake tasks. Prepend you command with VALIDATE_SETTINGS=false to disable validation in those cases.
