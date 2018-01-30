@@ -100,9 +100,9 @@ def create_test_jira_issue_json(key: nil,
     end
 
     if secrets_modified
-      json['fields']['customfield_12500']['value'] = secrets_modified
+      json['fields']['customfield_13528'][0]['value'] = secrets_modified
     else
-      json['fields'].except!('customfield_12500')
+      json['fields'].except!('customfield_13528')
     end
 
     if long_running_migration

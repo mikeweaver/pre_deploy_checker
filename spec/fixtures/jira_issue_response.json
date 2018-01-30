@@ -430,11 +430,11 @@
     ],
     "customfield_10004": null,
     "customfield_10400": null,
-    "customfield_12500": {
-      "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/customFieldOption\/11101",
+    "customfield_13528": [{
+      "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/customFieldOption\/11300",
       "value": "No",
       "id": "11101"
-    },
+    }],
     "customfield_11402": "--",
     "customfield_11600": null,
     "environment": null,
