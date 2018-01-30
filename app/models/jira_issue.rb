@@ -92,7 +92,7 @@ class JiraIssue < ActiveRecord::Base
     def extract_custom_multi_select_field_from_jira_data(jira_data, field_number)
       field_name = "customfield_#{field_number}"
       if jira_data.fields[field_name] # rubocop:disable Style/SafeNavigation
-        jira_data.fields[field_name]&.collect do |value|
+        jira_data.fields[field_name].collect do |value|
           value['value']
         end.join ', '
       end

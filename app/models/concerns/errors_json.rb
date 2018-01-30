@@ -51,7 +51,7 @@ module ErrorsJson
       errors? && ignore_errors
     end
 
-    def has_error?(error) # rubocop:disable Style/PredicateName
+    def has_error?(error) # rubocop:disable Naming/PredicateName
       error_list.include?(error)
     end
   end

@@ -74,7 +74,7 @@ describe 'JiraIssue' do
 
       expect(User.count).to eq(2)
       expect(orginal_issue.assignee.id).not_to eq(updated_issue.assignee.id)
-      expect(updated_issue.assignee.email = 'otheruser@test.com')
+      expect(updated_issue.assignee.email).to eq('otheruser@test.com')
     end
   end
 
@@ -147,7 +147,7 @@ describe 'JiraIssue' do
 
       expect(JiraIssue.count).to eq(3)
       expect(orginal_issue.parent_issue.id).not_to eq(updated_issue.parent_issue.id)
-      expect(updated_issue.parent_issue.key = 'STORY-9999')
+      expect(updated_issue.parent_issue.key).to eq('STORY-9999')
     end
   end
 

@@ -25,7 +25,7 @@ class PushChangeHandler
 
   private
 
-  def set_status_for_push!(push) # rubocop:disable Style/AccessorMethodName
+  def set_status_for_push!(push) # rubocop:disable Naming/AccessorMethodName
     api = Github::Api::Status.new(Rails.application.secrets.github_user_name,
                                   Rails.application.secrets.github_password)
     api.set_status(push.branch.repository.name,

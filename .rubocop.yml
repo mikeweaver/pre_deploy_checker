@@ -55,6 +55,16 @@ RSpec/BeforeAfterAll:
   Enabled: false
 RSpec/MessageSpies:
   Enabled: false
+RSpec/PredicateMatcher:
+  Enabled: false
+RSpec/ExpectInHook:
+  Enabled: false
+RSpec/ContextWording:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/HookArgument:
+  Enabled: false
 Style/NumericLiterals:
   Enabled: false
 Style/NumericPredicate:
@@ -66,18 +76,19 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'config/routes.rb'
     - 'app/models/concerns/errors_json.rb'
-Style/VariableNumber:
+Naming/VariableNumber:
   Exclude:
     - 'spec/**/*'
 Style/FrozenStringLiteralComment:
   Enabled: false
-Style/FileName:
+Naming/FileName:
   Exclude:
     - 'Gemfile'
     - 'Rakefile'
 Style/DoubleNegation:
   Enabled: false
 AllCops:
+  TargetRubyVersion: 2.3.1
   Include:
     - '**/*.rb'
   Exclude:
