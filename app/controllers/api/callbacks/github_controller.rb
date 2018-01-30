@@ -16,7 +16,7 @@ module Api
 
       def parse_request
         @payload = JSON.parse(request.body.read)
-      rescue
+      rescue JSON::ParserError
         render(text: 'Invalid JSON', status: :bad_request)
       end
     end

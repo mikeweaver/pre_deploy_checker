@@ -13,6 +13,8 @@ Rails/SkipsModelValidations:
     - 'app/models/jira_issues_and_pushes.rb'
 Rails/HttpPositionalArguments:
   Enabled: false
+Rails/ApplicationRecord:
+  Enabled: false
 Style/Lambda:
   Enabled: false
 Style/Documentation:

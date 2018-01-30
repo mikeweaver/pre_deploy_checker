@@ -40,7 +40,7 @@ module Github
       def git_branch_data
         @git_branch_data ||= Git::GitBranch.new(repository_path,
                                                 branch_name,
-                                                DateTime.iso8601(head_commit[:timestamp]),
+                                                Time.iso8601(head_commit[:timestamp]),
                                                 author_name,
                                                 author_email)
       end

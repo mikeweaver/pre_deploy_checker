@@ -23,7 +23,7 @@ DEFAULT_JIRA_SETTINGS = {
 class InvalidSettings < StandardError; end
 
 def skip_validations
-  ENV['VALIDATE_SETTINGS'] && ENV['VALIDATE_SETTINGS'].casecmp('false')
+  ENV['VALIDATE_SETTINGS']&.casecmp('false')
 end
 
 def validate_common_settings(settings)

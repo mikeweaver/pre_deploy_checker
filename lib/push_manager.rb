@@ -74,7 +74,7 @@ class PushManager
 
     def extract_jira_issue_key(commit)
       match = commit.message.match(jira_issue_regexp)
-      if match
+      if match # rubocop:disable Style/SafeNavigation
         match.captures[0].upcase.sub(/[ _]/, '-')
       end
     end

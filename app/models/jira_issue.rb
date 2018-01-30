@@ -19,9 +19,9 @@ class JiraIssue < ActiveRecord::Base
 
   belongs_to :assignee, class_name: User, inverse_of: :commits, required: false
   belongs_to :parent_issue, class_name: JiraIssue, inverse_of: :sub_tasks, required: false
-  has_many :sub_tasks, class_name: JiraIssue
-  has_many :commits, foreign_key: 'jira_issue_id'
-  has_many :jira_issues_and_pushes, class_name: :JiraIssuesAndPushes, inverse_of: :jira_issue
+  has_many :sub_tasks, class_name: JiraIssue, dependent: :nullify
+  has_many :commits, foreign_key: 'jira_issue_id', dependent: :nullify
+  has_many :jira_issues_and_pushes, class_name: :JiraIssuesAndPushes, inverse_of: :jira_issue, dependent: :destroy
   has_many :pushes, through: :jira_issues_and_pushes
 
   def commits_for_push(push)
@@ -91,8 +91,8 @@ class JiraIssue < ActiveRecord::Base
 
     def extract_custom_multi_select_field_from_jira_data(jira_data, field_number)
       field_name = "customfield_#{field_number}"
-      if jira_data.fields[field_name]
-        jira_data.fields[field_name].collect do |value|
+      if jira_data.fields[field_name] # rubocop:disable Style/SafeNavigation
+        jira_data.fields[field_name]&.collect do |value|
           value['value']
         end.join ', '
       end
