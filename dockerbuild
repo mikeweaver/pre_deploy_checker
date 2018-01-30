@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker build --build-arg RAILS_ENV=production -t latest .
+docker build --build-arg RAILS_ENV=production -t invocaops/pre_deploy_checker:latest .
