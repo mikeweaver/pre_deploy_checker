@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+docker build --build-arg RAILS_ENV=production -t latest .
