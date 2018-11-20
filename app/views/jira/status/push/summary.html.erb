@@ -10,15 +10,14 @@
       <div class="col-md-8">
         <div class="row summary-tile-container">
           <%= render partial: "jira/status/push/summary_tiles/issue_count"%>
-          <%= render partial: "jira/status/push/summary_tiles/secrets",        locals: { push: @push } %>
           <%= render partial: "jira/status/push/summary_tiles/long_migration", locals: { push: @push } %>
+          <%= render partial: "jira/status/push/summary_tiles/deploy_types", locals: { deploy_types: @push.deploy_types } %>
         </div>
         <div class="summary-tile-container">
           <%= render partial: "jira/status/push/summary_tiles/tickets", locals: { issues: @push.sorted_jira_issues } %>
         </div>
       </div>
       <div class="col-md-4">
-        <%= render partial: "jira/status/push/summary_tiles/deploy_types", locals: { deploy_types: @push.deploy_types } %>
         <%= render partial: "jira/status/push/summary_tiles/committers" %>
       </div>
     </div>
@@ -41,14 +40,6 @@
           </td>
           <td>
             <%= deploy_reps.map { |(rep, count)| "#{count}: #{rep}" }.join("<br>").html_safe %>
-          </td>
-        </tr>
-        <tr class=<%= any_secrets_modified? ? "danger" : "success" %>>
-          <td>
-            Secrets modified
-          </td>
-          <td>
-            <%= any_secrets_modified?.to_s.capitalize %>
           </td>
         </tr>
       </table>

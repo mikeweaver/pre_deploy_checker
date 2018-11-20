@@ -9,7 +9,7 @@ class JiraIssue < ActiveRecord::Base
     targeted_deploy_date :date, null: true
     post_deploy_check_status :text, limit: 255, null: true
     deploy_type :text, limit: 255, null: true
-    secrets_modified :text, limit: 255, null: true
+    secrets_modified :text, limit: 255, null: true # deprecated
     long_running_migration :text, limit: 255, null: true
     timestamps
   end
@@ -26,10 +26,6 @@ class JiraIssue < ActiveRecord::Base
 
   def commits_for_push(push)
     commits.joins(:commits_and_pushes).where('commits_and_pushes.push_id = ?', push.id)
-  end
-
-  def secrets_modified?
-    secrets_modified && secrets_modified == 'Yes'
   end
 
   def long_running_migration?
@@ -59,7 +55,6 @@ class JiraIssue < ActiveRecord::Base
       issue.targeted_deploy_date = extract_custom_date_field_from_jira_data(jira_data, 10600)
       issue.post_deploy_check_status = extract_custom_select_field_from_jira_data(jira_data, 12202)
       issue.deploy_type = extract_custom_multi_select_field_from_jira_data(jira_data, 12501)
-      issue.secrets_modified = extract_custom_multi_select_field_from_jira_data(jira_data, 13528)
       issue.long_running_migration = extract_custom_multi_select_field_from_jira_data(jira_data, 10601)
 
       if jira_data.assignee

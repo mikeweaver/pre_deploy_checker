@@ -13,7 +13,6 @@ module Jira
           JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE.to_s => 'JIRA issue(s) with no deploy date',
           JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS.to_s =>
             'JIRA issue(s) with the wrong post deploy check status',
-          JiraIssuesAndPushes::ERROR_BLANK_SECRETS_MODIFIED.to_s => 'JIRA issue(s) with blank secrets fields',
           JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION.to_s => 'JIRA issue(s) with blank migration fields'
         }
       }.freeze
@@ -28,7 +27,6 @@ module Jira
           JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE.to_s => 'The deploy date in the past',
           JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE.to_s => 'Has no deploy date',
           JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS.to_s => 'Wrong post deploy check status',
-          JiraIssuesAndPushes::ERROR_BLANK_SECRETS_MODIFIED.to_s => 'Secrets field is blank',
           JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION.to_s => 'Migrations field is blank'
         }
       }.freeze
@@ -106,13 +104,6 @@ module Jira
         reps.sort_by { |name, _| name }
       end
       helper_method :deploy_reps
-
-      def any_secrets_modified?
-        @push.jira_issues_and_pushes.any? do |issue_and_push|
-          issue_and_push.jira_issue.secrets_modified?
-        end
-      end
-      helper_method :any_secrets_modified?
 
       def map_error_code_to_message(error_object, error_code)
         ERROR_CODE_PLURAL_MAP[error_object][error_code]

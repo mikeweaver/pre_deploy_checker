@@ -4,7 +4,7 @@ The pre-deploy checker (PDC) is a tool that correlates commits made to GitHub wi
 * JIRA issues that are in the Ready to Deploy state, but have no commits
 * For JIRA issues that do have commits it identifies issues that:
     * Have the no deploy date or the wrong deploy date
-    * Do not have post deploy checks, secrets checks, migration checks
+    * Do not have post deploy checks, migration checks
     * Are not in the Ready to Deploy state
 The PDC sets the status of the branch to Failed if any of the above checks fail. Users can approve the errant JIRA issues or commits via the UI which will then change the status of the branch to Passed.
 
@@ -67,11 +67,11 @@ ancestor_branches:
 * Install git (>= 2.6.2)
 * Install docker (optional)
 * Configure git authentication to access the repo(s) you want the pre-deploy checker to operate upon
-* Run bundle install
-* Run bundle exec rake db:generate RAILS_ENV=development
+* Run `bundle install`
+* Run `VALIDATE_SETTINGS=false bundle exec rake db:setup RAILS_ENV=development`
 * Get OAuth credentials for your JIRA instance. There are some instructions here: https://github.com/nburwell/jira-glue
 * Create a data/config/settings.development.yml file (See Settings File section below.)
-* Configure secrets in the environment:
+* Configure secrets, via environment variables of the following names:
     * GITHUB_USER_NAME: GitHub credentials. Recommend creating a personal access token that has "repo:status" scope.
     * GITHUB_PASSWORD
     * JIRA_SITE: Full URL for JIRA instance

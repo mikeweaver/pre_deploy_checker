@@ -144,10 +144,6 @@ class PushManager
           errors << JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE
         end
 
-        unless jira_issue.secrets_modified
-          errors << JiraIssuesAndPushes::ERROR_BLANK_SECRETS_MODIFIED
-        end
-
         unless jira_issue.long_running_migration
           errors << JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION
         end
