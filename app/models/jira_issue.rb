@@ -9,7 +9,7 @@ class JiraIssue < ActiveRecord::Base
     targeted_deploy_date :date, null: true
     post_deploy_check_status :text, limit: 255, null: true
     deploy_type :text, limit: 255, null: true
-    secrets_modified :text, limit: 255, null: true          # deprecated
+    secrets_modified :text, limit: 255, null: true # deprecated
     long_running_migration :text, limit: 255, null: true
     timestamps
   end
