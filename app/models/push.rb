@@ -73,10 +73,6 @@ class Push < ActiveRecord::Base
     jira_issues.map(&:deploy_types).flatten.uniq
   end
 
-  def secrets_modified?
-    unmerged_jira_issues.any?(&:secrets_modified?)
-  end
-
   def long_migration?
     unmerged_jira_issues.any?(&:long_running_migration?)
   end

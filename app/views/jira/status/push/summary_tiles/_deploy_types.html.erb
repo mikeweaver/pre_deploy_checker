@@ -1,3 +1,1 @@
-<div class="row">
-  <%= render partial: "jira/status/push/summary_tiles/base_tile", locals: { title: "Deploy Types", value: deploy_types.join("<br>").html_safe, errors: false, warning: false, col_width: "col-md-12" } %>
-</div>
+<%= render partial: "jira/status/push/summary_tiles/base_tile", locals: { title: "Deploy Types", value: deploy_types.join("<br>").html_safe, errors: false, warning: false } %>

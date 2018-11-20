@@ -63,7 +63,6 @@ def create_test_jira_issue_json(key: nil,
                                 post_deploy_check_status: 'Ready to Run',
                                 deploy_type: nil,
                                 parent_key: nil,
-                                secrets_modified: 'No',
                                 long_running_migration: 'No')
   json = if parent_key
            load_json_fixture('jira_sub_task_response')
@@ -97,12 +96,6 @@ def create_test_jira_issue_json(key: nil,
 
     if deploy_type
       json['fields']['customfield_12501'][0]['value'] = deploy_type
-    end
-
-    if secrets_modified
-      json['fields']['customfield_13528'][0]['value'] = secrets_modified
-    else
-      json['fields'].except!('customfield_13528')
     end
 
     if long_running_migration
