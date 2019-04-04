@@ -88,7 +88,7 @@ Naming/FileName:
 Style/DoubleNegation:
   Enabled: false
 AllCops:
-  TargetRubyVersion: 2.3.1
+  TargetRubyVersion: 2.4.2
   Include:
     - '**/*.rb'
   Exclude:

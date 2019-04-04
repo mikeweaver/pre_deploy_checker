@@ -192,6 +192,18 @@ describe 'PushManager' do
       expect(push.commits_and_pushes.first.error_list).to \
         match_array([CommitsAndPushes::ERROR_ORPHAN_NO_JIRA_ISSUE_NUMBER])
     end
+
+    ['no_jira', 'no-jira', 'NO-JIRA', 'NO_JIRA'].each do |message|
+      it "does not error when message has #{message} in it" do
+        expect_any_instance_of(Git::Git).to receive(:clone_repository)
+        expect_any_instance_of(Git::Git).to receive(:commit_diff_refs) {
+          [Git::TestHelpers.create_commit(message: "#{message}: abc 123")]
+        }
+
+        push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        expect(push.commits_and_pushes.first.error_list).to match_array([])
+      end
+    end
   end
 
   it 'ignore commits with matching messages, regardless of case' do

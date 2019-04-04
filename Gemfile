@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.11.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -57,8 +57,8 @@ group :production do
   gem 'unicorn'
 end
 
-gem 'git_lib', '1.0.0', git: 'https://github.com/mikeweaver/git_lib.git', ref: '033b5ff6376a138f90a7debaf05c0f9549764f9f'
-gem 'git_models', '1.0.0', git: 'https://github.com/mikeweaver/git_models.git', ref: 'f64190a0a20e465bdff8dfb796651be14047cefe'
+gem 'git_lib', '1.1.0', git: 'https://github.com/Invoca/git_lib.git', ref: '61e412d05eaca46c0416e4602e164ba59d3c9a74'
+gem 'git_models', '1.1.0', git: 'https://github.com/Invoca/git_models.git', ref: 'fda1d7b166a57d07c2a331d11759ecd95af271c5'
 gem 'hobo_fields'
 gem 'delayed_job_active_record'
 gem 'daemons'

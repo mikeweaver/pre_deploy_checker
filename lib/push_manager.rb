@@ -167,8 +167,8 @@ class PushManager
 
     def detect_errors_for_commit(commit)
       errors = []
-      unless commit.jira_issue(true)
-        errors << if commit.message.match(jira_issue_regexp)
+      unless commit.jira_issue(true) || commit.message.downcase.match?(/no[-,_]jira/)
+        errors << if commit.message.match?(jira_issue_regexp)
                     CommitsAndPushes::ERROR_ORPHAN_JIRA_ISSUE_NOT_FOUND
                   else
                     CommitsAndPushes::ERROR_ORPHAN_NO_JIRA_ISSUE_NUMBER
