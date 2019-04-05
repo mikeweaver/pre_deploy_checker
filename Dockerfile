@@ -18,13 +18,6 @@ RUN apt-get update && \
     ssh && \
     # remove apt-get data to save space
     rm -rf /var/lib/apt/lists/* && \
-    # build the git client (we need a newer version that ships with debian)
-#    git clone git://git.kernel.org/pub/scm/git/git.git && \
-#    cd git && \
-#    git checkout e2b2d6a172b76d44cb7b1ddb12ea5bfac9613a44 && \
-#    make configure && \
-#    ./configure --prefix=/usr && \
-#    make install && \
     # make a directory for our app
     mkdir -p ${HOME_DIR}
 
