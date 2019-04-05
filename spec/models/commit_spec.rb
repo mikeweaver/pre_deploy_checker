@@ -36,7 +36,7 @@ describe 'Commit' do
     end
 
     it 'returns false if message does not contain a no_jira tag' do
-      @commit.message = "not tagged with the no and jira tag"
+      @commit.message = 'not tagged with the no and jira tag'
       expect(@commit.message_contains_no_jira_tag?).to eq(false)
     end
   end

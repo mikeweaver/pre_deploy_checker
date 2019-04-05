@@ -74,15 +74,13 @@ describe 'Push' do
         expect(@push.no_jira_commits.empty?).to be_truthy
       end
 
-      context '#no_jira_commits?' do
-        it 'returns true if there are commits and pushes with no_jira set to true' do
-          expect(@push.no_jira_commits?).to be_truthy
-        end
+      it 'returns true if there are commits and pushes with no_jira set to true' do
+        expect(@push.no_jira_commits?).to be_truthy
+      end
 
-        it 'returns false if there are no commits and pushes with no_jira set to true' do
-          @no_jira_record.destroy!
-          expect(@push.reload.no_jira_commits?).to be_falsey
-        end
+      it 'returns false if there are no commits and pushes with no_jira set to true' do
+        @no_jira_record.destroy!
+        expect(@push.reload.no_jira_commits?).to be_falsey
       end
     end
 
