@@ -57,8 +57,8 @@ group :production do
   gem 'unicorn'
 end
 
-gem 'git_lib', '1.1.0', git: 'https://github.com/Invoca/git_lib.git', ref: '61e412d05eaca46c0416e4602e164ba59d3c9a74'
-gem 'git_models', '1.1.0', git: 'https://github.com/Invoca/git_models.git', ref: 'fda1d7b166a57d07c2a331d11759ecd95af271c5'
+gem 'git_lib', '1.1.0', git: 'https://github.com/Invoca/git_lib.git', ref: '1770e03ba5c39d5545bc614cc59eef32f7471290'
+gem 'git_models', '1.1.0', git: 'https://github.com/Invoca/git_models.git', ref: '6041b229851a89570621f42c7d32f94208a99e5f'
 gem 'hobo_fields'
 gem 'delayed_job_active_record'
 gem 'daemons'
