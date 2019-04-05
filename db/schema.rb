@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170123051044) do
+ActiveRecord::Schema.define(version: 20190405200036) do
 
   create_table "branches", force: :cascade do |t|
     t.datetime "git_updated_at",              null: false
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20170123051044) do
     t.boolean "ignore_errors",             default: false
     t.integer "push_id"
     t.integer "commit_id"
+    t.boolean "no_jira",                   default: false, null: false
   end
 
   add_index "commits_and_pushes", ["commit_id"], name: "index_commits_and_pushes_on_commit_id"

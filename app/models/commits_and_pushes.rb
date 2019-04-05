@@ -3,11 +3,13 @@ class CommitsAndPushes < ActiveRecord::Base
 
   ERROR_ORPHAN_NO_JIRA_ISSUE_NUMBER = 'orphan_no_jira_issue_number'.freeze
   ERROR_ORPHAN_JIRA_ISSUE_NOT_FOUND = 'orphan_jira_issue_not_found'.freeze
+  NO_JIRA_FOUND                     = 'No-Jira tag found'.freeze
 
   belongs_to :push, inverse_of: :commits_and_pushes, required: true
   belongs_to :commit, inverse_of: :commits_and_pushes, required: true
 
   scope :for_push, lambda { |push| where(push: push) }
+  scope :with_no_jira_tag, -> { where(no_jira: true) }
 
   def self.create_or_update!(commit, push, error_list = nil)
     record = CommitsAndPushes.where(commit: commit, push: push).first_or_initialize

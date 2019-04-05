@@ -32,7 +32,7 @@ class PushManager
 
       # detect errors in the commit and pushes
       detect_errors_for_linked_jira_issues(push)
-      detect_errors_for_linked_commits(push)
+      detect_missing_jira_issues_for_linked_commits(push)
 
       # compute status
       push.compute_status!
@@ -158,16 +158,21 @@ class PushManager
       end
     end
 
-    def detect_errors_for_linked_commits(push)
+    def detect_missing_jira_issues_for_linked_commits(push)
       push.commits_and_pushes.each do |commit_and_push|
-        commit_and_push.error_list = detect_errors_for_commit(commit_and_push.commit)
+        if commit_and_push.commit.message_contains_no_jira_tag?
+          commit_and_push.no_jira = true
+        else
+          commit_and_push.error_list = detect_errors_for_commit(commit_and_push.commit)
+        end
+
         commit_and_push.save!
       end
     end
 
     def detect_errors_for_commit(commit)
       errors = []
-      unless commit.jira_issue(true) || commit.message.downcase.match?(/no[-,_]jira/)
+      unless commit.jira_issue(true)
         errors << if commit.message.match?(jira_issue_regexp)
                     CommitsAndPushes::ERROR_ORPHAN_JIRA_ISSUE_NOT_FOUND
                   else

@@ -23,6 +23,24 @@ describe 'Commit' do
     expect(commit.jira_issue.id).to eq(jira_issue.id)
   end
 
+  context '#message_contains_no_jira_tag?' do
+    before do
+      @commit = Commit.create_from_github_data!(payload)
+    end
+
+    ['no_jira', 'no-jira', 'NO-JIRA', 'NO_JIRA'].each do |message|
+      it "returns true if message contains #{message}" do
+        @commit.message = "#{message}: details"
+        expect(@commit.message_contains_no_jira_tag?).to eq(true)
+      end
+    end
+
+    it 'returns false if message does not contain a no_jira tag' do
+      @commit.message = "not tagged with the no and jira tag"
+      expect(@commit.message_contains_no_jira_tag?).to eq(false)
+    end
+  end
+
   context 'pushes' do
     before do
       @commit = GitModels::TestHelpers.create_commit

@@ -57,6 +57,7 @@ group :production do
   gem 'unicorn'
 end
 
+gem 'pry'
 gem 'git_lib', '1.1.0', git: 'https://github.com/Invoca/git_lib.git', ref: '1770e03ba5c39d5545bc614cc59eef32f7471290'
 gem 'git_models', '1.1.0', git: 'https://github.com/Invoca/git_models.git', ref: '6041b229851a89570621f42c7d32f94208a99e5f'
 gem 'hobo_fields'

@@ -13,4 +13,8 @@ class Commit < ActiveRecord::Base
     commit.save!
     commit
   end
+
+  def message_contains_no_jira_tag?
+    message.downcase.match?(/no[-,_,\s]jira/)
+  end
 end
