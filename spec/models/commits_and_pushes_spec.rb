@@ -154,9 +154,9 @@ describe 'CommitsAndPushes' do
 
   context '#with_no_jira_tag' do
     before do
-      second_commit   =  GitModels::TestHelpers.create_commit(sha: '1234567890123456789012345678901234567891')
+      second_commit   = GitModels::TestHelpers.create_commit(sha: '1234567890123456789012345678901234567891')
       @normal_record  = CommitsAndPushes.create_or_update!(@commit, @push)
-      @no_jira_record =  CommitsAndPushes.create_or_update!(second_commit, @push)
+      @no_jira_record = CommitsAndPushes.create_or_update!(second_commit, @push)
       @no_jira_record.no_jira = true
       @no_jira_record.save!
     end

@@ -194,7 +194,6 @@ describe 'PushManager' do
       expect(push.commits_and_pushes.first.no_jira).to eq(false)
     end
 
-
     it "sets the commits_and_pushes.no_jira to true if message contains no_jira tag" do
       expect_any_instance_of(Git::Git).to receive(:clone_repository)
       expect_any_instance_of(Git::Git).to receive(:commit_diff_refs) {
