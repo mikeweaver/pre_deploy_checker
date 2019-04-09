@@ -29,7 +29,7 @@ group :test do
   gem 'fakefs', require: 'fakefs/safe'
   gem 'mutant-rspec', require: false
   gem 'timecop'
-  gem 'coveralls', require: false
+  gem 'coveralls', '~> 0.8.22'
   gem 'rspec'
   gem 'rspec-rails'
   gem 'database_cleaner'
