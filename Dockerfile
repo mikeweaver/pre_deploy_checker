@@ -18,6 +18,12 @@ RUN apt-get update && \
     ssh && \
     # remove apt-get data to save space
     rm -rf /var/lib/apt/lists/* && \
+    git clone git://git.kernel.org/pub/scm/git/git.git && \
+    cd git && \
+    git checkout 2bb64867dc05d9a8432488ddc1d22a194cee4d31 && \
+    make configure && \
+    ./configure --prefix=/usr && \
+    make install && \
     # make a directory for our app
     mkdir -p ${HOME_DIR}
 
