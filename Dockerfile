@@ -7,6 +7,7 @@ RUN apt-get update && \
     apt-get install -y \
     build-essential \
     git-core \
+    autoconf \
     sqlite3 \
     libsqlite3-dev \
     nodejs \
@@ -18,6 +19,7 @@ RUN apt-get update && \
     ssh && \
     # remove apt-get data to save space
     rm -rf /var/lib/apt/lists/* && \
+    # install newer version of git for date parsing
     git clone git://git.kernel.org/pub/scm/git/git.git && \
     cd git && \
     git checkout 2bb64867dc05d9a8432488ddc1d22a194cee4d31 && \
