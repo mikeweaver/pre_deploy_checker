@@ -1,4 +1,4 @@
-FROM ruby:2.3.1
+FROM invocaops/ruby:2.4.2
 
 ARG RAILS_ENV
 ENV HOME_DIR="/usr/src/pre_deploy_checker"
@@ -14,16 +14,10 @@ RUN apt-get update && \
     libexpat1-dev \
     gettext \
     libz-dev \
-    libssl-dev && \
+    libssl-dev \
+    ssh && \
     # remove apt-get data to save space
     rm -rf /var/lib/apt/lists/* && \
-    # build the git client (we need a newer version that ships with debian)
-    git clone git://git.kernel.org/pub/scm/git/git.git && \
-    cd git && \
-    git checkout e2b2d6a172b76d44cb7b1ddb12ea5bfac9613a44 && \
-    make configure && \
-    ./configure --prefix=/usr && \
-    make install && \
     # make a directory for our app
     mkdir -p ${HOME_DIR}
 

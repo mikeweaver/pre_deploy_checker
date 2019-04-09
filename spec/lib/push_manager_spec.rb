@@ -191,6 +191,18 @@ describe 'PushManager' do
       push = PushManager.process_push!(Push.create_from_github_data!(payload))
       expect(push.commits_and_pushes.first.error_list).to \
         match_array([CommitsAndPushes::ERROR_ORPHAN_NO_JIRA_ISSUE_NUMBER])
+      expect(push.commits_and_pushes.first.no_jira).to eq(false)
+    end
+
+    it 'sets the commits_and_pushes.no_jira to true if message contains no_jira tag' do
+      expect_any_instance_of(Git::Git).to receive(:clone_repository)
+      expect_any_instance_of(Git::Git).to receive(:commit_diff_refs) {
+        [Git::TestHelpers.create_commit(message: 'no_jira: abc 123')]
+      }
+
+      push = PushManager.process_push!(Push.create_from_github_data!(payload))
+      expect(push.commits_and_pushes.first.error_list).to match_array([])
+      expect(push.commits_and_pushes.first.no_jira).to eq(true)
     end
   end
 

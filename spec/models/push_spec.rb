@@ -56,6 +56,34 @@ describe 'Push' do
       expect(@push.commits_with_unignored_errors?).to be_truthy
     end
 
+    context 'no_jira commits_and_pushes' do
+      before do
+        @no_jira_record = @push.commits_and_pushes.first
+        @no_jira_record.no_jira = true
+        @no_jira_record.save!
+      end
+
+      it 'can detect records with no_jira set to true' do
+        no_jira_commits = @push.no_jira_commits
+        expect(no_jira_commits.count).to eq(1)
+        expect(no_jira_commits.first).to eq(@no_jira_record)
+      end
+
+      it 'returns nothing if no records have no_jira set to true' do
+        @no_jira_record.destroy!
+        expect(@push.no_jira_commits.empty?).to be_truthy
+      end
+
+      it 'returns true if there are commits and pushes with no_jira set to true' do
+        expect(@push.no_jira_commits?).to be_truthy
+      end
+
+      it 'returns false if there are no commits and pushes with no_jira set to true' do
+        @no_jira_record.destroy!
+        expect(@push.reload.no_jira_commits?).to be_falsey
+      end
+    end
+
     it 'can compute status' do
       CommitsAndPushes.create_or_update!(GitModels::TestHelpers.create_commit(sha: Git::TestHelpers.create_sha), @push)
       expect(@push.compute_status!).to eq(Github::Api::Status::STATE_SUCCESS)

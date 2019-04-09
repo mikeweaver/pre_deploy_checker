@@ -61,6 +61,14 @@ class Push < ActiveRecord::Base
     commits_and_pushes.with_errors
   end
 
+  def no_jira_commits
+    commits_and_pushes.with_no_jira_tag
+  end
+
+  def no_jira_commits?
+    no_jira_commits.any?
+  end
+
   def errors?
     commits_with_errors? || jira_issues_with_errors?
   end

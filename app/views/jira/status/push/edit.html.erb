@@ -31,6 +31,9 @@
         <%else%>
           <h4>All commits in this branch are OK</h4>
         <%end%>
+        <%if @push.no_jira_commits? %>
+          <%= render partial: "no_jira_commits", locals: { push: @push } %>
+        <%end%>
       </div>
 
       <%if false%>

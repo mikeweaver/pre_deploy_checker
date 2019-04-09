@@ -1,0 +1,20 @@
+<h4><%=@push.no_jira_commits.count%> No-Jira Commit(s)</h4>
+<table class="table table-striped table-with-border">
+  <thead>
+  <tr>
+    <th>SHA</th>
+    <th>Author Name</th>
+    <th>Commit Message</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%@push.no_jira_commits.each do |commit_and_push|%>
+    <% commit = commit_and_push.commit %>
+    <tr title="<%=commit.short_sha%>">
+      <td><%=link_to(commit.short_sha, github_url_for_commit(commit), target: '_blank')%></td>
+      <td nowrap><%=commit.author.name%></td>
+      <td><%=commit.message%></td>
+    </tr>
+  <%end%>
+  </tbody>
+</table>
