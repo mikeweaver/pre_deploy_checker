@@ -24,6 +24,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass'
 
+gem 'nokogiri', '1.10.3'
+
 group :test do
   gem 'webmock'
   gem 'fakefs', require: 'fakefs/safe'
