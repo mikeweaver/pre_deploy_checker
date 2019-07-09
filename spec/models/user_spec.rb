@@ -11,7 +11,7 @@ describe 'User' do
     user = User.create_from_jira_data!(jira_user)
 
     expect(user.name).to eq('Author Name')
-    expect(user.email).to eq('author@email.com')
+    expect(user.email).to eq('aname@email.com')
     expect(user.created_at).not_to be_nil
     expect(user.updated_at).not_to be_nil
   end

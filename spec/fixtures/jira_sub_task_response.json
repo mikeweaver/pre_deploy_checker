@@ -94,7 +94,6 @@
       "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=bob",
       "name": "bob",
       "key": "bob",
-      "emailAddress": "bob@invoca.com",
       "avatarUrls": {
         "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=bob&avatarId=12200",
         "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=bob&avatarId=12200",
@@ -143,7 +142,6 @@
       "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=sstorlie",
       "name": "sstorlie",
       "key": "sstorlie",
-      "emailAddress": "sstorlie@invoca.com",
       "avatarUrls": {
         "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?avatarId=10122",
         "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&avatarId=10122",
@@ -161,7 +159,6 @@
       "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=sstorlie",
       "name": "sstorlie",
       "key": "sstorlie",
-      "emailAddress": "sstorlie@invoca.com",
       "avatarUrls": {
         "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?avatarId=10122",
         "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&avatarId=10122",
@@ -192,7 +189,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=sstorlie",
             "name": "sstorlie",
             "key": "sstorlie",
-            "emailAddress": "sstorlie@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?avatarId=10122",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&avatarId=10122",
@@ -208,7 +204,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=sstorlie",
             "name": "sstorlie",
             "key": "sstorlie",
-            "emailAddress": "sstorlie@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?avatarId=10122",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&avatarId=10122",

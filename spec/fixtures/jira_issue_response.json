@@ -228,7 +228,6 @@
       "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=aname",
       "name": "aname",
       "key": "aname",
-      "emailAddress": "author@email.com",
       "avatarUrls": {
         "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=aname&avatarId=17201",
         "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=aname&avatarId=17201",
@@ -265,7 +264,6 @@
       "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=nick",
       "name": "nick",
       "key": "nick",
-      "emailAddress": "nick@invoca.com",
       "avatarUrls": {
         "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=nick&avatarId=10301",
         "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=nick&avatarId=10301",
@@ -312,7 +310,6 @@
           "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=nick",
           "name": "nick",
           "key": "nick",
-          "emailAddress": "nick@invoca.com",
           "avatarUrls": {
             "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=nick&avatarId=10301",
             "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=nick&avatarId=10301",
@@ -337,7 +334,6 @@
           "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=avillalobos",
           "name": "avillalobos",
           "key": "avillalobos",
-          "emailAddress": "avillalobos@invoca.com",
           "avatarUrls": {
             "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=avillalobos&avatarId=17200",
             "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=avillalobos&avatarId=17200",
@@ -362,7 +358,6 @@
       "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=sstorlie",
       "name": "sstorlie",
       "key": "sstorlie",
-      "emailAddress": "sstorlie@invoca.com",
       "avatarUrls": {
         "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?avatarId=10122",
         "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&avatarId=10122",
@@ -380,7 +375,6 @@
       "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=sstorlie",
       "name": "sstorlie",
       "key": "sstorlie",
-      "emailAddress": "sstorlie@invoca.com",
       "avatarUrls": {
         "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?avatarId=10122",
         "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&avatarId=10122",
@@ -454,7 +448,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=avillalobos",
             "name": "avillalobos",
             "key": "avillalobos",
-            "emailAddress": "avillalobos@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=avillalobos&avatarId=17200",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=avillalobos&avatarId=17200",
@@ -470,7 +463,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=avillalobos",
             "name": "avillalobos",
             "key": "avillalobos",
-            "emailAddress": "avillalobos@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=avillalobos&avatarId=17200",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=avillalobos&avatarId=17200",
@@ -491,7 +483,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=nick",
             "name": "nick",
             "key": "nick",
-            "emailAddress": "nick@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=nick&avatarId=10301",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=nick&avatarId=10301",
@@ -507,7 +498,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=nick",
             "name": "nick",
             "key": "nick",
-            "emailAddress": "nick@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=nick&avatarId=10301",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=nick&avatarId=10301",
@@ -528,7 +518,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=mweaver",
             "name": "mweaver",
             "key": "mweaver",
-            "emailAddress": "mweaver@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=mweaver&avatarId=16000",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=mweaver&avatarId=16000",
@@ -544,7 +533,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=mweaver",
             "name": "mweaver",
             "key": "mweaver",
-            "emailAddress": "mweaver@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=mweaver&avatarId=16000",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=mweaver&avatarId=16000",
@@ -565,7 +553,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=nick",
             "name": "nick",
             "key": "nick",
-            "emailAddress": "nick@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=nick&avatarId=10301",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=nick&avatarId=10301",
@@ -581,7 +568,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=nick",
             "name": "nick",
             "key": "nick",
-            "emailAddress": "nick@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=nick&avatarId=10301",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=nick&avatarId=10301",
@@ -602,7 +588,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=nick",
             "name": "nick",
             "key": "nick",
-            "emailAddress": "nick@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=nick&avatarId=10301",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=nick&avatarId=10301",
@@ -618,7 +603,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=nick",
             "name": "nick",
             "key": "nick",
-            "emailAddress": "nick@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=nick&avatarId=10301",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=nick&avatarId=10301",
@@ -639,7 +623,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=avillalobos",
             "name": "avillalobos",
             "key": "avillalobos",
-            "emailAddress": "avillalobos@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=avillalobos&avatarId=17200",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=avillalobos&avatarId=17200",
@@ -655,7 +638,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=avillalobos",
             "name": "avillalobos",
             "key": "avillalobos",
-            "emailAddress": "avillalobos@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=avillalobos&avatarId=17200",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=avillalobos&avatarId=17200",
@@ -676,7 +658,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=mweaver",
             "name": "mweaver",
             "key": "mweaver",
-            "emailAddress": "mweaver@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=mweaver&avatarId=16000",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=mweaver&avatarId=16000",
@@ -692,7 +673,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=mweaver",
             "name": "mweaver",
             "key": "mweaver",
-            "emailAddress": "mweaver@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=mweaver&avatarId=16000",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=mweaver&avatarId=16000",
@@ -713,7 +693,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=hmahtani",
             "name": "hmahtani",
             "key": "hmahtani",
-            "emailAddress": "hmahtani@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=hmahtani&avatarId=14301",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=hmahtani&avatarId=14301",
@@ -729,7 +708,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=hmahtani",
             "name": "hmahtani",
             "key": "hmahtani",
-            "emailAddress": "hmahtani@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=hmahtani&avatarId=14301",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=hmahtani&avatarId=14301",
@@ -764,7 +742,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=noc",
             "name": "noc",
             "key": "noc",
-            "emailAddress": "noc@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=noc&avatarId=11300",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=noc&avatarId=11300",
@@ -779,7 +756,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=noc",
             "name": "noc",
             "key": "noc",
-            "emailAddress": "noc@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=noc&avatarId=11300",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=noc&avatarId=11300",
@@ -805,7 +781,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=vcarrillo",
             "name": "vcarrillo",
             "key": "vcarrillo",
-            "emailAddress": "vcarrillo@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=vcarrillo&avatarId=17201",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=vcarrillo&avatarId=17201",
@@ -820,7 +795,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=vcarrillo",
             "name": "vcarrillo",
             "key": "vcarrillo",
-            "emailAddress": "vcarrillo@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=vcarrillo&avatarId=17201",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=vcarrillo&avatarId=17201",
@@ -846,7 +820,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=noc",
             "name": "noc",
             "key": "noc",
-            "emailAddress": "noc@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=noc&avatarId=11300",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=noc&avatarId=11300",
@@ -861,7 +834,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=noc",
             "name": "noc",
             "key": "noc",
-            "emailAddress": "noc@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=noc&avatarId=11300",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=noc&avatarId=11300",
@@ -887,7 +859,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=noc",
             "name": "noc",
             "key": "noc",
-            "emailAddress": "noc@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=noc&avatarId=11300",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=noc&avatarId=11300",
@@ -902,7 +873,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=noc",
             "name": "noc",
             "key": "noc",
-            "emailAddress": "noc@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=noc&avatarId=11300",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=noc&avatarId=11300",
@@ -928,7 +898,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=noc",
             "name": "noc",
             "key": "noc",
-            "emailAddress": "noc@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=noc&avatarId=11300",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=noc&avatarId=11300",
@@ -943,7 +912,6 @@
             "self": "https:\/\/ringrevenue.atlassian.net\/rest\/api\/2\/user?username=noc",
             "name": "noc",
             "key": "noc",
-            "emailAddress": "noc@invoca.com",
             "avatarUrls": {
               "48x48": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?ownerId=noc&avatarId=11300",
               "24x24": "https:\/\/ringrevenue.atlassian.net\/secure\/useravatar?size=small&ownerId=noc&avatarId=11300",

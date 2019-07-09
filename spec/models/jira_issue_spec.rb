@@ -22,7 +22,7 @@ describe 'JiraIssue' do
     expect(issue.parent_issue).to be_nil
     expect(issue.pushes).to eq([])
     expect(issue.assignee.name).to eq('Author Name')
-    expect(issue.assignee.email).to eq('author@email.com')
+    expect(issue.assignee.email).to eq('aname@email.com')
   end
 
   context 'construction' do
@@ -66,14 +66,14 @@ describe 'JiraIssue' do
     it 'can be changed' do
       orginal_issue = JiraIssue.create_from_jira_data!(jira_issue)
 
-      jira_issue.assignee.attrs['name'] = 'Other User'
-      jira_issue.assignee.attrs['emailAddress'] = 'otheruser@test.com'
+      jira_issue.assignee.attrs['name'] = 'otheruser'
+      jira_issue.assignee.attrs['displayName'] = 'Other User'
 
       updated_issue = JiraIssue.create_from_jira_data!(jira_issue)
 
       expect(User.count).to eq(2)
       expect(orginal_issue.assignee.id).not_to eq(updated_issue.assignee.id)
-      expect(updated_issue.assignee.email).to eq('otheruser@test.com')
+      expect(updated_issue.assignee.email).to eq('otheruser@email.com')
     end
   end
 
