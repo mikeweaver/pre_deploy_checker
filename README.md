@@ -3,7 +3,6 @@ The pre-deploy checker (PDC) is a tool that correlates commits made to GitHub wi
 * Commits that do not have corresponding JIRA issues
 * JIRA issues that are in the Ready to Deploy state, but have no commits
 * For JIRA issues that do have commits it identifies issues that:
-    * Have the no deploy date or the wrong deploy date
     * Do not have post deploy checks, migration checks
     * Are not in the Ready to Deploy state
 The PDC sets the status of the branch to Failed if any of the above checks fail. Users can approve the errant JIRA issues or commits via the UI which will then change the status of the branch to Passed.
