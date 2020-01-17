@@ -136,14 +136,6 @@ class PushManager
           errors << JiraIssuesAndPushes::ERROR_NO_COMMITS
         end
 
-        if jira_issue.targeted_deploy_date
-          if jira_issue.targeted_deploy_date.to_date < Time.zone.today
-            errors << JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE
-          end
-        else
-          errors << JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE
-        end
-
         unless jira_issue.long_running_migration
           errors << JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION
         end
