@@ -123,15 +123,15 @@ describe 'JiraIssuesAndPushes' do
 
   context 'with_unignored_errors scope' do
     it 'can find pushes with errors' do
-      JiraIssuesAndPushes.create_or_update!(@issue, @push, [JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE])
+      JiraIssuesAndPushes.create_or_update!(@issue, @push, [JiraIssuesAndPushes::ERROR_WRONG_STATE])
       @issue.reload
       expect(@issue.jira_issues_and_pushes.with_unignored_errors.count).to eq(1)
       expect(JiraIssuesAndPushes.get_error_counts_for_push(@push)).to \
-        eq(JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE => 1)
+        eq(JiraIssuesAndPushes::ERROR_WRONG_STATE => 1)
     end
 
     it 'excludes pushes with ignored errors' do
-      record = JiraIssuesAndPushes.create_or_update!(@issue, @push, [JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE])
+      record = JiraIssuesAndPushes.create_or_update!(@issue, @push, [JiraIssuesAndPushes::ERROR_WRONG_STATE])
       record.ignore_errors = true
       record.save!
       @issue.reload

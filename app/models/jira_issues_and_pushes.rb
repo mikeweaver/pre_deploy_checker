@@ -4,8 +4,6 @@ class JiraIssuesAndPushes < ActiveRecord::Base
   ERROR_WRONG_STATE = 'wrong_state'.freeze
   ERROR_POST_DEPLOY_CHECK_STATUS = 'wrong_post_deploy_status'.freeze
   ERROR_NO_COMMITS = 'no_commits'.freeze
-  ERROR_WRONG_DEPLOY_DATE = 'wrong_deploy_date'.freeze
-  ERROR_NO_DEPLOY_DATE = 'no_deploy_date'.freeze
   ERROR_BLANK_LONG_RUNNING_MIGRATION = 'blank_long_running_migration'.freeze
 
   fields do
