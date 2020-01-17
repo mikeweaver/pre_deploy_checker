@@ -98,7 +98,7 @@ GEM
       tins (~> 1.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    crass (1.0.4)
+    crass (1.0.6)
     daemons (1.2.4)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
@@ -138,7 +138,7 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.6)
     kgio (2.11.0)
-    loofah (2.2.3)
+    loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -178,7 +178,7 @@ GEM
     mutant-rspec (0.8.11)
       mutant (~> 0.8.11)
       rspec-core (>= 3.4.0, < 3.6.0)
-    nokogiri (1.10.3)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     oauth (0.4.7)
     parallel (1.12.1)
@@ -190,7 +190,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (2.0.5)
-    rack (1.6.11)
+    rack (1.6.12)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.11.1)
@@ -350,7 +350,7 @@ DEPENDENCIES
   jira-ruby (= 0.1.17)
   jquery-rails
   mutant-rspec
-  nokogiri (= 1.10.3)
+  nokogiri (= 1.10.5)
   pry
   rails (= 4.2.11.1)
   rspec
@@ -370,4 +370,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.17.1
+   1.17.3

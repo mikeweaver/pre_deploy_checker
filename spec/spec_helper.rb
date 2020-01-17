@@ -59,7 +59,6 @@ end
 
 def create_test_jira_issue_json(key: nil,
                                 status: nil,
-                                targeted_deploy_date: Time.current.tomorrow,
                                 post_deploy_check_status: 'Ready to Run',
                                 deploy_type: nil,
                                 parent_key: nil,
@@ -82,12 +81,6 @@ def create_test_jira_issue_json(key: nil,
     json['fields']['parent']['key'] = parent_key
   else
     # these fields are only valid for non-sub-tasks
-    if targeted_deploy_date
-      json['fields']['customfield_10600'] = targeted_deploy_date.to_time.iso8601
-    else
-      json['fields'].except!('customfield_10600')
-    end
-
     if post_deploy_check_status
       json['fields']['customfield_12202']['value'] = post_deploy_check_status
     else
@@ -110,7 +103,6 @@ end
 
 def create_test_jira_issue(key: nil,
                            status: nil,
-                           targeted_deploy_date: Time.current.tomorrow,
                            post_deploy_check_status: nil,
                            deploy_type: nil,
                            parent_key: nil)
@@ -119,7 +111,6 @@ def create_test_jira_issue(key: nil,
       create_test_jira_issue_json(
         key: key,
         status: status,
-        targeted_deploy_date: targeted_deploy_date,
         post_deploy_check_status: post_deploy_check_status,
         deploy_type: deploy_type,
         parent_key: parent_key

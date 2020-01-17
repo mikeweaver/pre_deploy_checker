@@ -6,7 +6,7 @@ class JiraIssue < ActiveRecord::Base
     issue_type :text, limit: 255, null: false
     summary :text, limit: 1024, null: false
     status :text, limit: 255, null: false
-    targeted_deploy_date :date, null: true
+    targeted_deploy_date :date, null: true # Custom Data Field: 10600
     post_deploy_check_status :text, limit: 255, null: true
     deploy_type :text, limit: 255, null: true
     secrets_modified :text, limit: 255, null: true # deprecated
@@ -52,7 +52,6 @@ class JiraIssue < ActiveRecord::Base
       issue.summary = jira_data.summary.truncate(1024)
       issue.issue_type = jira_data.issuetype.name
       issue.status = jira_data.fields['status']['name']
-      issue.targeted_deploy_date = extract_custom_date_field_from_jira_data(jira_data, 10600)
       issue.post_deploy_check_status = extract_custom_select_field_from_jira_data(jira_data, 12202)
       issue.deploy_type = extract_custom_multi_select_field_from_jira_data(jira_data, 12501)
       issue.long_running_migration = extract_custom_multi_select_field_from_jira_data(jira_data, 10601)

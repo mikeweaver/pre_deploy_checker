@@ -14,14 +14,12 @@ describe 'PushManager' do
   def mock_jira_find_issue_response(key,
                                     parent_key: nil,
                                     status: 'Ready to Deploy',
-                                    targeted_deploy_date: Time.current.tomorrow,
                                     post_deploy_check_status: 'Ready to Run',
                                     long_running_migration: 'No')
     response = create_test_jira_issue_json(
       key: key,
       parent_key: parent_key,
       status: status,
-      targeted_deploy_date: targeted_deploy_date,
       post_deploy_check_status: post_deploy_check_status,
       long_running_migration: long_running_migration
     )
@@ -82,20 +80,6 @@ describe 'PushManager' do
           match_array([JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS])
       end
 
-      it 'without a deploy date' do
-        mock_jira_find_issue_response('STORY-1234', targeted_deploy_date: nil)
-        push = PushManager.process_push!(Push.create_from_github_data!(payload))
-        expect(push.jira_issues_and_pushes.first.error_list).to \
-          match_array([JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE])
-      end
-
-      it 'with a deploy date in the past' do
-        mock_jira_find_issue_response('STORY-1234', targeted_deploy_date: Time.zone.yesterday)
-        push = PushManager.process_push!(Push.create_from_github_data!(payload))
-        expect(push.jira_issues_and_pushes.first.error_list).to \
-          match_array([JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE])
-      end
-
       it 'with a blank migration field' do
         mock_jira_find_issue_response('STORY-1234', long_running_migration: nil)
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
@@ -117,7 +101,6 @@ describe 'PushManager' do
           parent_key: 'STORY-5678',
           status: 'Wrong State',
           post_deploy_check_status: nil,
-          targeted_deploy_date: nil,
           long_running_migration: nil
         )
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
@@ -134,7 +117,6 @@ describe 'PushManager' do
           parent_key: 'STORY-5678',
           status: 'Closed',
           post_deploy_check_status: nil,
-          targeted_deploy_date: nil,
           long_running_migration: nil
         )
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
@@ -281,7 +263,7 @@ describe 'PushManager' do
 
     context 'has a failure status' do
       it 'when there is a jira error' do
-        mock_jira_find_issue_response('STORY-1234', targeted_deploy_date: nil)
+        mock_jira_find_issue_response('STORY-1234', long_running_migration: nil)
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
         expect(push.status).to eq('failure')
       end
@@ -309,7 +291,7 @@ describe 'PushManager' do
       end
 
       it 'when there is an accepted jira error' do
-        mock_jira_find_issue_response('STORY-1234', targeted_deploy_date: nil)
+        mock_jira_find_issue_response('STORY-1234', long_running_migration: nil)
         push = PushManager.process_push!(Push.create_from_github_data!(payload))
         expect(push.status).to eq('failure')
         record = push.jira_issues_and_pushes.first

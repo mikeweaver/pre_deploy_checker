@@ -14,7 +14,6 @@ describe 'JiraIssue' do
     expect(issue.summary).to eq('This is the issue summary')
     expect(issue.issue_type).to eq('Story')
     expect(issue.status).to eq('Code Review')
-    expect(issue.targeted_deploy_date).to eq(Date.parse('2016-09-21'))
     expect(issue.post_deploy_check_status).to eq('Ready to Run')
     expect(issue.deploy_type).to eq('Web, PNAPI')
     expect(issue.long_running_migration).to eq('No')

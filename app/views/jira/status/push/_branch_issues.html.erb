@@ -85,7 +85,6 @@
       <td nowrap><%=jira_issue.deploy_type%></td>
       <td nowrap class="<%=error_class_if_error_present(jira_issue_and_push, [JiraIssuesAndPushes::ERROR_WRONG_STATE])%>"><%=jira_issue.status%></td>
       <td nowrap class="<%=error_class_if_error_present(jira_issue_and_push, [JiraIssuesAndPushes::ERROR_POST_DEPLOY_CHECK_STATUS])%>"><%=jira_issue.post_deploy_check_status || '&mdash;'.html_safe%></td>
-      <td nowrap class="<%=error_class_if_error_present(jira_issue_and_push, [JiraIssuesAndPushes::ERROR_WRONG_DEPLOY_DATE, JiraIssuesAndPushes::ERROR_NO_DEPLOY_DATE])%>"><%=jira_issue.targeted_deploy_date || '&mdash;'.html_safe%></td>
       <td nowrap class="<%=error_class_if_error_present(jira_issue_and_push, [JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION])%>"><%=jira_issue.long_running_migration || '&mdash;'.html_safe%></td>
       <td class="issue_summary"><%=jira_issue.summary%></td>
     </tr>

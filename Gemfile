@@ -24,7 +24,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass'
 
-gem 'nokogiri', '1.10.3'
+gem 'nokogiri', '1.10.5'
 
 group :test do
   gem 'webmock'
