@@ -99,6 +99,8 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
+    css_parser (1.7.1)
+      addressable
     daemons (1.2.4)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
@@ -126,6 +128,13 @@ GEM
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
+    inline_styles (1.1.2)
+      css_parser
+      nokogiri
+    inline_styles_mailer (1.0.3)
+      inline_styles
+      rails (>= 3.1, <= 6)
+      sass-rails
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
       multi_json (~> 1.2)
@@ -346,6 +355,7 @@ DEPENDENCIES
   git_lib (= 1.1.0)!
   git_models (= 1.1.0)!
   hobo_fields
+  inline_styles_mailer
   jbuilder (~> 2.0)
   jira-ruby (= 0.1.17)
   jquery-rails

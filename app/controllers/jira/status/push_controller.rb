@@ -26,11 +26,23 @@ module Jira
           JiraIssuesAndPushes::ERROR_BLANK_LONG_RUNNING_MIGRATION.to_s => 'Migrations field is blank'
         }
       }.freeze
-
       before_action :find_sha_resources,    except: [:branch, :summary]
       before_action :find_branch_resources, only:   [:branch]
 
       def edit; end
+
+      def deploy_email
+        text =
+          if @push.email_sent?
+            "Email was already sent."
+          else
+            DeployMailer.deployment_email(@push.jira_issues).deliver_now!
+            @push.update(email_sent: true)
+            @push.save
+            "Email has been sent."
+          end
+        render json: { status: 200, text: text }
+      end
 
       def update
         jira_issue_keys_to_ignore = []

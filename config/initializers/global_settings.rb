@@ -95,7 +95,7 @@ def load_global_settings
 
   if settings_hash['jira']
     settings_object.jira = OpenStruct.new(DEFAULT_JIRA_SETTINGS.merge(settings_object.jira))
-    validate_jira_settings(settings_object.jira)
+    # validate_jira_settings(settings_object.jira)
   end
 
   settings_object

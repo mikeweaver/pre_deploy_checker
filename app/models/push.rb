@@ -1,6 +1,7 @@
 class Push < ActiveRecord::Base
   fields do
     status :string, limit: 32
+    email_sent :boolean, default: false
     timestamps
   end
 

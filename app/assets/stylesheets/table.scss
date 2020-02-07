@@ -30,3 +30,52 @@ table.dataTable, table.dataTable.no-footer {
 table.dataTable thead th, table.dataTable thead td {
   border-color: darken($table-border-color, 5%);
 }
+
+.table-deploy_email {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  width: 572px;
+  max-width: 100%;
+  margin-bottom: 20px;
+  font-size: 14px;
+  border: 1px solid rgb(204,204,204);
+  color: rgb(51,51,51);
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.table-deploy_email-header {
+  box-sizing: border-box;
+}
+
+.table-deploy_email-header_row {
+  box-sizing: border-box;
+  padding: 8px;
+  text-align: left;
+  line-height: 1.42857;
+  vertical-align: bottom;
+  border-top: 0px;
+  border-bottom: 2px solid rgb(221,221,221);
+}
+
+.table-deploy_email-body_shadow {
+  background-color: rgb(249,249,249);
+}
+
+.table-deploy_email-body {
+  box-sizing: border-box;
+}
+
+.table-deploy_email-key{
+  box-sizing: border-box;
+  padding: 8px;
+  line-height: 1.42857;
+  vertical-align: top;
+  border-top: 1px solid rgb(221,221,221);
+}
+
+.table-deploy_email-key_link {
+  box-sizing: border-box;
+  background-color: transparent;
+  text-decoration-line: none;
+}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190405200036) do
+ActiveRecord::Schema.define(version: 20200207213514) do
 
   create_table "branches", force: :cascade do |t|
     t.datetime "git_updated_at",              null: false
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20190405200036) do
     t.datetime "updated_at"
     t.integer  "head_commit_id"
     t.integer  "branch_id"
+    t.boolean  "email_sent",                default: false
   end
 
   add_index "pushes", ["branch_id"], name: "index_pushes_on_branch_id"
