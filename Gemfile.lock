@@ -18,6 +18,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
+  remote: https://gem.fury.io/invoca/
   specs:
     abstract_type (0.0.7)
     actionmailer (4.2.11.1)
@@ -90,6 +91,9 @@ GEM
       adamantium (~> 0.2.0)
       equalizer (~> 0.0.9)
     concurrent-ruby (1.1.5)
+    contextual_logger (0.3.1)
+      activesupport
+      json
     coveralls (0.8.22)
       json (>= 1.8, < 3)
       simplecov (~> 0.16.1)
@@ -113,6 +117,15 @@ GEM
     docile (1.3.1)
     equalizer (0.0.11)
     erubis (2.7.0)
+    eventmachine (1.2.7)
+    exception_handling (2.3.0)
+      actionmailer (~> 4.2)
+      actionpack (~> 4.2)
+      activesupport (~> 4.2)
+      contextual_logger
+      eventmachine (~> 1.0)
+      hobo_support
+      invoca-utils (~> 0.0)
     execjs (2.7.0)
     fakefs (0.11.0)
     ffi (1.11.1)
@@ -135,6 +148,11 @@ GEM
       inline_styles
       rails (>= 3.1, <= 6)
       sass-rails
+    invoca-utils (0.0.5)
+    invoca_secrets (0.3.1)
+      activesupport (~> 4.0)
+      exception_handling (~> 2.2)
+      vault (~> 0.10.0)
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
       multi_json (~> 1.2)
@@ -327,6 +345,7 @@ GEM
       equalizer (~> 0.0.9)
       parser (~> 2.3.0)
       procto (~> 0.0.2)
+    vault (0.10.1)
     web-console (2.3.0)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -356,6 +375,7 @@ DEPENDENCIES
   git_models (= 1.1.0)!
   hobo_fields
   inline_styles_mailer
+  invoca_secrets
   jbuilder (~> 2.0)
   jira-ruby (= 0.1.17)
   jquery-rails

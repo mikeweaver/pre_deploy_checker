@@ -41,8 +41,5 @@ module GitConflictDetector
     end
 
     config.active_job.queue_adapter = :delayed_job
-    smtp_settings = JSON.parse(secrets.mailer_smtp_settings.to_s).symbolize_keys
-    config.action_mailer.smtp_settings = smtp_settings
-    Mail.defaults { delivery_method :smtp, smtp_settings }
   end
 end
