@@ -65,14 +65,13 @@ describe 'JiraIssue' do
     it 'can be changed' do
       orginal_issue = JiraIssue.create_from_jira_data!(jira_issue)
 
-      jira_issue.assignee.attrs['name'] = 'otheruser'
       jira_issue.assignee.attrs['displayName'] = 'Other User'
 
       updated_issue = JiraIssue.create_from_jira_data!(jira_issue)
 
       expect(User.count).to eq(2)
       expect(orginal_issue.assignee.id).not_to eq(updated_issue.assignee.id)
-      expect(updated_issue.assignee.email).to eq('otheruser@email.com')
+      expect(updated_issue.assignee.email).to eq('ouser@email.com')
     end
   end
 

@@ -1,8 +1,19 @@
 class User < ActiveRecord::Base
   include GitModels::User
 
-  def self.create_from_jira_data!(jira_user_data)
-    # JIRA removed emailAddress from their API so we create a fake one here. It is only used to guarantee uniqueness
-    User.where(name: jira_user_data.displayName, email: "#{jira_user_data.name}@email.com").first_or_create!
+  class << self
+    def create_from_jira_data!(jira_user_data)
+      # Uses fake email to guarantee uniqueness
+      name = jira_user_data.displayName
+      User.where(name: name, email: fake_email_from_name(name)).first_or_create!
+    end
+
+    private
+
+    # Converts (First Last) => flast@email.com
+    def fake_email_from_name(display_name)
+      name_arr = display_name.downcase.split(' ')
+      "#{name_arr.first.first}#{name_arr.last}@email.com"
+    end
   end
 end
