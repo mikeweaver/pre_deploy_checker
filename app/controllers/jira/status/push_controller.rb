@@ -34,12 +34,12 @@ module Jira
       def deploy_email
         text =
           if @push.email_sent?
-            "Email was already sent."
+            'Email was already sent.'
           else
             DeployMailer.deployment_email(@push.jira_issues).deliver_now!
             @push.update(email_sent: true)
             @push.save
-            "Email has been sent."
+            'Email has been sent.'
           end
         render json: { status: 200, text: text }
       end

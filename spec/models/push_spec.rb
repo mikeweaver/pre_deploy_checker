@@ -14,6 +14,7 @@ describe 'Push' do
     expect(push.jira_issues.count).to eq(0)
     expect(push.created_at).not_to be_nil
     expect(push.updated_at).not_to be_nil
+    expect(push.email_sent).to eq(false)
   end
 
   it 'does not create duplicate database records' do

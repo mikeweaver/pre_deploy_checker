@@ -12,6 +12,7 @@ require 'fakefs/spec_helpers'
 require 'webmock/rspec'
 require 'digest/sha1'
 require 'securerandom'
+require 'helpers/email_interceptor'
 
 GitConflictDetector::Application.load_tasks
 
@@ -38,6 +39,8 @@ RSpec.configure do |config|
     example.run
     Delayed::Worker.delay_jobs = old_value
   end
+
+  ActionMailer::Base.register_interceptor(DeployEmailInterceptor)
 end
 
 def load_json_fixture(fixture_name)

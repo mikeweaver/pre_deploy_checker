@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path('boot', __dir__)
 
 require 'rails/all'
 
@@ -41,5 +41,10 @@ module GitConflictDetector
     end
 
     config.active_job.queue_adapter = :delayed_job
+
+    initializer :configure_secrets, before: :load_environment_config, after: :load_custom_logging, group: :all do
+      require 'invoca_secrets'
+      require_relative 'secrets_config'
+    end
   end
 end
