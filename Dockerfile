@@ -1,6 +1,8 @@
 FROM invocaops/ruby:2.4.2
 
+
 ARG RAILS_ENV
+ARG BUNDLE_GEM__FURY__IO
 ENV HOME_DIR="/usr/src/pre_deploy_checker"
 
 RUN apt-get update && \
