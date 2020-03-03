@@ -67,5 +67,5 @@ gem 'daemons'
 gem 'jira-ruby', '0.1.17', require: 'jira'
 gem 'pry'
 
-source "https://gem.fury.io/invoca"
+source 'https://gem.fury.io/invoca'
 gem 'invoca_secrets'

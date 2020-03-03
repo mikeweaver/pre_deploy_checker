@@ -5,6 +5,6 @@ class DeployMailer < ApplicationMailer
 
   def deployment_email(jira_issues)
     @jira_issues = jira_issues
-    mail(to: 'deploy@invoca.com', subject: "Deploy #{Time.now.strftime('%m/%d/%y')}")
+    mail(to: 'deploy@invoca.com', subject: "Deploy #{Time.now.strftime('%m/%d/%y').getlocal}")
   end
 end

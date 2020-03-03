@@ -9,8 +9,8 @@ require 'invoca_secrets'
 InvocaSecrets.instance =
   if ENV['VAULT_TOKEN'].present?
     InvocaSecrets.factory(environment: Rails.env,
-                          config_folder: File.join(Rails.root, 'config'),
+                          config_folder: Rails.root.join('config'),
                           console: defined?(Rails::Console))
   else
-    InvocaSecrets::Stores::Local.new(File.join(Rails.root, 'config/dev_secrets.yml'))
+    InvocaSecrets::Stores::Local.new(Rails.root.join('config', 'dev_secrets.yml'))
   end
