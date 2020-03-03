@@ -24,7 +24,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass'
 gem 'inline_styles_mailer'
-gem 'nokogiri', '1.10.5'
+gem 'nokogiri', '1.10.8'
 
 group :test do
   gem 'webmock'
