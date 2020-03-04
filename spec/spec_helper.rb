@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
 require 'coveralls'
 Coveralls.wear!('rails') if ENV['CI'] == 'true'
@@ -12,7 +14,7 @@ require 'fakefs/spec_helpers'
 require 'webmock/rspec'
 require 'digest/sha1'
 require 'securerandom'
-require 'helpers/email_interceptor'
+require 'helpers/deploy_email_interceptor'
 
 GitConflictDetector::Application.load_tasks
 
