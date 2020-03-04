@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeployEmailInterceptor
   class << self
     attr_reader :intercepted_email

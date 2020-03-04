@@ -3,18 +3,18 @@
     The following tickets have been deployed:
   </p>
   <div style="position:absolute; left:-9999px; top:0px;">
-    <table class="table table-striped table-deploy_email" id="jira_issues_clipboard">
-      <thead class="table-deploy_email-header">
-        <tr class="table-deploy_email-body">
-          <th class="table-deploy_email-header_row">Key</th>
-          <th class="table-deploy_email-header_row" style="min-width: 300px">Summary</th>
+    <table class="table table-striped table-deploy-email" id="jira_issues_clipboard">
+      <thead class="table-deploy-email-header">
+        <tr class="table-deploy-email-body">
+          <th class="table-deploy-email-header-row">Key</th>
+          <th class="table-deploy-email-header-row" style="min-width: 300px">Summary</th>
         </tr>
       </thead>
-      <tbody class="table-deploy_email-body">
+      <tbody class="table-deploy-email-body">
       <% @jira_issues.each_with_index do |issue, index| %>
-        <tr class="table-deploy_email-body <%= index % 2 == 0 ? 'table-deploy_email-body_shadow' : '' %>">
-          <td nowrap class="table-deploy_email-key"><%=link_to(issue.key, issue.jira_url_for_issue, target: '_blank')%></td>
-          <td class="table-deploy_email-body"><%=issue.summary%></td>
+        <tr class="table-deploy-email-body <%= index % 2 == 0 ? 'table-deploy-email-body-shadow' : '' %>">
+          <td nowrap class="table-deploy-email-key"><%=link_to(issue.key, issue.jira_url_for_issue, target: '_blank')%></td>
+          <td class="table-deploy-email-body"><%=issue.summary%></td>
         </tr>
       <% end %>
       </tbody>

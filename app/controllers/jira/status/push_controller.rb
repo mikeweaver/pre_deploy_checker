@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jira
   module Status
     class PushController < ApplicationController

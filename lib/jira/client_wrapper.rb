@@ -19,8 +19,8 @@ module JIRA
 
     def find_issue_by_key(key)
       self.Issue.find(key)
-    rescue JIRA::HTTPError => e
-      if e.response.code == '404'
+    rescue JIRA::HTTPError => ex
+      if ex.response.code == '404'
         nil
       else
         raise
@@ -29,8 +29,8 @@ module JIRA
 
     def find_issues_by_jql(jql)
       self.Issue.jql(jql, max_results: 100)
-    rescue JIRA::HTTPError => e
-      raise e
+    rescue JIRA::HTTPError => ex
+      raise ex
     end
   end
 end
