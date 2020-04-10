@@ -40,6 +40,10 @@ class JiraIssue < ActiveRecord::Base
     end
   end
 
+  def jira_url_for_issue
+    "#{Rails.application.secrets.jira['site']}/browse/#{key}"
+  end
+
   class << self
     def create_from_jira_data!(jira_data)
       issue = create_from_jira_data(jira_data)

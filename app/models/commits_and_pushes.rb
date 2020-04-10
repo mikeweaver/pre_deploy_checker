@@ -1,4 +1,8 @@
 class CommitsAndPushes < ActiveRecord::Base
+  fields do
+    no_jira :boolean, default: false, null: false
+  end
+
   include ErrorsJson
 
   ERROR_ORPHAN_NO_JIRA_ISSUE_NUMBER = 'orphan_no_jira_issue_number'.freeze

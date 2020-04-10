@@ -23,8 +23,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass'
-
-gem 'nokogiri', '1.10.5'
+gem 'inline_styles_mailer'
+gem 'nokogiri', '1.10.8'
 
 group :test do
   gem 'webmock'
@@ -66,3 +66,5 @@ gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'jira-ruby', '0.1.17', require: 'jira'
 gem 'pry'
+
+gem 'invoca_secrets', source: 'https://gem.fury.io/invoca'

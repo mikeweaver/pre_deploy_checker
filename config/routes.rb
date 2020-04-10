@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   end
 
   get 'sha/:id' => 'jira/status/push#edit'
+  get 'deploy_email/:id' => 'jira/status/push#deploy_email'
   get 'branch/:branch' => 'jira/status/push#branch'
   get 'summary' => 'jira/status/push#summary'
 

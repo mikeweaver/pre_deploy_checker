@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path('boot', __dir__)
 
 require 'rails/all'
 
@@ -41,5 +41,17 @@ module GitConflictDetector
     end
 
     config.active_job.queue_adapter = :delayed_job
+
+    initializer :configure_secrets, before: :load_environment_config, after: :load_custom_logging, group: :all do
+      require 'invoca_secrets'
+      require_relative 'secrets_config'
+    end
+
+    initializer :configure_mailer, after: [:configure_secrets, :load_environment_config], group: :all do
+      smtp_settings = InvocaSecrets['email', 'smtp', 'default'].symbolize_keys
+      config.action_mailer.smtp_settings = smtp_settings
+      Mail.defaults { delivery_method :smtp, smtp_settings }
+      ActionMailer::Base.smtp_settings = smtp_settings
+    end
   end
 end
