@@ -26,7 +26,7 @@ describe Jira::Status::PushController, type: :controller do
 
       sent_email = DeployEmailInterceptor.intercepted_email
       expect(sent_email.to).to eq ['deploy@invoca.com']
-      expect(sent_email.from).to eq ['deployments@invoca.net']
+      expect(sent_email.from).to eq ['deploy@invoca.com']
       expect(sent_email.subject).to eq("Deploy #{Time.now.strftime('%m/%d/%y')}")
     end
 

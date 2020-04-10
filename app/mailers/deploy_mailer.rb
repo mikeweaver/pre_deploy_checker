@@ -2,7 +2,7 @@
 
 class DeployMailer < ApplicationMailer
   include InlineStylesMailer
-  default from: 'deployments@invoca.net'
+  default from: 'deploy@invoca.com'
   use_stylesheet 'table.scss'
 
   def deployment_email(jira_issues)
