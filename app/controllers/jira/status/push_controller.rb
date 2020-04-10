@@ -34,7 +34,7 @@ module Jira
       def edit; end
 
       def deploy_email
-        text =
+        flash_text =
           if @push.email_sent?
             'Email was already sent.'
           else
@@ -43,7 +43,8 @@ module Jira
             @push.save
             'Email has been sent.'
           end
-        render json: { status: 200, text: text }
+        flash[:alert] = flash_text
+        redirect_to action: 'edit', id: @push.head_commit.sha
       end
 
       def update

@@ -21,8 +21,8 @@ describe Jira::Status::PushController, type: :controller do
 
     it 'sends an email and returns success for push' do
       get :deploy_email, id: '12345678'
-      expect(response).to have_http_status(200)
-      expect(response.body).to match(/Email has been sent/)
+      expect(response).to have_http_status(302)
+      expect(flash[:alert]).to match(/Email has been sent/)
 
       sent_email = DeployEmailInterceptor.intercepted_email
       expect(sent_email.to).to eq ['deploy@invoca.com']
@@ -33,8 +33,8 @@ describe Jira::Status::PushController, type: :controller do
     it 'doesnt send an email and returns success if email has already been sent' do
       @push.update_attributes(email_sent: true)
       get :deploy_email, id: '12345678'
-      expect(response).to have_http_status(200)
-      expect(response.body).to match(/Email was already sent/)
+      expect(response).to have_http_status(302)
+      expect(flash[:alert]).to match(/Email was already sent/)
       expect(DeployEmailInterceptor.intercepted_email).to eq(nil)
     end
 

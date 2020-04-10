@@ -11,8 +11,8 @@
         </tr>
       </thead>
       <tbody class="table-deploy-email-body">
-      <% @jira_issues.each_with_index do |issue, index| %>
-        <tr class="table-deploy-email-body <%= index % 2 == 0 ? 'table-deploy-email-body-shadow' : '' %>">
+      <% @jira_issues.each do |issue| %>
+        <tr class="table-deploy-email-body <%= cycle('table-deploy-email-body-shadow', '') %>">
           <td nowrap class="table-deploy-email-key"><%=link_to(issue.key, issue.jira_url_for_issue, target: '_blank')%></td>
           <td class="table-deploy-email-body"><%=issue.summary%></td>
         </tr>
