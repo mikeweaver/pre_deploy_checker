@@ -41,7 +41,7 @@ module Jira
             begin
               DeployMailer.deployment_email(@push.jira_issues).deliver_now!
               'Email has been sent.'
-            rescue => ex
+            rescue
               @push.update_attributes(email_sent: false)
               raise
             end

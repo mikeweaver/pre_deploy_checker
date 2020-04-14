@@ -43,7 +43,7 @@ describe Jira::Status::PushController, type: :controller do
       exception = ArgumentError.new("Bad args")
       expect(DeployMailer).to receive(:deployment_email) { raise exception }
 
-      expect{ get :deploy_email, id: '12345678' }.to raise_error(exception)
+      expect { get :deploy_email, id: '12345678' }.to raise_error(exception)
       expect(@push.reload.email_sent).to eq(false)
     end
 
