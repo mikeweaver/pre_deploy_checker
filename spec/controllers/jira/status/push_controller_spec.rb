@@ -27,7 +27,8 @@ describe Jira::Status::PushController, type: :controller do
       sent_email = DeployEmailInterceptor.intercepted_email
       expect(sent_email.to).to eq ['deploy@invoca.com']
       expect(sent_email.from).to eq ['deploy@invoca.com']
-      expect(sent_email.subject).to eq("Deploy #{Time.now.strftime('%m/%d/%y')}")
+      expect(sent_email.subject).to match(/Web Deploy #{Time.now.strftime('%m/%d/%y')}/)
+      expect(@push.reload.email_sent).to eq(true)
     end
 
     it 'doesnt send an email and returns success if email has already been sent' do
@@ -36,6 +37,14 @@ describe Jira::Status::PushController, type: :controller do
       expect(response).to have_http_status(302)
       expect(flash[:alert]).to match(/Email was already sent/)
       expect(DeployEmailInterceptor.intercepted_email).to eq(nil)
+    end
+
+    it 'does not set email_sent to true if sending the email raises an error' do
+      exception = ArgumentError.new("Bad args")
+      expect(DeployMailer).to receive(:deployment_email) { raise exception }
+
+      expect{ get :deploy_email, id: '12345678' }.to raise_error(exception)
+      expect(@push.reload.email_sent).to eq(false)
     end
 
     it 'redirects to summary page if not commit not found with sha matchin id' do
