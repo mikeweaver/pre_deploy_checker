@@ -13,8 +13,8 @@
       <tbody class="table-deploy-email-body">
       <% @jira_issues.each do |issue| %>
         <tr class="table-deploy-email-body <%= cycle('table-deploy-email-body-shadow', '') %>">
-          <td nowrap class="table-deploy-email-key"><%=link_to(issue.key, issue.jira_url_for_issue, target: '_blank')%></td>
-          <td class="table-deploy-email-body"><%=issue.summary%></td>
+          <td nowrap class="table-deploy-email-row"><%=link_to(issue.key, issue.jira_url_for_issue, target: '_blank')%></td>
+          <td class="table-deploy-email-row"><%=issue.summary%></td>
         </tr>
       <% end %>
       </tbody>
