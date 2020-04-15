@@ -38,10 +38,14 @@ module Jira
           if @push.email_sent?
             'Email was already sent.'
           else
-            DeployMailer.deployment_email(@push.jira_issues).deliver_now!
-            @push.update(email_sent: true)
-            @push.save
-            'Email has been sent.'
+            begin
+              @push.update_column(:email_sent, true)
+              DeployMailer.deployment_email(@push.jira_issues).deliver_now!
+              'Email has been sent.'
+            rescue
+              @push.update_column(:email_sent, false)
+              raise
+            end
           end
         flash[:alert] = flash_text
         redirect_to action: 'edit', id: @push.head_commit.sha
