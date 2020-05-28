@@ -33,6 +33,7 @@ group :test do
   gem 'timecop'
   gem 'coveralls', '~> 0.8.22'
   gem 'rspec'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'stub_env'
