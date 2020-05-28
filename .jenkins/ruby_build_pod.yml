@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+  jenkins/pre-deploy_checker/: 'true'
+  namespace: jenkins
+  name: pre-deploy_checker/
+spec:
+  containers:
+  - name: ruby
+    image: ruby:2.6.5
+    tty: true
+    resources:
+    requests:
+      memory: "100Mi"
+    command:
+      - cat
+
