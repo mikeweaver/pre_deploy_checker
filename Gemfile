@@ -1,25 +1,16 @@
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.11.1'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-# Use SCSS for stylesheets
+gem 'rails', '4.2.11.3'
+gem 'sqlite3', '~> 1.3.0'
 gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-# Use jquery as the JavaScript library
 gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass'
@@ -59,8 +50,8 @@ group :production do
   gem 'unicorn'
 end
 
-gem 'git_lib', '1.1.0', git: 'https://github.com/Invoca/git_lib.git', ref: '1770e03ba5c39d5545bc614cc59eef32f7471290'
-gem 'git_models', '1.1.0', git: 'https://github.com/Invoca/git_models.git', ref: '6041b229851a89570621f42c7d32f94208a99e5f'
+gem 'git_lib', '1.1.1', git: 'https://github.com/Invoca/git_lib.git', ref: '1478444f590d8886e40c8bfa440b0d3fd614ccec'
+gem 'git_models', '1.1.1', git: 'https://github.com/Invoca/git_models.git', ref: '24c077a827efe491a2cb1a97d48e64cbd10cf8b6'
 gem 'hobo_fields'
 gem 'delayed_job_active_record'
 gem 'daemons'
