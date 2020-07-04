@@ -20,6 +20,7 @@ describe Jira::Status::PushController, type: :controller do
     end
 
     it 'sends an email and returns success for push' do
+      allow(Time).to receive(:now).and_return(Time.gm(2020, 7, 4, 12, 0))
       get :deploy_email, id: '12345678'
       expect(response).to have_http_status(302)
       expect(flash[:alert]).to match(/Email has been sent/)
@@ -27,8 +28,7 @@ describe Jira::Status::PushController, type: :controller do
       sent_email = DeployEmailInterceptor.intercepted_email
       expect(sent_email.to).to eq ['deploy@invoca.com']
       expect(sent_email.from).to eq ['deploy@invoca.com']
-      expect(Time.zone.name).to eq("Pacific Time (US & Canada)")
-      expect(sent_email.subject).to include("Web Deploy #{Time.now.strftime('%m/%d/%y %H:%M %z')}")
+      expect(sent_email.subject).to eq("Web Deploy 07/04/20 05:00 -0700")
       expect(@push.reload.email_sent).to eq(true)
     end
 
