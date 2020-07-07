@@ -10,6 +10,7 @@ class DeployMailer < ApplicationMailer
 
   def deployment_email(jira_issues)
     @jira_issues = jira_issues
-    mail(to: 'deploy@invoca.com', subject: "Web Deploy #{Time.now.strftime('%m/%d/%y %H:%M %z')}")
+    now = Time.now.in_time_zone('Pacific Time (US & Canada)') # since `config.time_zone =` not working
+    mail(to: 'deploy@invoca.com', subject: "Web Deploy #{now.strftime('%m/%d/%y %H:%M %z')}")
   end
 end
