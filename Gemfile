@@ -50,9 +50,9 @@ group :production do
   gem 'unicorn'
 end
 
-gem 'git_lib', '1.1.1', git: 'https://github.com/Invoca/git_lib.git', ref: '1478444f590d8886e40c8bfa440b0d3fd614ccec'
-gem 'git_models', '1.1.1', git: 'https://github.com/Invoca/git_models.git', ref: '24c077a827efe491a2cb1a97d48e64cbd10cf8b6'
-gem 'hobo_fields'
+gem 'git_lib', '~> 1.2'
+gem 'git_models', '~> 1.2'
+gem 'hobo_fields', '~> 3.0', git: 'git@github.com:Invoca/hobo_fields', ref: '8fe1e739b8d6a9d010b05cd7d97e509a17179fc5'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'jira-ruby', '0.1.17', require: 'jira'
