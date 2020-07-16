@@ -29,7 +29,7 @@ end
 def validate_common_settings(settings)
   return if skip_validations
 
-  unless settings.jira._?.any?
+  unless settings.jira&.any?
     raise InvalidSettings,
           'Must specify jira settings'
   end
