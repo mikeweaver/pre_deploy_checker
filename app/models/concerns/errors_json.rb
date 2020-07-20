@@ -3,8 +3,8 @@ module ErrorsJson
 
   included do
     fields do
-      errors_json :string, limit: 256, required: false
-      ignore_errors :boolean, default: false, required: true
+      errors_json :string, limit: 256, null: true
+      ignore_errors :boolean, default: false, null: false
     end
 
     scope :with_errors, lambda { where("errors_json IS NOT NULL AND errors_json <> '[]'") }

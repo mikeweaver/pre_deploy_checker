@@ -1,7 +1,7 @@
 class Commit < ActiveRecord::Base
   include GitModels::Commit
 
-  belongs_to :jira_issue, class_name: JiraIssue, inverse_of: :commits, required: false
+  belongs_to :jira_issue, class_name: JiraIssue, inverse_of: :commits, required: false, null: true
 
   has_many :commits_and_pushes, class_name: :CommitsAndPushes, inverse_of: :commit, dependent: :destroy
   has_many :pushes, through: :commits_and_pushes
