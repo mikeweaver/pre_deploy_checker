@@ -55,7 +55,7 @@ end
 
 gem 'git_lib', '~> 1.2'
 gem 'git_models', '~> 1.2'
-gem 'hobo_fields', '3.1.0.pre.1', source: PRIVATE_GEM_SERVER
+gem 'hobo_fields', '~> 3.1', source: PRIVATE_GEM_SERVER
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'jira-ruby', '0.1.17', require: 'jira'

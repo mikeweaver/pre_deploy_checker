@@ -120,7 +120,7 @@ GEM
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     hashdiff (1.0.1)
-    hobo_fields (3.1.0.pre.1)
+    hobo_fields (3.1.0)
       invoca-utils (~> 0.4)
       rails (>= 4.2, < 7)
     i18n (0.9.5)
@@ -358,7 +358,7 @@ DEPENDENCIES
   foreman
   git_lib (~> 1.2)
   git_models (~> 1.2)
-  hobo_fields (= 3.1.0.pre.1)!
+  hobo_fields (~> 3.1)!
   inline_styles_mailer
   invoca_secrets!
   jbuilder (~> 2.0)
