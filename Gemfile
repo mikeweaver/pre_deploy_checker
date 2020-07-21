@@ -1,4 +1,7 @@
+PRIVATE_GEM_SERVER = 'https://gem.fury.io/invoca'
+
 source 'https://rubygems.org'
+source PRIVATE_GEM_SERVER
 
 gem 'rails', '4.2.11.3'
 gem 'sqlite3', '~> 1.3.0'
@@ -50,12 +53,12 @@ group :production do
   gem 'unicorn'
 end
 
-gem 'git_lib', '1.1.1', git: 'https://github.com/Invoca/git_lib.git', ref: '1478444f590d8886e40c8bfa440b0d3fd614ccec'
-gem 'git_models', '1.1.1', git: 'https://github.com/Invoca/git_models.git', ref: '24c077a827efe491a2cb1a97d48e64cbd10cf8b6'
-gem 'hobo_fields'
+gem 'git_lib', '~> 1.2'
+gem 'git_models', '~> 1.2'
+gem 'hobo_fields', '~> 3.1', source: PRIVATE_GEM_SERVER
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'jira-ruby', '0.1.17', require: 'jira'
 gem 'pry'
 
-gem 'invoca_secrets', source: 'https://gem.fury.io/invoca'
+gem 'invoca_secrets', source: PRIVATE_GEM_SERVER

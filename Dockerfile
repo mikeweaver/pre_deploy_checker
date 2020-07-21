@@ -1,4 +1,4 @@
-FROM invocaops/ruby:2.4.2
+FROM invocaops/ruby:2.6.5-master
 
 
 ARG RAILS_ENV
