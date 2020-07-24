@@ -1,0 +1,113 @@
+#!/usr/bin/groovy
+@Library('jenkins-pipeline@v0.4.5')
+import com.invoca.docker.*;
+
+def setGitHubStatus(String name, String status, String description) {
+  gitHubStatus([
+    repoSlug:    'Invoca/pre_deploy_checker',
+    sha:         env.GIT_COMMIT,
+    description: description,
+    context:     name,
+    targetURL:   env.RUN_DISPLAY_URL,
+    token:       env.GITHUB_TOKEN,
+    status:      status
+  ])
+}
+
+pipeline {
+  agent {
+    kubernetes {
+      yamlFile '.jenkins/build_pod.yml'
+      defaultContainer 'ruby'
+    }
+  }
+
+  environment {
+    BUNDLE_GEM__FURY__IO    = credentials('gemfury_deploy_token')
+    DOCKERHUB_USER          = credentials('dockerhub_user')
+    DOCKERHUB_PASSWORD      = credentials('dockerhub_password')
+    GITHUB_TOKEN            = credentials('github_token')
+    RAILS_ENV               = 'test'
+  }
+
+  stages {
+    stage('Setup') {
+      steps {
+        setGitHubStatus('clean-build', 'pending', 'Running unit tests...')
+        sh 'apt-get update && apt-get install -y nodejs'
+        sh 'bundle install'
+        sh 'bundle exec rake db:setup'
+        sh 'bundle exec rake db:test:prepare'
+        container('docker') {
+          script {
+            new Docker().hubLogin(env.DOCKERHUB_USER, env.DOCKERHUB_PASSWORD)
+            def tags = [env.GIT_COMMIT, env.GIT_BRANCH]
+            prodImage = new Image(this, "invocaops/pre_deploy_checker", tags)
+          }
+        }
+      }
+      post { failure { setGitHubStatus('clean-build', 'failure', 'Build setup failed.') } }
+    }
+
+    stage('Tests') {
+      parallel {
+        stage('Unit Tests') {
+          steps { sh 'bundle exec rspec' }
+          post {
+            success { setGitHubStatus('clean-build', 'success', 'All tests passed!') }
+            failure { setGitHubStatus('clean-build', 'failure', 'Failures in unit tests.') }
+            always { junit 'spec/reports/*.xml' }
+          }
+        }
+
+        stage('Coveralls') {
+          steps { sh 'bundle exec rake coveralls:push' }
+        }
+
+        stage('Breakman') {
+          steps { sh 'bundle exec brakeman -z' }
+        }
+
+        stage('CVE Check') {
+          steps {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+              sh 'bundle exec bundle-audit check --update --ignore CVE-2020-8184 CVE-2020-8161 CVE-2020-10663 CVE-2020-8165CVE-2020-5267 CVE-2020-8167 CVE-2020-8166 CVE-2020-8164 CVE-2020-5267 CVE-2020-8165'
+            }
+          }
+          post {
+            success { setGitHubStatus('cve-audit', 'success', 'No vulnerabilities detected.') }
+            failure { setGitHubStatus('cve-audit', 'failure', 'Found vulnerabilities!') }
+          }
+        }
+      }
+    }
+
+    stage('Build Image') {
+      steps {
+        setGitHubStatus('image-build', 'pending', 'Building docker image...')
+        container('docker') {
+          script {
+            prodImage.build(
+              gitUrl: env.GIT_URL,
+              buildArgs: [
+                "BUNDLE_GEM__FURY__IO": env.BUNDLE_GEM__FURY__IO,
+                "RAILS_ENV":            'production'
+              ]
+            ).tag()
+          }
+        }
+      }
+      post {
+        failure { setGitHubStatus('image-build', 'failed', 'Docker image failed to build') }
+      }
+    }
+
+    stage('Push Image') {
+      steps { container('docker') { script { prodImage.push() } } }
+      post {
+        success { setGitHubStatus('image-build', 'success', 'Docker image built and pushed to dockerhub') }
+        failure { setGitHubStatus('image-build', 'failed', 'Docker image failed to push to dockerhub') }
+      }
+    }
+  }
+}

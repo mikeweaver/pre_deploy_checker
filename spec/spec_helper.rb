@@ -2,6 +2,7 @@
 
 ENV['RAILS_ENV'] ||= 'test'
 require 'coveralls'
+require 'rspec_junit_formatter'
 Coveralls.wear!('rails') if ENV['CI'] == 'true'
 require_relative '../config/environment'
 require 'rails/test_help'
@@ -19,6 +20,8 @@ require 'helpers/deploy_email_interceptor'
 GitConflictDetector::Application.load_tasks
 
 RSpec.configure do |config|
+  config.add_formatter(RspecJunitFormatter, 'spec/reports/rspec.xml')
+
   config.include StubEnv::Helpers
 
   config.before(:suite) do
