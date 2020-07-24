@@ -51,7 +51,7 @@ pipeline {
       parallel {
         stage('Unit Tests') {
           steps { sh 'bundle exec rspec' }
-          post { always { junit 'spec/report/*.xml' } }
+          post { always { junit 'spec/reports/*.xml' } }
         }
 
         stage('Coveralls') {
