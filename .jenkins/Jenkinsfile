@@ -33,6 +33,7 @@ pipeline {
   stages {
     stage('Setup') {
       steps {
+        setGitHubStatus('clean-build', 'pending', 'Running unit tests...')
         sh 'apt-get update && apt-get install -y nodejs'
         sh 'bundle install'
         sh 'bundle exec rake db:setup'
@@ -45,13 +46,18 @@ pipeline {
           }
         }
       }
+      post { failure { setGitHubStatus('clean-build', 'failure', 'Build setup failed.') } }
     }
 
     stage('Tests') {
       parallel {
         stage('Unit Tests') {
           steps { sh 'bundle exec rspec' }
-          post { always { junit 'spec/reports/*.xml' } }
+          post {
+            success { setGitHubStatus('clean-build', 'success', 'All tests passed!') }
+            failure { setGitHubStatus('clean-build', 'failure', 'Failures in unit tests.') }
+            always { junit 'spec/reports/*.xml' }
+          }
         }
 
         stage('Coveralls') {
@@ -68,12 +74,17 @@ pipeline {
               sh 'bundle exec bundle-audit check --update --ignore CVE-2020-8184 CVE-2020-8161 CVE-2020-10663 CVE-2020-8165CVE-2020-5267 CVE-2020-8167 CVE-2020-8166 CVE-2020-8164 CVE-2020-5267 CVE-2020-8165'
             }
           }
+          post {
+            success { setGitHubStatus('cve-audit', 'success', 'No vulnerabilities detected.') }
+            failure { setGitHubStatus('cve-audit', 'failure', 'Found vulnerabilities!') }
+          }
         }
       }
     }
 
     stage('Build Image') {
       steps {
+        setGitHubStatus('image-build', 'pending', 'Building docker image...')
         container('docker') {
           script {
             prodImage.build(
@@ -86,10 +97,17 @@ pipeline {
           }
         }
       }
+      post {
+        failure { setGitHubStatus('image-build', 'failed', 'Docker image failed to build') }
+      }
     }
 
     stage('Push Image') {
       steps { container('docker') { script { prodImage.push() } } }
+      post {
+        success { setGitHubStatus('image-build', 'success', 'Docker image built and pushed to dockerhub') }
+        failure { setGitHubStatus('image-build', 'failed', 'Docker image failed to push to dockerhub') }
+      }
     }
   }
 }
