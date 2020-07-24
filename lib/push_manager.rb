@@ -26,7 +26,14 @@ class PushManager
 
       # assume that issues no longer found in the commits have been merged to the ancestor branch
       jira_issues_from_commits = jira_issues.select { |j| issue_keys_from_commits.include?(j.key) }
-      JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(push, jira_issues_from_commits)
+
+      if jira_issues_from_commits.empty?
+        # if there are no jira issues left on this push, we know it was deployed: mark the issues as merged
+        JiraIssuesAndPushes.mark_all_as_merged(push)
+      else
+        # if there *are* jira issues left on this push, an earlier push may have been deployed: remove any issues that have already been deployed
+        JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(push, jira_issues_from_commits)
+      end
 
       push.reload
 

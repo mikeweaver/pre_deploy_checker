@@ -334,25 +334,42 @@ describe 'PushManager' do
       expect(push.commits[0].sha).to eq(@commits[1].sha)
     end
 
-    it 'jira issues' do
-      mock_jira_find_issue_response('STORY-1234', post_deploy_check_status: 'Ready to Run')
-      mock_jira_find_issue_response('STORY-5678')
-      allow_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([@commits[0], @commits[1]])
-      push = PushManager.process_push!(Push.create_from_github_data!(payload))
-      expect(push.jira_issues_and_pushes.merged.count).to eq(0)
-      expect(push.jira_issues_and_pushes.not_merged.count).to eq(2)
-      expect(push.jira_issues_and_pushes.not_merged[0].jira_issue.key).to eq('STORY-1234')
-      expect(push.jira_issues_and_pushes.not_merged[0].jira_issue.post_deploy_check_status).to eq('Ready to Run')
+    context 'jira issues' do
+      before do
+        mock_jira_find_issue_response('STORY-1234', post_deploy_check_status: 'Ready to Run')
+        mock_jira_find_issue_response('STORY-5678')
+        allow_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([@commits[0], @commits[1]])
+        @push = PushManager.process_push!(Push.create_from_github_data!(payload))
+        expect(@push.jira_issues_and_pushes.merged.count).to eq(0)
+        expect(@push.jira_issues_and_pushes.not_merged.count).to eq(2)
+        expect(@push.jira_issues_and_pushes.not_merged[0].jira_issue.key).to eq('STORY-1234')
+        expect(@push.jira_issues_and_pushes.not_merged[0].jira_issue.post_deploy_check_status).to eq('Ready to Run')
+      end
 
-      # we still check the status of merged issues, so we must mock the lookup for STORY-1234
-      mock_jira_find_issue_response('STORY-1234', post_deploy_check_status: 'Not Needed')
-      mock_jira_find_issue_response('STORY-5678')
-      allow_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([@commits[1]])
-      push = PushManager.process_push!(push)
-      expect(push.jira_issues_and_pushes.merged.count).to eq(1)
-      expect(push.jira_issues_and_pushes.merged[0].jira_issue.post_deploy_check_status).to eq('Not Needed')
-      expect(push.jira_issues_and_pushes.not_merged.count).to eq(1)
-      expect(push.jira_issues_and_pushes.not_merged[0].jira_issue.key).to eq('STORY-5678')
+      context 'when all issues have been deployed' do
+        it 'marks all as merged' do
+          mock_jira_find_issue_response('STORY-1234', post_deploy_check_status: 'Not Needed')
+          mock_jira_find_issue_response('STORY-5678')
+          allow_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([])
+          push = PushManager.process_push!(@push)
+          expect(push.jira_issues_and_pushes.merged.count).to eq(2)
+          expect(push.jira_issues_and_pushes.merged[0].jira_issue.key).to eq('STORY-1234')
+          expect(push.jira_issues_and_pushes.merged[0].jira_issue.post_deploy_check_status).to eq('Not Needed')
+          expect(push.jira_issues_and_pushes.merged[1].jira_issue.key).to eq('STORY-5678')
+        end
+      end
+
+      context 'when only some issues have been deployed' do
+        it 'removes deployed issues' do
+          mock_jira_find_issue_response('STORY-1234', post_deploy_check_status: 'Not Needed')
+          mock_jira_find_issue_response('STORY-5678')
+          allow_any_instance_of(Git::Git).to receive(:commit_diff_refs).and_return([@commits[1]])
+          push = PushManager.process_push!(@push)
+          expect(push.jira_issues_and_pushes.not_merged.count).to eq(1)
+          expect(push.jira_issues_and_pushes.merged).to be_empty
+          expect(push.jira_issues_and_pushes.not_merged[0].jira_issue.key).to eq('STORY-5678')
+        end
+      end
     end
   end
 

@@ -39,11 +39,15 @@ class JiraIssuesAndPushes < ActiveRecord::Base
     get_error_counts(with_unignored_errors.for_push(push))
   end
 
-  def self.mark_as_merged_if_jira_issue_not_in_list(push, jira_issues)
-    jira_issue_not_in_list(push, jira_issues).update_all(merged: true)
+  def self.mark_all_as_merged(push)
+    for_push(push).update_all(merged: true)
   end
 
-  def self.jira_issue_not_in_list(push, jira_issues)
+  def self.destroy_if_jira_issue_not_in_list(push, jira_issues)
+    jira_issues_not_in_list(push, jira_issues).destroy_all
+  end
+
+  def self.jira_issues_not_in_list(push, jira_issues)
     if jira_issues.any?
       for_push(push).where('jira_issue_id NOT IN (?)', jira_issues)
     else
