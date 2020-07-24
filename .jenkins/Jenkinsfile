@@ -33,6 +33,7 @@ pipeline {
   stages {
     stage('Setup') {
       steps {
+        sh 'apt-get update && apt-get install -y nodejs'
         sh 'bundle install'
         sh 'bundle exec rake db:setup'
         sh 'bundle exec rake db:test:prepare'
