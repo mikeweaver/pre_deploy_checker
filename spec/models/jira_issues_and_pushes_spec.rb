@@ -147,7 +147,7 @@ describe 'JiraIssuesAndPushes' do
     end
   end
 
-  context 'mark_as_merged_if_jira_issue_not_in_list' do
+  context 'mark_all_as_merged' do
     context 'with jira_issues' do
       before do
         JiraIssuesAndPushes.create_or_update!(@issue, @push)
@@ -156,27 +156,51 @@ describe 'JiraIssuesAndPushes' do
         @third_issue = create_test_jira_issue(key: 'WEB-5678')
         JiraIssuesAndPushes.create_or_update!(@third_issue, @push)
         expect(@push.jira_issues_and_pushes.count).to eq(3)
-        expect(@push.jira_issues_and_pushes.merged.count).to eq(0)
+        expect(@push.jira_issues_and_pushes.merged).to be_empty
       end
 
-      it 'only marks issues not in the list' do
-        JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(@push, [@second_issue])
-        expect(@push.jira_issues_and_pushes.merged.count).to eq(2)
-        expect(@push.jira_issues_and_pushes.not_merged.count).to eq(1)
-        expect(@push.jira_issues_and_pushes.not_merged.first.jira_issue).to eq(@second_issue)
-      end
-
-      it 'marks all issues if the list is empty' do
-        JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(@push, [])
+      it 'marks all issues as merged' do
+        JiraIssuesAndPushes.mark_all_as_merged(@push)
         expect(@push.jira_issues_and_pushes.merged.count).to eq(3)
         expect(@push.jira_issues_and_pushes.not_merged).to be_empty
       end
     end
 
     context 'without jira_issues' do
-      it 'does not fail if there are no issues to mark' do
+      it 'does not fail if there are no issues to mark as merged' do
         expect(@push.jira_issues_and_pushes).to be_empty
-        JiraIssuesAndPushes.mark_as_merged_if_jira_issue_not_in_list(@push, [@issue])
+        JiraIssuesAndPushes.mark_all_as_merged(@push)
+      end
+    end
+  end
+
+  context 'destroy_if_jira_issue_not_in_list' do
+    context 'with jira_issues' do
+      before do
+        JiraIssuesAndPushes.create_or_update!(@issue, @push)
+        @second_issue = create_test_jira_issue(key: 'WEB-1234')
+        JiraIssuesAndPushes.create_or_update!(@second_issue, @push)
+        @third_issue = create_test_jira_issue(key: 'WEB-5678')
+        JiraIssuesAndPushes.create_or_update!(@third_issue, @push)
+        expect(@push.jira_issues_and_pushes.count).to eq(3)
+      end
+
+      it 'only destroys issues not in the list' do
+        JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(@push, [@second_issue])
+        expect(@push.jira_issues_and_pushes.count).to eq(1)
+        expect(@push.jira_issues_and_pushes.first.jira_issue).to eq(@second_issue)
+      end
+
+      it 'destroys all issues if the list is empty' do
+        JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(@push, [])
+        expect(@push.jira_issues_and_pushes).to be_empty
+      end
+    end
+
+    context 'without jira_issues' do
+      it 'does not fail if there are no issues to destroy' do
+        expect(@push.jira_issues_and_pushes).to be_empty
+        JiraIssuesAndPushes.destroy_if_jira_issue_not_in_list(@push, [@issue])
       end
     end
   end
