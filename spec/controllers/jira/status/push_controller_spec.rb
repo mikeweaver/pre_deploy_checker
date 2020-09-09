@@ -21,7 +21,7 @@ describe Jira::Status::PushController, type: :controller do
 
     it 'sends an email and returns success for push' do
       allow(Time).to receive(:now).and_return(Time.gm(2020, 7, 4, 12, 0))
-      get :deploy_email, id: '12345678'
+      get :deploy_email, params: { id: '12345678' }
       expect(response).to have_http_status(302)
       expect(flash[:alert]).to match(/Email has been sent/)
 
@@ -34,7 +34,7 @@ describe Jira::Status::PushController, type: :controller do
 
     it 'doesnt send an email and returns success if email has already been sent' do
       @push.update_attributes(email_sent: true)
-      get :deploy_email, id: '12345678'
+      get :deploy_email, params: { id: '12345678' }
       expect(response).to have_http_status(302)
       expect(flash[:alert]).to match(/Email was already sent/)
       expect(DeployEmailInterceptor.intercepted_email).to eq(nil)
@@ -44,12 +44,12 @@ describe Jira::Status::PushController, type: :controller do
       exception = ArgumentError.new("Bad args")
       expect(DeployMailer).to receive(:deployment_email) { raise exception }
 
-      expect { get :deploy_email, id: '12345678' }.to raise_error(exception)
+      expect { get :deploy_email, params: { id: '12345678' } }.to raise_error(exception)
       expect(@push.reload.email_sent).to eq(false)
     end
 
-    it 'redirects to summary page if not commit not found with sha matchin id' do
-      get :deploy_email, id: 'abc'
+    it 'redirects to summary page if commit not found with sha matching id' do
+      get :deploy_email, params: { id: 'abc' }
       expect(response).to have_http_status(302)
       expect(response.redirect_url).to eq('http://test.host/400')
     end

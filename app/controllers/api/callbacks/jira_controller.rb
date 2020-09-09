@@ -9,7 +9,7 @@ module Api
           "Received JIRA issue update callback. Adding to delayed job queue. Current queue depth: #{Delayed::Job.count}"
         )
         JiraHookHandler.new.queue!(@payload)
-        render(nothing: true, status: :ok)
+        head(:ok)
       end
 
       private
@@ -17,7 +17,7 @@ module Api
       def parse_request
         @payload = JSON.parse(request.body.read)
       rescue JSON::ParserError
-        render(text: 'Invalid JSON', status: :bad_request)
+        render(plain: 'Invalid JSON', status: :bad_request)
       end
     end
   end
