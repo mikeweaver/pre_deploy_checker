@@ -25,7 +25,7 @@ group :test do
   gem 'fakefs', require: 'fakefs/safe'
   gem 'mutant-rspec', require: false
   gem 'timecop'
-  gem 'coveralls', '~> 0.8.22'
+  gem 'coveralls', '~> 0.8.22', require: false
   gem 'rspec'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails'
