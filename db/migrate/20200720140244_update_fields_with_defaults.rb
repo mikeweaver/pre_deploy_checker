@@ -1,4 +1,4 @@
-class UpdateFieldsWithDefaults < ActiveRecord::Migration
+class UpdateFieldsWithDefaults < ActiveRecord::Migration[4.2]
   def self.up
     change_column :commits_and_pushes, :errors_json, :string, :limit => 256, :null => true
     change_column :commits_and_pushes, :ignore_errors, :boolean, :null => false, :default => false
