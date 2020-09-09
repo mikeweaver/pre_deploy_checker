@@ -24,11 +24,11 @@ describe 'JIRA::ClientWrapper' do
   context 'issues' do
     before do
       settings = {
-        'site' => 'https://www.jira.com',
-        'consumer_key' => 'fake_key',
-        'access_token' => 'fake_access_token',
-        'access_key' => 'fake_access_key',
-        'private_key_file' => Rails.root.join('spec', 'fixtures', 'rsakey.pem')
+        site: 'https://www.jira.com',
+        consumer_key: 'fake_key',
+        access_token: 'fake_access_token',
+        access_key: 'fake_access_key',
+        private_key_file: Rails.root.join('spec', 'fixtures', 'rsakey.pem')
       }
       @client = JIRA::ClientWrapper.new(settings)
     end

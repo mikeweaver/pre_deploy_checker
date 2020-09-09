@@ -42,19 +42,19 @@ end
 def validate_jira_settings(settings)
   return if skip_validations
 
-  if Rails.application.secrets.jira['site'].blank?
+  if Rails.application.secrets.jira[:site].blank?
     raise InvalidSettings, 'Must specify JIRA site URL'
   end
-  if Rails.application.secrets.jira['consumer_key'].blank?
+  if Rails.application.secrets.jira[:consumer_key].blank?
     raise InvalidSettings, 'Must specify JIRA consumer key'
   end
-  if Rails.application.secrets.jira['access_token'].blank?
+  if Rails.application.secrets.jira[:access_token].blank?
     raise InvalidSettings, 'Must specify JIRA access token'
   end
-  if Rails.application.secrets.jira['access_key'].blank?
+  if Rails.application.secrets.jira[:access_key].blank?
     raise InvalidSettings, 'Must specify JIRA access key'
   end
-  if Rails.application.secrets.jira['private_key_file'].blank?
+  if Rails.application.secrets.jira[:private_key_file].blank?
     raise InvalidSettings, 'Must specify JIRA private key file name'
   end
   if settings.project_keys.empty?

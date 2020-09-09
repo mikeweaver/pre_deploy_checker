@@ -62,35 +62,35 @@ describe 'GlobalSettings' do
     end
 
     it 'site is required' do
-      with_jira_secrets_except('site') do
+      with_jira_secrets_except(:site) do
         File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
         expect { load_global_settings }.to raise_exception(InvalidSettings, /site/)
       end
     end
 
     it 'consumer_key is required' do
-      with_jira_secrets_except('consumer_key') do
+      with_jira_secrets_except(:consumer_key) do
         File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
         expect { load_global_settings }.to raise_exception(InvalidSettings, /consumer/)
       end
     end
 
     it 'access_token is required' do
-      with_jira_secrets_except('access_token') do
+      with_jira_secrets_except(:access_token) do
         File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
         expect { load_global_settings }.to raise_exception(InvalidSettings, /access token/)
       end
     end
 
     it 'access_key is required' do
-      with_jira_secrets_except('access_key') do
+      with_jira_secrets_except(:access_key) do
         File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
         expect { load_global_settings }.to raise_exception(InvalidSettings, /access key/)
       end
     end
 
     it 'private_key_file is required' do
-      with_jira_secrets_except('private_key_file') do
+      with_jira_secrets_except(:private_key_file) do
         File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
         expect { load_global_settings }.to raise_exception(InvalidSettings, /private key/)
       end
