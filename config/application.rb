@@ -1,4 +1,4 @@
-require File.expand_path('boot', __dir__)
+require_relative 'boot'
 
 require 'rails/all'
 

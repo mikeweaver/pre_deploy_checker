@@ -3,11 +3,11 @@ PRIVATE_GEM_SERVER = 'https://gem.fury.io/invoca'
 source 'https://rubygems.org'
 source PRIVATE_GEM_SERVER
 
-gem 'rails', '4.2.11.3'
+gem 'rails', '~> 5.0'
 gem 'sqlite3', '~> 1.3.0'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.1'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

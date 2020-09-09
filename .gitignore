@@ -41,6 +41,8 @@ shared/
 
 # rubymine
 .idea
+.generators
+.rakeTasks
 
 # project specific
 /.cache/
