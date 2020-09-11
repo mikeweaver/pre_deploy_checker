@@ -87,15 +87,15 @@ ActiveRecord::Schema.define(version: 2020_07_20_140244) do
     t.index ["push_id"], name: "index_jira_issues_and_pushes_on_push_id"
   end
 
-  create_table "pushes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "status", limit: 32, null: false
+  create_table "pushes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8",force: :cascade do |t|
+    t.string   "status",         limit: 32,                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "head_commit_id", null: false
     t.integer "branch_id", null: false
     t.boolean "email_sent", default: false, null: false
     t.index ["branch_id"], name: "index_pushes_on_branch_id"
-    t.index ["head_commit_id"], name: "index_pushes_on_head_commit_id"
+    t.string   "ancestor_sha",   limit: 40, default: "master", null: false
   end
 
   create_table "repositories", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

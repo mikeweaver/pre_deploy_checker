@@ -19,10 +19,12 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'sha/:id' => 'jira/status/push#edit'
-  get 'deploy_email/:id' => 'jira/status/push#deploy_email'
-  get 'branch/:branch' => 'jira/status/push#branch'
-  get 'summary' => 'jira/status/push#summary'
+  # Push routes
+  get  'sha/:id'          => 'jira/status/push#edit'
+  get  'deploy_email/:id' => 'jira/status/push#deploy_email'
+  get  'branch/:branch'   => 'jira/status/push#branch'
+  get  'summary'          => 'jira/status/push#summary'
+  post 'ancestor_sha'     => 'jira/status/push#ancestor_sha'
 
   namespace 'api' do
     scope '/v1' do

@@ -45,6 +45,7 @@ RSpec.configure do |config|
     Delayed::Worker.delay_jobs = old_value
   end
 
+  config.filter_run_when_matching :focus
   ActionMailer::Base.register_interceptor(DeployEmailInterceptor)
 end
 

@@ -5,16 +5,16 @@ require 'spec_helper'
 describe Jira::Status::PushController, type: :controller do
   render_views
 
-  describe 'email' do
-    before(:each) do
-      user = User.create!(name: 'First Last', email: 'flast@email.com')
-      repo = Repository.new(name: 'master')
-      repo.save!
-      branch = Branch.create!(author: user, repository: repo, name: 'feature_branch', git_updated_at: Time.now)
-      commit = Commit.create!(sha: '12345678', message: 'This is the head commit', author: user)
-      @push = Push.create!(status: :success, branch: branch, head_commit: commit)
-    end
+  before(:each) do
+    user = User.create!(name: 'First Last', email: 'flast@email.com')
+    repo = Repository.new(name: 'master')
+    repo.save!
+    branch = Branch.create!(author: user, repository: repo, name: 'feature_branch', git_updated_at: Time.now)
+    commit = Commit.create!(sha: '12345678', message: 'This is the head commit', author: user)
+    @push = Push.create!(status: :success, branch: branch, head_commit: commit)
+  end
 
+  describe 'email' do
     after(:each) do
       DeployEmailInterceptor.clear_email
     end
@@ -52,6 +52,28 @@ describe Jira::Status::PushController, type: :controller do
       get :deploy_email, params: { id: 'abc' }
       expect(response).to have_http_status(302)
       expect(response.redirect_url).to eq('http://test.host/400')
+    end
+  end
+
+  describe "ancestor_sha" do
+    subject { @push }
+
+    it "is set to master by default" do
+      expect(subject.ancestor_sha).to eq("master")
+    end
+
+    it "can be overriden" do
+      new_sha_value = "bb8d05495e55a2f2311ccfe9521be955ca7d6395"
+      post :ancestor_sha, id: "12345678", ancestor_sha: new_sha_value
+      expect(response).to have_http_status(200)
+
+      expect(subject.reload.ancestor_sha).to eq(new_sha_value)
+    end
+
+    context "parameter validation" do
+      it "requires ancestor_sha" do
+        expect { post :ancestor_sha, id: "12345678" }.to raise_error(ArgumentError, /missing parameter: ancestor_sha/)
+      end
     end
   end
 end

@@ -74,6 +74,13 @@ module Jira
         redirect_to action: 'edit', id: @push.head_commit.sha
       end
 
+      # This value will be used for comparison against the sha being deployed
+      def ancestor_sha
+        validate_params(:ancestor_sha)
+        @push.update!(ancestor_sha: params[:ancestor_sha])
+        render json: { body: { } }, status: 200
+      end
+
       def branch
         render 'edit'
       end
@@ -186,6 +193,10 @@ module Jira
           commit_and_push.save!
         end
         updated_record_count
+      end
+
+      def validate_params(*param_names)
+        param_names.each { |param_name| params[param_name].present? or raise ArgumentError, "missing parameter: #{param_name}" }
       end
     end
   end
