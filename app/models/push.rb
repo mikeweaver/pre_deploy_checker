@@ -2,8 +2,10 @@
 
 class Push < ActiveRecord::Base
   fields do
-    status :string, limit: 32
-    email_sent :boolean, default: false
+    status       :string,  limit: 32
+    email_sent   :boolean, default: false
+    ancestor_sha :string,  default: 'master', limit: 40
+
     timestamps
   end
 
