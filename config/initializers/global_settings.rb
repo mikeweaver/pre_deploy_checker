@@ -17,7 +17,6 @@ DEFAULT_JIRA_SETTINGS = {
   ignore_commits_with_messages: [],
   ignore_branches: [],
   only_branches: [],
-  ancestor_branches: {}
 }.freeze
 
 class InvalidSettings < StandardError; end
@@ -60,20 +59,11 @@ def validate_jira_settings(settings)
   if settings.project_keys.empty?
     raise InvalidSettings, 'Must specify at least one JIRA project key'
   end
-  if settings.ancestor_branches.empty?
-    raise InvalidSettings, 'Must specify at least one JIRA ancestor branch mapping'
-  end
   if settings.valid_statuses.empty?
     raise InvalidSettings, 'Must specify at least one valid JIRA status'
   end
   if settings.valid_sub_task_statuses.empty?
     raise InvalidSettings, 'Must specify at least one valid JIRA sub-task status'
-  end
-
-  settings.ancestor_branches.each do |branch, ancestor_branch|
-    if ancestor_branch.blank?
-      raise InvalidSettings, "Must specify an ancestor branch for #{branch}"
-    end
   end
 end
 

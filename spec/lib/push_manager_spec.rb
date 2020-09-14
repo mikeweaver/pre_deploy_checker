@@ -373,21 +373,23 @@ describe 'PushManager' do
     end
   end
 
-  context 'uses appropriate ancestor branch' do
+  context 'uses appropriate ancestor sha' do
+    let(:push) { Push.create_from_github_data!(payload) }
+
     it 'for default' do
-      expect_any_instance_of(Git::Git).to receive(:clone_repository).with('default_ancestor')
-      GlobalSettings.jira.ancestor_branches['default'] = 'default_ancestor'
+      expect_any_instance_of(Git::Git).to receive(:clone_repository).with('master')
       expect_any_instance_of(Git::Git).to \
-        receive(:commit_diff_refs).with(anything, 'default_ancestor', anything).and_return([])
-      PushManager.process_push!(Push.create_from_github_data!(payload))
+        receive(:commit_diff_refs).with(anything, 'master', anything).and_return([])
+      PushManager.process_push!(push)
     end
 
     it 'for match' do
       expect_any_instance_of(Git::Git).to receive(:clone_repository).with('master')
-      GlobalSettings.jira.ancestor_branches['test/branch_name'] = 'mybranch_ancestor'
-      expect_any_instance_of(Git::Git).to \
-        receive(:commit_diff_refs).with(anything, 'mybranch_ancestor', anything).and_return([])
-      PushManager.process_push!(Push.create_from_github_data!(payload))
+      push.update!(ancestor_sha: 'mybranch_ancestor')
+      expect_any_instance_of(Git::Git)
+        .to receive(:commit_diff_refs).with(anything, 'mybranch_ancestor', anything)
+        .and_return([])
+      PushManager.process_push!(push)
     end
   end
 end

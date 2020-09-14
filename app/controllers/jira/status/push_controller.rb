@@ -76,10 +76,14 @@ module Jira
 
       # This value will be used for comparison against the sha being deployed
       def ancestor_sha
-        validate_params(:ancestor_sha)
-        @push.update!(ancestor_sha: params[:ancestor_sha])
-        render json: { body: { } }, status: 200
+        if params[:ancestor_sha].present? # POST
+          @push.update!(ancestor_sha: params[:ancestor_sha])
+          render json: { body: { } }, status: 200
+        else # GET
+          render json: { ancestor_sha: @push.ancestor_sha }, status: 200
+        end
       end
+      helper_method :ancestor_sha
 
       def branch
         render 'edit'
@@ -146,11 +150,6 @@ module Jira
       end
       helper_method :commit_error_messages
 
-      def ancestor_branch
-        PushManager.ancestor_branch_name(@push.branch.name)
-      end
-      helper_method :ancestor_branch
-
       def error_class_if_error_present(error_object, error_codes)
         has_error = error_codes.any? do |error_code|
           error_object.has_error?(error_code)
@@ -193,10 +192,6 @@ module Jira
           commit_and_push.save!
         end
         updated_record_count
-      end
-
-      def validate_params(*param_names)
-        param_names.each { |param_name| params[param_name].present? or raise ArgumentError, "missing parameter: #{param_name}" }
       end
     end
   end

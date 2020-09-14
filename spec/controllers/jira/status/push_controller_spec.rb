@@ -62,17 +62,28 @@ describe Jira::Status::PushController, type: :controller do
       expect(subject.ancestor_sha).to eq("master")
     end
 
-    it "can be overriden" do
-      new_sha_value = "bb8d05495e55a2f2311ccfe9521be955ca7d6395"
-      post :ancestor_sha, id: "12345678", ancestor_sha: new_sha_value
-      expect(response).to have_http_status(200)
+    context "when updating" do
+      it "is overriden with the new value" do
+        new_sha_value = "bb8d05495e55a2f2311ccfe9521be955ca7d6395"
+        post :ancestor_sha, id: "12345678", ancestor_sha: new_sha_value
+        expect(response).to have_http_status(200)
 
-      expect(subject.reload.ancestor_sha).to eq(new_sha_value)
+        expect(subject.reload.ancestor_sha).to eq(new_sha_value)
+      end
     end
 
-    context "parameter validation" do
-      it "requires ancestor_sha" do
-        expect { post :ancestor_sha, id: "12345678" }.to raise_error(ArgumentError, /missing parameter: ancestor_sha/)
+    context "when getting" do
+      it "returns the current value" do
+        get :ancestor_sha, id: "12345678"
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)).to eq({ "ancestor_sha" => "master" })
+      end
+
+      it "handles invalid pushes" do
+        expected_body = "<html><body>You are being <a href=\"http://test.host/400\">redirected</a>.</body></html>"
+        get :ancestor_sha, id: "bogus_push"
+        expect(response).to have_http_status(302)
+        expect(response.body).to eq(expected_body)
       end
     end
   end
