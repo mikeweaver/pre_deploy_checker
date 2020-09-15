@@ -9,4 +9,5 @@ class AncestorRef < ActiveRecord::Base
   end
 
   validates_presence_of :service_name, :ref
+  validates_uniqueness_of :service_name
 end

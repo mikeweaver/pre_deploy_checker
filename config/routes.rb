@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   namespace 'api' do
     scope '/v1' do
       namespace 'callbacks' do
+        match 'ancestor_ref/:service_name', to: 'ancestor_ref#update', via: :post
         scope '/github' do
           post '/push' => 'github#push'
         end
