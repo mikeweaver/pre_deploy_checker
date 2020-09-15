@@ -12,6 +12,11 @@
 
 ActiveRecord::Schema.define(version: 2020_07_20_140244) do
 
+  create_table "ancestor_refs", force: :cascade do |t|
+    t.string  "ref",          limit: 40,  default: "master", null: false
+    t.string  "service_name", limit: 255,                    null: false
+  end
+
   create_table "branches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "git_updated_at", null: false
     t.text "name", null: false
@@ -88,15 +93,19 @@ ActiveRecord::Schema.define(version: 2020_07_20_140244) do
   end
 
   create_table "pushes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8",force: :cascade do |t|
-    t.string   "status",         limit: 32,                    null: false
+    t.string   "status",          limit: 32,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "head_commit_id", null: false
-    t.integer "branch_id", null: false
-    t.boolean "email_sent", default: false, null: false
+    t.integer  "head_commit_id",                             null: false
+    t.integer  "branch_id",                                  null: false
+    t.boolean  "email_sent",                 default: false, null: false
     t.index ["branch_id"], name: "index_pushes_on_branch_id"
-    t.string   "ancestor_sha",   limit: 40, default: "master", null: false
+    t.integer  "ancestor_ref_id", limit: 8,                  null: false
   end
+
+  add_index "pushes", ["ancestor_ref_id"], name: "on_ancestor_ref_id"
+  add_index "pushes", ["branch_id"], name: "index_pushes_on_branch_id"
+  add_index "pushes", ["head_commit_id"], name: "index_pushes_on_head_commit_id"
 
   create_table "repositories", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "name", null: false

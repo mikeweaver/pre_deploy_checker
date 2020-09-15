@@ -1,24 +1,23 @@
 # frozen_string_literal: true
 
 class Push < ActiveRecord::Base
-  DEFAULT_ANCESTOR_BRANCH = 'master'
-
   fields do
     status       :string,  limit: 32
     email_sent   :boolean, default: false
-    ancestor_sha :string,  default: 'master', limit: 40
 
     timestamps
   end
 
   validates :status, inclusion: Github::Api::Status::STATES.map(&:to_s)
 
-  belongs_to :head_commit, class_name: 'Commit', required: true
   has_many :commits_and_pushes, class_name: :CommitsAndPushes, inverse_of: :push, dependent: :destroy
   has_many :commits, through: :commits_and_pushes
   has_many :jira_issues_and_pushes, class_name: :JiraIssuesAndPushes, inverse_of: :push, dependent: :destroy
   has_many :jira_issues, through: :jira_issues_and_pushes
+
+  belongs_to :head_commit, class_name: 'Commit', required: true
   belongs_to :branch, inverse_of: :pushes, required: true
+  belongs_to :ancestor_ref, class_name: 'AncestorRef', required: true
 
   def self.create_from_github_data!(github_data)
     commit = Commit.create_from_github_data!(github_data)

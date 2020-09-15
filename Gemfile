@@ -29,6 +29,7 @@ group :test do
   gem 'timecop'
   gem 'coveralls', '~> 0.8.22', require: false
   gem 'rspec'
+  gem 'rspec-its', '~> 1.2'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'database_cleaner'
