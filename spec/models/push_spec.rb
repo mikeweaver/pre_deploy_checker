@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'Push' do
   before(:all) do
     AncestorRef.create!([
-      { service_name: 'web1',        ref: 'production' },
-      { service_name: 'rs1',    ref: 'a_whole_new_ref' }
-    ])
+                          { service_name: 'web1', ref: 'production' },
+                          { service_name: 'rs1',  ref: 'a_whole_new_ref' }
+                        ])
   end
 
   let(:ancestor_refs) { AncestorRef.all }
@@ -36,7 +36,7 @@ describe 'Push' do
 
     expect do
       Push.create_from_github_data!(payload)
-    end.to_not change{ Push.all.count }
+    end.to_not change { Push.all.count }
   end
 
   context 'commits' do

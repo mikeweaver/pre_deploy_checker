@@ -387,9 +387,7 @@ describe 'PushManager' do
     it 'for match' do
       expect_any_instance_of(Git::Git).to receive(:clone_repository).with('master')
       seed_push.ancestor_ref.update!(ref: 'mybranch_ancestor')
-      expect_any_instance_of(Git::Git)
-        .to receive(:commit_diff_refs).with(anything, 'mybranch_ancestor', anything)
-        .and_return([])
+      expect_any_instance_of(Git::Git).to receive(:commit_diff_refs).with(anything, 'mybranch_ancestor', anything).and_return([])
       PushManager.process_push!(seed_push)
     end
   end

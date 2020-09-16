@@ -33,9 +33,11 @@ class Push < ActiveRecord::Base
 
   delegate :service_name, to: :ancestor_ref
 
-  scope :for_ancestor, lambda { |ancestor| joins(:ancestor_ref).where('ancestor_refs.service_name = ?', ancestor) }
-  scope :for_commit_and_ancestor, lambda { |commit, ancestor| joins(:head_commit, :ancestor_ref).where('commits.sha = ? and ancestor_refs.service_name = ?', commit, ancestor) }
-  scope :with_jira_issue, lambda { |key| joins(:jira_issues).where('jira_issues.key = ?', key) }
+  scope :with_jira_issue, ->(key) { joins(:jira_issues).where('jira_issues.key = ?', key) }
+  scope :for_ancestor, ->(ancestor) { joins(:ancestor_ref).where('ancestor_refs.service_name = ?', ancestor) }
+  scope :for_commit_and_ancestor, ->(commit, ancestor) do
+    joins(:head_commit, :ancestor_ref).where('commits.sha = ? and ancestor_refs.service_name = ?', commit, ancestor)
+  end
 
   def to_s
     "#{branch.name}/#{head_commit.sha}"
