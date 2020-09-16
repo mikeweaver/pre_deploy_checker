@@ -22,13 +22,19 @@ class Push < ActiveRecord::Base
   def self.create_from_github_data!(github_data)
     commit = Commit.create_from_github_data!(github_data)
     branch = Branch.create_from_git_data!(github_data.git_branch_data)
-    push = Push.where(head_commit: commit, branch: branch).first_or_initialize
-    push.status = Github::Api::Status::STATE_PENDING
-    push.save!
-    CommitsAndPushes.create_or_update!(commit, push)
-    push.reload
+    AncestorRef.all.map do |ancestor_ref|
+      push = Push.where(head_commit: commit, branch: branch, ancestor_ref: ancestor_ref).first_or_initialize
+      push.status = Github::Api::Status::STATE_PENDING
+      push.save!
+      CommitsAndPushes.create_or_update!(commit, push)
+      push.reload
+    end
   end
 
+  delegate :service_name, to: :ancestor_ref
+
+  scope :for_ancestor, lambda { |ancestor| joins(:ancestor_ref).where('ancestor_refs.service_name = ?', ancestor) }
+  scope :for_commit_and_ancestor, lambda { |commit, ancestor| joins(:head_commit, :ancestor_ref).where('commits.sha = ? and ancestor_refs.service_name = ?', commit, ancestor) }
   scope :with_jira_issue, lambda { |key| joins(:jira_issues).where('jira_issues.key = ?', key) }
 
   def to_s

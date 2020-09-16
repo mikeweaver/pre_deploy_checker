@@ -1,34 +1,47 @@
 require 'spec_helper'
 
 describe 'Push' do
-  def payload
-    @payload ||= Github::Api::PushHookPayload.new(load_json_fixture('github_push_payload'))
+  before(:all) do
+    AncestorRef.create!([
+      { service_name: 'web1',        ref: 'production' },
+      { service_name: 'rs1',    ref: 'a_whole_new_ref' }
+    ])
   end
 
+  let(:ancestor_refs) { AncestorRef.all }
+  let(:payload) { Github::Api::PushHookPayload.new(load_json_fixture('github_push_payload')) }
+
   it 'can create be constructed from github data' do
-    push = Push.create_from_github_data!(payload)
-    expect(push.status).to eq(Github::Api::Status::STATE_PENDING.to_s)
-    expect(push.head_commit).not_to be_nil
-    expect(push.branch).not_to be_nil
-    expect(push.commits.count).to eq(1)
-    expect(push.jira_issues.count).to eq(0)
-    expect(push.created_at).not_to be_nil
-    expect(push.updated_at).not_to be_nil
-    expect(push.email_sent).to eq(false)
-    expect(push.ancestor_sha).to eq('master')
+    pushes = Push.create_from_github_data!(payload)
+    pushes.each do |push|
+      expect(push.status).to eq(Github::Api::Status::STATE_PENDING.to_s)
+      expect(push.head_commit).not_to be_nil
+      expect(push.branch).not_to be_nil
+      expect(push.commits.count).to eq(1)
+      expect(push.jira_issues.count).to eq(0)
+      expect(push.created_at).not_to be_nil
+      expect(push.updated_at).not_to be_nil
+      expect(push.email_sent).to eq(false)
+    end
+  end
+
+  it 'creates one push for each Ancestor Ref' do
+    Push.create_from_github_data!(payload)
+    expect(Push.all.count).to eq(AncestorRef.all.count)
   end
 
   it 'does not create duplicate database records' do
     Push.create_from_github_data!(payload)
-    expect(Push.all.count).to eq(1)
+    expect(Push.all.count).to eq(AncestorRef.all.count)
 
-    Push.create_from_github_data!(payload)
-    expect(Push.all.count).to eq(1)
+    expect do
+      Push.create_from_github_data!(payload)
+    end.to_not change{ Push.all.count }
   end
 
   context 'commits' do
     before do
-      @push = Push.create_from_github_data!(payload)
+      @push = Push.create_from_github_data!(payload).first
       expect(@push.commits.count).to eq(1)
     end
 
@@ -103,7 +116,7 @@ describe 'Push' do
 
   context 'jira_issues' do
     before do
-      @push = Push.create_from_github_data!(payload)
+      @push = Push.create_from_github_data!(payload).first
     end
 
     it 'can own some' do
@@ -124,6 +137,21 @@ describe 'Push' do
       JiraIssuesAndPushes.create_or_update!(jira_issue, @push)
       expect(Push.with_jira_issue(jira_issue.key).count).to eq(1)
       expect(Push.with_jira_issue('STORY-0000')).to be_empty
+    end
+
+    it 'can be found by ancestor ref' do
+      ancestor_ref = @push.ancestor_ref.service_name
+
+      expect(Push.for_ancestor(ancestor_ref).count).to eq(1)
+      expect(Push.for_ancestor('bogus_ref')).to be_empty
+    end
+
+    it 'can be found by head commit and ancestor ref combination' do
+      head_commit  = @push.head_commit.sha
+      ancestor_ref = @push.ancestor_ref.service_name
+
+      expect(Push.for_commit_and_ancestor(head_commit, ancestor_ref).count).to eq(1)
+      expect(Push.for_commit_and_ancestor('bogus_commit', 'bogus_ref')).to be_empty
     end
 
     it 'can detect ones with errors' do

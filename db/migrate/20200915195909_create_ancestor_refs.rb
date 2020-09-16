@@ -1,6 +1,6 @@
 class CreateAncestorRefs < ActiveRecord::Migration
   def self.up
-    create_table :ancestor_refs, id: :bigint do |t|
+    create_table :ancestor_refs do |t|
       t.string :ref, :null => false, :limit => 40, :required => true, :default => "master"
       t.string :service_name, :null => false, :limit => 255, :required => true
     end

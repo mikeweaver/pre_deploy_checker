@@ -5,7 +5,7 @@
   .error {color: red; font-weight: bold;}
   </style>
 
-  <h2 class="page-title">Comparing <%= link_to("#{@push.branch.name} (#{@push.head_commit.short_sha})", github_url_for_commit(@push.head_commit)) %> to '<%=ancestor_sha%>' sha on <%= @push.updated_at%></h2>
+  <h2 class="page-title">Comparing <%= link_to("#{@push.branch.name} (#{@push.head_commit.short_sha})", github_url_for_commit(@push.head_commit)) %> to '<%=@push.ancestor_ref.ref%>' sha on <%= @push.updated_at%></h2>
 
   <% if flash[:alert] %>
     <div class="alert alert-success"><%= flash[:alert] %></div>

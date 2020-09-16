@@ -48,7 +48,7 @@ module Jira
             end
           end
         flash[:alert] = flash_text
-        redirect_to action: 'edit', id: @push.head_commit.sha
+        redirect_to action: 'edit', id: @push.head_commit.sha, service_name: @push.service_name
       end
 
       def update
@@ -71,26 +71,16 @@ module Jira
         else
           flash[:alert] = 'No changes made'
         end
-        redirect_to action: 'edit', id: @push.head_commit.sha
+        redirect_to action: 'edit', id: @push.head_commit.sha, service_name: @push.service_name
       end
-
-      # This value will be used for comparison against the sha being deployed
-      def ancestor_sha
-        if params[:ancestor_sha].present? # POST
-          @push.update!(ancestor_sha: params[:ancestor_sha])
-          render json: { body: { } }, status: 200
-        else # GET
-          render json: { ancestor_sha: @push.ancestor_sha }, status: 200
-        end
-      end
-      helper_method :ancestor_sha
 
       def branch
         render 'edit'
       end
 
       def summary
-        @push = Branch.where(name: 'master').first!.pushes.last
+        # Only used for web
+        @push = Branch.where(name: 'master').first!.pushes.for_ancestor("web").last
       end
 
       def github_url_for_commit(commit)
@@ -161,14 +151,16 @@ module Jira
       private
 
       def find_sha_resources
-        @push = Push.joins(:head_commit).where('commits.sha = ?', params[:id]).first!
+        @push = Push.for_commit_and_ancestor(params[:id], params[:service_name]).first!
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The push #{params[:id]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'
       end
 
       def find_branch_resources
-        @push = Branch.where(name: params[:branch]).first!.pushes.last
+        # Only used for web service
+        @push = Branch.where(name: params[:branch]).first!
+                  .pushes.for_ancestor("web").last
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The branch #{params[:branch]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'

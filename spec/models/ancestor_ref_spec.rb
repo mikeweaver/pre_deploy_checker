@@ -19,10 +19,12 @@ describe AncestorRef do
       end
 
       context "when missing ref" do
+        subject { described_class.new(service_name: "uniq") }
+
         it "is invalid" do
-          ancestor_ref.ref = nil
-          expect(ancestor_ref.valid?).to be false
-          expect(ancestor_ref.errors.full_messages).to eq ["Ref can't be blank"]
+          subject.ref = nil
+          expect(subject.valid?).to be false
+          expect(subject.errors.full_messages).to eq ["Ref can't be blank"]
         end
       end
     end

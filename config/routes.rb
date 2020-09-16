@@ -15,16 +15,17 @@ Rails.application.routes.draw do
 
   namespace 'jira' do
     namespace 'status' do
+      # These require :service_name as a query string param
       resources :push, only: [:edit, :update]
     end
   end
 
   # Push routes
-  get  'sha/:id'          => 'jira/status/push#edit'
-  get  'deploy_email/:id' => 'jira/status/push#deploy_email'
-  get  'branch/:branch'   => 'jira/status/push#branch'
-  get  'summary'          => 'jira/status/push#summary'
-  post 'ancestor_sha'     => 'jira/status/push#ancestor_sha'
+  get  ':service_name/sha/:id'          => 'jira/status/push#edit'
+  get  ':service_name/deploy_email/:id' => 'jira/status/push#deploy_email'
+
+  get  'branch/:branch' => 'jira/status/push#branch'
+  get  'summary'        => 'jira/status/push#summary'
 
   namespace 'api' do
     scope '/v1' do
