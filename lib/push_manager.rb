@@ -171,7 +171,7 @@ class PushManager
 
     def detect_errors_for_commit(commit)
       errors = []
-      unless commit.jira_issue(true)
+      unless commit.reload_jira_issue
         errors << if commit.message.match?(jira_issue_regexp)
                     CommitsAndPushes::ERROR_ORPHAN_JIRA_ISSUE_NOT_FOUND
                   else

@@ -67,6 +67,6 @@ describe 'Status' do
       .with(basic_auth: ['test_user', 'test_password']) \
       .to_return(status: 422, body: mock_error_response)
 
-    expect { send_set_status_request(Github::Api::Status::STATE_SUCCESS) }.to raise_exception(Net::HTTPServerException)
+    expect { send_set_status_request(Github::Api::Status::STATE_SUCCESS) }.to raise_exception(Net::HTTPClientException)
   end
 end

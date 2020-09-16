@@ -3,11 +3,11 @@ PRIVATE_GEM_SERVER = 'https://gem.fury.io/invoca'
 source 'https://rubygems.org'
 source PRIVATE_GEM_SERVER
 
-gem 'rails', '4.2.11.3'
+gem 'rails', '~> 5.2', ">= 5.2.4.4"
 gem 'sqlite3', '~> 1.3.0'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.1'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -25,7 +25,7 @@ group :test do
   gem 'fakefs', require: 'fakefs/safe'
   gem 'mutant-rspec', require: false
   gem 'timecop'
-  gem 'coveralls', '~> 0.8.22'
+  gem 'coveralls', '~> 0.8.22', require: false
   gem 'rspec'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails'
@@ -42,7 +42,7 @@ group :development do
   gem 'byebug'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

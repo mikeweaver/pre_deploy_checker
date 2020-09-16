@@ -1,4 +1,4 @@
-class IntialMigration < ActiveRecord::Migration
+class IntialMigration < ActiveRecord::Migration[4.2]
   def self.up
     create_table :commits_and_pushes do |t|
       t.string  :errors_json, :limit => 256, :required => false

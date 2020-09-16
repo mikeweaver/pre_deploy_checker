@@ -18,7 +18,7 @@ describe 'PushChangeHandler' do
 
   def mock_failed_status_request
     api = instance_double(Github::Api::Status)
-    expect(api).to receive(:set_status).and_raise(Net::HTTPServerException.new(nil, nil))
+    expect(api).to receive(:set_status).and_raise(Net::HTTPClientException.new(nil, nil))
     expect(Github::Api::Status).to receive(:new).and_return(api)
   end
 
