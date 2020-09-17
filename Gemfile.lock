@@ -193,6 +193,7 @@ GEM
     mutant-rspec (0.9.5)
       mutant (~> 0.9.5)
       rspec-core (>= 3.8.0, < 4.0.0)
+    mysql2 (0.5.3)
     nio4r (2.5.3)
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
@@ -379,6 +380,7 @@ DEPENDENCIES
   jira-ruby (= 0.1.17)
   jquery-rails
   mutant-rspec
+  mysql2 (~> 0.5.2)
   nokogiri (= 1.10.8)
   pry
   rails (~> 5.2, >= 5.2.4.4)
