@@ -7,6 +7,7 @@ ENV HOME_DIR="/usr/src/pre_deploy_checker"
 
 RUN apt-get update && \
     apt-get install -y \
+    apt-get install libmysqlclient-dev -y \
     build-essential \
     git-core \
     autoconf \
