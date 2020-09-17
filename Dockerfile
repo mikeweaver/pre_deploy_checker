@@ -12,7 +12,7 @@ RUN apt-get update && \
     autoconf \
     sqlite3 \
     libsqlite3-dev \
-    libmysqlclient-dev \
+    default-libmysqlclient-dev \
     nodejs \
     libcurl4-gnutls-dev \
     libexpat1-dev \
