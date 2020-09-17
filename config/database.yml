@@ -33,5 +33,7 @@ test:
 
 # Currently there is no production PreDeployChecker, so setting the host to 127.0.0.1 for now
 production:
-  <<: *default
-  host: 127.0.0.1
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: data/db/production.sqlite3
