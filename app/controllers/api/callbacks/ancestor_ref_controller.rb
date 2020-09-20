@@ -7,7 +7,7 @@ module Api
       before_action :find_ancestor_ref
 
       def update
-        Rails.logger.info("Received Github deploy callback. Updating #{params[:service_name]} with new ref #{params[:ref]}")
+        Rails.logger.info("Received DeployBot deploy callback. Updating #{params[:service_name]} with new ref #{params[:ref]}")
         @ancestor_ref.update!(ref: params[:ref])
         render json: { body: {} }, status: 200
       end
