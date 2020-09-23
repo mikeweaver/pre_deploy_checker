@@ -79,7 +79,6 @@ module Jira
       end
 
       def summary
-        # Only used for web
         @push = Branch.where(name: Service::DEFAULT_ANCESTOR_BRANCH).first!.pushes.for_service(params[:service_name]).last
       end
 
@@ -158,9 +157,8 @@ module Jira
       end
 
       def find_branch_resources
-        # Only used for web service
-        @push = Branch.where(name: params[:branch]).first!
-                  .pushes.for_service("web").last
+        service_name = params[:service_name] || "web"
+        @push = Branch.where(name: params[:branch]).first!.pushes.for_service(service_name).last
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The branch #{params[:branch]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'

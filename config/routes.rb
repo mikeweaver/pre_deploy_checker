@@ -25,7 +25,8 @@ Rails.application.routes.draw do
   get  ':service_name/deploy_email/:id' => 'jira/status/push#deploy_email'
   get  ':service_name/summary'          => 'jira/status/push#summary'
 
-  get  'branch/:branch'                 => 'jira/status/push#branch'
+  # Optionally pass :service_name as a query string param
+  get  'branch/:branch' => 'jira/status/push#branch'
 
   namespace 'api' do
     scope '/v1' do

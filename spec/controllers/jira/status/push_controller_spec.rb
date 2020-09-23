@@ -62,15 +62,34 @@ describe Jira::Status::PushController, type: :controller do
     let(:rs_west_push) { Push.create!(status: :success, branch: @branch, head_commit: @commit, service: @rs_service) }
 
     describe 'branch' do
-      subject { get :branch, params: { branch: 'feature_branch' } }
+      describe "with service name" do
+        subject { get :branch, params: { branch: 'feature_branch', service_name: "rs_west" } }
 
-      it 'renders edit page for web service' do
-        dbl = double("ActiveRecord Relation", first!: @branch, for_service: [web_push])
-        expect(Branch).to receive(:where).and_return(dbl)
-        expect(@branch).to receive(:pushes).and_return(dbl)
-        expect(dbl).to receive(:for_service).with("web").and_return([web_push])
+        it "renders edit page for service provided" do
+          dbl = double("ActiveRecord Relation", first!: @branch, for_service: [rs_west_push])
+          expect(Branch).to receive(:where).and_return(dbl)
+          expect(@branch).to receive(:pushes).and_return(dbl)
+          expect(dbl).to receive(:for_service).with("rs_west")
 
-        expect(subject).to render_template("jira/status/push/edit")
+          expect(subject).to render_template("jira/status/push/edit")
+          expect(assigns(:push)).to eq(rs_west_push)
+          expect(assigns(:push)).to be_persisted
+        end
+      end
+
+      describe "without service name" do
+        subject { get :branch, params: { branch: 'feature_branch' } }
+
+        it "renders edit page for web service" do
+          dbl = double("ActiveRecord Relation", first!: @branch, for_service: [web_push])
+          expect(Branch).to receive(:where).and_return(dbl)
+          expect(@branch).to receive(:pushes).and_return(dbl)
+          expect(dbl).to receive(:for_service).with("web")
+
+          expect(subject).to render_template("jira/status/push/edit")
+          expect(assigns(:push)).to eq(web_push)
+          expect(assigns(:push)).to be_persisted
+        end
       end
     end
 
