@@ -11,8 +11,9 @@ describe 'Push' do
   let(:payload) { Github::Api::PushHookPayload.new(load_json_fixture('github_push_payload')) }
 
   it 'can create be constructed from github data' do
+    service_names = ['web1', 'rs1']
     pushes = Push.create_from_github_data!(payload)
-    pushes.each do |push|
+    pushes.each_with_index do |push, i|
       expect(push.status).to eq(Github::Api::Status::STATE_PENDING.to_s)
       expect(push.head_commit).not_to be_nil
       expect(push.branch).not_to be_nil
@@ -21,6 +22,7 @@ describe 'Push' do
       expect(push.created_at).not_to be_nil
       expect(push.updated_at).not_to be_nil
       expect(push.email_sent).to eq(false)
+      expect(push.service_name).to eq(service_names[i])
     end
   end
 

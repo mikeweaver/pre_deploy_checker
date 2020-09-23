@@ -180,6 +180,7 @@ class PushManager
 
     def get_commits_from_push(push)
       git = Git::Git.new(push.branch.repository.name, git_cache_path: GlobalSettings.cache_directory)
+      # If pre-deploy checker ever supports services outside the web repo, we should update the branch reference below accordingly
       git.clone_repository(Service::DEFAULT_ANCESTOR_BRANCH)
       git.commit_diff_refs(
         push.head_commit.sha,
