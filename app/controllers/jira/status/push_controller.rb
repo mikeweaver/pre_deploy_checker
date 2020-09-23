@@ -80,7 +80,7 @@ module Jira
 
       def summary
         # Only used for web
-        @push = Branch.where(name: 'master').first!.pushes.for_ancestor("web").last
+        @push = Branch.where(name: 'master').first!.pushes.for_service("web").last
       end
 
       def github_url_for_commit(commit)
@@ -151,7 +151,7 @@ module Jira
       private
 
       def find_sha_resources
-        @push = Push.for_commit_and_ancestor(params[:id], params[:service_name]).first!
+        @push = Push.for_commit_and_service(params[:id], params[:service_name]).first!
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The push #{params[:id]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'
@@ -160,7 +160,7 @@ module Jira
       def find_branch_resources
         # Only used for web service
         @push = Branch.where(name: params[:branch]).first!
-                  .pushes.for_ancestor("web").last
+                  .pushes.for_service("web").last
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The branch #{params[:branch]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'

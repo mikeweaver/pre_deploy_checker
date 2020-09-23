@@ -5,7 +5,7 @@ describe 'PushChangeHandler' do
   let(:push) { Push.create_from_github_data!(payload).first }
 
   before(:all) do
-    AncestorRef.find_or_create_by!(service_name: 'web')
+    Service.find_or_create_by!(name: 'web')
   end
 
   def mock_status_request(state, description)

@@ -4,13 +4,13 @@ require "spec_helper"
 
 module Api
   module Callbacks
-    describe AncestorRefController, type: :controller do
+    describe ServiceController, type: :controller do
       before(:all) do
-        AncestorRef.create(service_name: "web", ref: "production")
+        Service.create(name: "web", ref: "production")
       end
 
       let(:new_sha_value) { "bb8d05495e55a2f2311ccfe9521be955ca7d6395" }
-      subject { AncestorRef.find_by(service_name: "web") }
+      subject { Service.find_by(name: "web") }
 
       describe "POST #update" do
         it "returns success if service name is valid" do

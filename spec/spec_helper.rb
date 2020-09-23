@@ -58,7 +58,7 @@ def load_fixture_file(fixture_file_name)
 end
 
 def create_test_push(sha: nil)
-  AncestorRef.find_or_create_by!(service_name: "web")
+  Service.find_or_create_by!(name: "web")
   json = load_json_fixture('github_push_payload')
   if sha
     json['after'] = sha

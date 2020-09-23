@@ -17,13 +17,13 @@ class Push < ActiveRecord::Base
 
   belongs_to :head_commit, class_name: 'Commit', required: true
   belongs_to :branch, inverse_of: :pushes, required: true
-  belongs_to :ancestor_ref, class_name: 'AncestorRef', required: true
+  belongs_to :service, class_name: 'Service', required: true
 
   def self.create_from_github_data!(github_data)
     commit = Commit.create_from_github_data!(github_data)
     branch = Branch.create_from_git_data!(github_data.git_branch_data)
-    AncestorRef.all.map do |ancestor_ref|
-      push = Push.where(head_commit: commit, branch: branch, ancestor_ref: ancestor_ref).first_or_initialize
+    Service.all.map do |service|
+      push = Push.where(head_commit: commit, branch: branch, service: service).first_or_initialize
       push.status = Github::Api::Status::STATE_PENDING
       push.save!
       CommitsAndPushes.create_or_update!(commit, push)
@@ -31,12 +31,12 @@ class Push < ActiveRecord::Base
     end
   end
 
-  delegate :service_name, to: :ancestor_ref
+  delegate :name, to: :service, prefix: true
 
   scope :with_jira_issue, ->(key) { joins(:jira_issues).where('jira_issues.key = ?', key) }
-  scope :for_ancestor, ->(ancestor) { joins(:ancestor_ref).where('ancestor_refs.service_name = ?', ancestor) }
-  scope :for_commit_and_ancestor, ->(commit, ancestor) do
-    joins(:head_commit, :ancestor_ref).where('commits.sha = ? and ancestor_refs.service_name = ?', commit, ancestor)
+  scope :for_service, ->(service_name) { joins(:service).where('services.name = ?', service_name) }
+  scope :for_commit_and_service, ->(commit, service_name) do
+    joins(:head_commit, :service).where('commits.sha = ? and services.name = ?', commit, service_name)
   end
 
   def to_s

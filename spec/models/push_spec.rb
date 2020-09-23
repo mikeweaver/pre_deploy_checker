@@ -2,13 +2,12 @@ require 'spec_helper'
 
 describe 'Push' do
   before(:all) do
-    AncestorRef.create!([
-                          { service_name: 'web1', ref: 'production' },
-                          { service_name: 'rs1',  ref: 'a_whole_new_ref' }
-                        ])
+    Service.create!([
+                      { name: 'web1', ref: 'production' },
+                      { name: 'rs1',  ref: 'a_whole_new_ref' }
+                    ])
   end
 
-  let(:ancestor_refs) { AncestorRef.all }
   let(:payload) { Github::Api::PushHookPayload.new(load_json_fixture('github_push_payload')) }
 
   it 'can create be constructed from github data' do
@@ -27,12 +26,12 @@ describe 'Push' do
 
   it 'creates one push for each Ancestor Ref' do
     Push.create_from_github_data!(payload)
-    expect(Push.all.count).to eq(AncestorRef.all.count)
+    expect(Push.all.count).to eq(Service.all.count)
   end
 
   it 'does not create duplicate database records' do
     Push.create_from_github_data!(payload)
-    expect(Push.all.count).to eq(AncestorRef.all.count)
+    expect(Push.all.count).to eq(Service.all.count)
 
     expect do
       Push.create_from_github_data!(payload)
@@ -139,19 +138,17 @@ describe 'Push' do
       expect(Push.with_jira_issue('STORY-0000')).to be_empty
     end
 
-    it 'can be found by ancestor ref' do
-      ancestor_ref = @push.ancestor_ref.service_name
-
-      expect(Push.for_ancestor(ancestor_ref).count).to eq(1)
-      expect(Push.for_ancestor('bogus_ref')).to be_empty
+    it 'can be found by service' do
+      expect(Push.for_service(@push.service_name).count).to eq(1)
+      expect(Push.for_service('bogus_ref')).to be_empty
     end
 
-    it 'can be found by head commit and ancestor ref combination' do
+    it 'can be found by head commit and service combination' do
       head_commit  = @push.head_commit.sha
-      ancestor_ref = @push.ancestor_ref.service_name
+      service_name = @push.service_name
 
-      expect(Push.for_commit_and_ancestor(head_commit, ancestor_ref).count).to eq(1)
-      expect(Push.for_commit_and_ancestor('bogus_commit', 'bogus_ref')).to be_empty
+      expect(Push.for_commit_and_service(head_commit, service_name).count).to eq(1)
+      expect(Push.for_commit_and_service('bogus_commit', 'bogus_ref')).to be_empty
     end
 
     it 'can detect ones with errors' do

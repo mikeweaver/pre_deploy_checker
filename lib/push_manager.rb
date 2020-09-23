@@ -180,10 +180,10 @@ class PushManager
 
     def get_commits_from_push(push)
       git = Git::Git.new(push.branch.repository.name, git_cache_path: GlobalSettings.cache_directory)
-      git.clone_repository(AncestorRef::DEFAULT_ANCESTOR_BRANCH)
+      git.clone_repository(Service::DEFAULT_ANCESTOR_BRANCH)
       git.commit_diff_refs(
         push.head_commit.sha,
-        push.ancestor_ref.ref,
+        push.service.ref,
         fetch: true
       ).collect do |git_commit|
         next if GlobalSettings.jira.ignore_commits_with_messages.include_regexp?(

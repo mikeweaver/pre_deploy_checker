@@ -26,7 +26,7 @@ describe 'PushManager' do
   end
 
   before(:all) do
-    AncestorRef.find_or_create_by!(service_name: 'web', ref: 'production')
+    Service.find_or_create_by!(name: 'web', ref: 'production')
   end
 
   it 'can create jira issues, commits, and link them together' do
@@ -376,7 +376,7 @@ describe 'PushManager' do
     end
   end
 
-  context 'uses appropriate ancestor ref' do
+  context 'uses appropriate service' do
     it 'for default' do
       expect_any_instance_of(Git::Git).to receive(:clone_repository).with('master')
       expect_any_instance_of(Git::Git).to \
@@ -386,7 +386,7 @@ describe 'PushManager' do
 
     it 'for match' do
       expect_any_instance_of(Git::Git).to receive(:clone_repository).with('master')
-      seed_push.ancestor_ref.update!(ref: 'mybranch_ancestor')
+      seed_push.service.update!(ref: 'mybranch_ancestor')
       expect_any_instance_of(Git::Git).to receive(:commit_diff_refs).with(anything, 'mybranch_ancestor', anything).and_return([])
       PushManager.process_push!(seed_push)
     end

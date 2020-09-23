@@ -11,8 +11,8 @@ describe Jira::Status::PushController, type: :controller do
     repo.save!
     @branch = Branch.create!(author: user, repository: repo, name: 'feature_branch', git_updated_at: Time.now)
     @commit = Commit.create!(sha: '12345678', message: 'This is the head commit', author: user)
-    rs_ref = AncestorRef.find_or_create_by!(service_name: 'rs_west', ref: 'a_whole_new_ref')
-    @push = Push.create!(status: :success, branch: @branch, head_commit: @commit, ancestor_ref: rs_ref)
+    rs_service = Service.find_or_create_by!(name: 'rs_west', ref: 'a_whole_new_ref')
+    @push = Push.create!(status: :success, branch: @branch, head_commit: @commit, service: rs_service)
   end
 
   describe 'email' do
@@ -57,17 +57,17 @@ describe Jira::Status::PushController, type: :controller do
   end
 
   describe 'view routes' do
-    let(:web_ref) { AncestorRef.find_or_create_by!(service_name: 'web') }
-    let(:web_push) { Push.create!(status: :success, branch: @branch, head_commit: @commit, ancestor_ref: web_ref) }
+    let(:web_service) { Service.find_or_create_by!(name: 'web') }
+    let(:web_push) { Push.create!(status: :success, branch: @branch, head_commit: @commit, service: web_service) }
 
     describe 'branch' do
       subject { get :branch, branch: 'feature_branch' }
 
-      it 'renders edit page for web ancestor ref' do
-        dbl = double("ActiveRecord Relation", first!: @branch, for_ancestor: [web_push])
+      it 'renders edit page for web service' do
+        dbl = double("ActiveRecord Relation", first!: @branch, for_service: [web_push])
         expect(Branch).to receive(:where).and_return(dbl)
         expect(@branch).to receive(:pushes).and_return(dbl)
-        expect(dbl).to receive(:for_ancestor).with("web").and_return([web_push])
+        expect(dbl).to receive(:for_service).with("web").and_return([web_push])
 
         expect(subject).to render_template("jira/status/push/edit")
       end
@@ -76,11 +76,11 @@ describe Jira::Status::PushController, type: :controller do
     describe 'summary' do
       subject { get :summary }
 
-      it 'renders summary page for web ancestor ref with master branch' do
-        dbl = double("ActiveRecord Relation", first!: @branch, for_ancestor: [web_push])
+      it 'renders summary page for web service with master branch' do
+        dbl = double("ActiveRecord Relation", first!: @branch, for_service: [web_push])
         expect(Branch).to receive(:where).with(name: "master").and_return(dbl)
         expect(@branch).to receive(:pushes).and_return(dbl)
-        expect(dbl).to receive(:for_ancestor).with("web").and_return([web_push])
+        expect(dbl).to receive(:for_service).with("web").and_return([web_push])
 
         expect(subject).to render_template("jira/status/push/summary")
       end
@@ -92,7 +92,7 @@ describe Jira::Status::PushController, type: :controller do
 
       it 'redirects to edit page with appropriate params' do
         dbl = double("ActiveRecord Relation", first!: web_push)
-        expect(Push).to receive(:for_commit_and_ancestor).with(@commit.sha, "web").and_return(dbl)
+        expect(Push).to receive(:for_commit_and_service).with(@commit.sha, "web").and_return(dbl)
 
         expect(subject).to redirect_to action: :edit,
                                        id: @commit.sha,
@@ -105,7 +105,7 @@ describe Jira::Status::PushController, type: :controller do
 
       it 'renders edit page with appropriate params' do
         dbl = double("ActiveRecord Relation", first!: web_push)
-        expect(Push).to receive(:for_commit_and_ancestor).with(@commit.sha, "web").and_return(dbl)
+        expect(Push).to receive(:for_commit_and_service).with(@commit.sha, "web").and_return(dbl)
 
         expect(subject).to render_template("jira/status/push/edit")
       end
