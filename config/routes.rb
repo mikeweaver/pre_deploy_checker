@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   resources :suppressions, except: [:show, :edit, :update, :destroy]
 
+  # Push routes
   namespace 'jira' do
     namespace 'status' do
       # These require :service_name as a query string param
@@ -20,12 +21,11 @@ Rails.application.routes.draw do
     end
   end
 
-  # Push routes
   get  ':service_name/sha/:id'          => 'jira/status/push#edit'
   get  ':service_name/deploy_email/:id' => 'jira/status/push#deploy_email'
+  get  ':service_name/summary'          => 'jira/status/push#summary'
 
-  get  'branch/:branch' => 'jira/status/push#branch'
-  get  'summary'        => 'jira/status/push#summary'
+  get  'branch/:branch'                 => 'jira/status/push#branch'
 
   namespace 'api' do
     scope '/v1' do

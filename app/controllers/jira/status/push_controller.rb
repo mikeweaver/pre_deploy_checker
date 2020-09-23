@@ -80,7 +80,7 @@ module Jira
 
       def summary
         # Only used for web
-        @push = Branch.where(name: 'master').first!.pushes.for_service("web").last
+        @push = Branch.where(name: Service::DEFAULT_ANCESTOR_BRANCH).first!.pushes.for_service(params[:service_name]).last
       end
 
       def github_url_for_commit(commit)
