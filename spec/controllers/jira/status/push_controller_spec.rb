@@ -127,7 +127,7 @@ describe Jira::Status::PushController, type: :controller do
             dbl = double("ActiveRecord Relation", first!: send(push_for_service))
             expect(Push).to receive(:for_commit_and_service).with(@commit.sha, service_name).and_return(dbl)
 
-            expect(post :update, params: { id: @commit.sha, service_name: service_name })
+            expect(post(:update, params: { id: @commit.sha, service_name: service_name }))
               .to redirect_to({ action: :edit, id: @commit.sha, service_name: service_name })
           end
         end

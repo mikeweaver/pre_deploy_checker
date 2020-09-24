@@ -10,8 +10,8 @@ module Api
       end
 
       let(:new_sha_value) { "bb8d05495e55a2f2311ccfe9521be955ca7d6395" }
-      let(:request_params) {{ ref: new_sha_value }}
-      let(:service_name) {{ service_name: "web" }}
+      let(:request_params) { { ref: new_sha_value } }
+      let(:service_name) { { service_name: "web" } }
       subject { Service.find_by(name: "web") }
 
       describe "POST #update" do
