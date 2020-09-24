@@ -18,7 +18,7 @@ class CreateServices < ActiveRecord::Migration[4.2]
         { name: 'rs_central', ref: '2b7a8338fde0a998d8aa6b540f1aa4dcb3f9018f' }
       ]
     )
-    Push.update_all(service: web_service)
+    Push.update_all(service_id: web_service.id)
   end
 
   def self.down
