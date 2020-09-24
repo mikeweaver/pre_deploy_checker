@@ -28,7 +28,7 @@ module Api
 
       def authorize
         if (mac = request.authorization.presence)
-          digest = digest_request_parameters(InvocaSecrets['pre_deploy_checker', 'service', 'secret_key'])
+          digest = digest_request_parameters(InvocaSecrets['pre_deploy_checker', 'secret_key'])
           digest == mac or raise Unauthorized, "Authorization Header '#{mac}' does not match Computed Digest '#{digest}'"
         else
           raise Unauthorized, "Missing Authorization header"

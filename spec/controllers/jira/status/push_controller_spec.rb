@@ -101,7 +101,7 @@ describe Jira::Status::PushController, type: :controller do
           expect(@branch).to receive(:pushes).and_return(dbl)
           expect(dbl).to receive(:for_service).with(service_name).and_return([send(push_for_service)])
 
-          expect(get :summary, params: { service_name: service_name }).to render_template("jira/status/push/summary")
+          expect(get(:summary, params: { service_name: service_name })).to render_template("jira/status/push/summary")
           expect(assigns(:push)).to eq(send(push_for_service))
           expect(assigns(:push)).to be_persisted
         end
@@ -116,9 +116,8 @@ describe Jira::Status::PushController, type: :controller do
             dbl = double("ActiveRecord Relation", first!: send(push_for_service))
             expect(Push).to receive(:for_commit_and_service).with(@commit.sha, service_name).and_return(dbl)
 
-            expect(post :update, params: { id: @commit.sha, service_name: service_name }).to redirect_to action: :edit,
-                                                                                                         id: @commit.sha,
-                                                                                                         service_name: service_name
+            expect(post :update, params: { id: @commit.sha, service_name: service_name })
+              .to redirect_to({ action: :edit, id: @commit.sha, service_name: service_name })
           end
         end
       end

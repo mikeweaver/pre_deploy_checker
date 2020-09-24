@@ -59,7 +59,7 @@ module Api
         end
       end
 
-      def set_auth_header(body, mac: nil, secret_key: InvocaSecrets['pre_deploy_checker', 'service', 'secret_key'])
+      def set_auth_header(body, mac: nil, secret_key: InvocaSecrets['pre_deploy_checker', 'secret_key'])
         @request.env['HTTP_AUTHORIZATION'] = mac || OpenSSL::HMAC.hexdigest('SHA256', secret_key, body.deep_stringify_keys.sort.to_s)
       end
     end
