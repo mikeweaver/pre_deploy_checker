@@ -23,9 +23,9 @@ Rails.application.routes.draw do
 
   get  ':service_name/sha/:id'          => 'jira/status/push#edit'
   get  ':service_name/deploy_email/:id' => 'jira/status/push#deploy_email'
-  get  ':service_name/summary'          => 'jira/status/push#summary'
 
-  # Optionally pass :service_name as a query string param
+  # Optionally pass :service_name as a query string param, otherwise default to web
+  get  'summary'        => 'jira/status/push#summary'
   get  'branch/:branch' => 'jira/status/push#branch'
 
   namespace 'api' do

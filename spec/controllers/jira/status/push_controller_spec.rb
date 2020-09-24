@@ -106,9 +106,20 @@ describe Jira::Status::PushController, type: :controller do
           expect(assigns(:push)).to be_persisted
         end
       end
+
+      it "defaults service_name to web" do
+        dbl = double("ActiveRecord Relation", first!: @branch, for_service: [rs_west_push, web_push])
+        expect(Branch).to receive(:where).with(name: "master").and_return(dbl)
+        expect(@branch).to receive(:pushes).and_return(dbl)
+        expect(dbl).to receive(:for_service).with("web").and_return([web_push])
+
+        expect(get(:summary)).to render_template("jira/status/push/summary")
+        expect(assigns(:push)).to eq(web_push)
+        expect(assigns(:push)).to be_persisted
+      end
     end
 
-    # TODO: improve test coverage for this action
+    # TODO: luan/phoenix - improve test coverage for this action
     describe 'update' do
       [["web", :web_push], ["rs_west", :rs_west_push]].each do |service_name, push_for_service|
         describe "when #{service_name}" do

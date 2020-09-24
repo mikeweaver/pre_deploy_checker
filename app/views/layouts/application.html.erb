@@ -12,7 +12,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <% service_name = @push&.service_name || "web" %>
-      <a href='<% "#{service_name}/summary" %>'>
+      <a href='<% "/summary?service_name=#{service_name}" %>'>
         <div class="navbar-brand">
           <%= image_tag "icon.png", height: 40 %>
         </div>

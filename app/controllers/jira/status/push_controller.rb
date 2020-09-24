@@ -79,7 +79,8 @@ module Jira
       end
 
       def summary
-        @push = Branch.where(name: Service::DEFAULT_ANCESTOR_BRANCH).first!.pushes.for_service(params[:service_name]).last
+        service_name = params[:service_name].presence || "web"
+        @push = Branch.where(name: Service::DEFAULT_ANCESTOR_BRANCH).first!.pushes.for_service(service_name).last
       end
 
       def github_url_for_commit(commit)
@@ -157,7 +158,7 @@ module Jira
       end
 
       def find_branch_resources
-        service_name = params[:service_name] || "web"
+        service_name = params[:service_name].presence || "web"
         @push = Branch.where(name: params[:branch]).first!.pushes.for_service(service_name).last
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The branch #{params[:branch]} could not be found"

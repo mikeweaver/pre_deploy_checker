@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'Push' do
   before(:all) do
+    Service.destroy_all
     Service.create!([
                       { name: 'web1', ref: 'production' },
                       { name: 'rs1',  ref: 'a_whole_new_ref' }
