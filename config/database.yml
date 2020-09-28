@@ -6,16 +6,19 @@
 #
 
 default: &default
-  url: <%= ENV['DATABASE_URL'] %>/predeploychecker
+  adapter: mysql2
+  pool: 5
+  username: <%= ENV['DATABASE_USER'] || rr-dev %>
+  password: <%= ENV['DATABASE_PASS'] || dev %>
+  host: 127.0.0.1
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
-  url: <%= ENV['DATABASE_URL'] %>/predeploychecker_test
+  <<: *default
+  database: predeploychecker_test
 
 development:
-  url: <%= ENV['DATABASE_URL'] %>/predeploychecker_dev
+  <<: *default
+  database: predeploychecker_dev
 
 production:
-  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
