@@ -47,9 +47,11 @@ spec:
      - name: MYSQL_DATABASE
        value: predeploychecker_test
      - name: MYSQL_USER
-       value: rr-dev
+       value: dev
      - name: MYSQL_PASSWORD
        value: dev
+     - name: MYSQL_RANDOM_ROOT_PASSWORD
+       value: true
     resources:
       requests:
         memory: "256Mi"

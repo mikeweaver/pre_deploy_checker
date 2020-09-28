@@ -8,8 +8,8 @@
 default: &default
   adapter: mysql2
   pool: 5
-  username: <%= ENV['DATABASE_USER'] || rr-dev %>
-  password: <%= ENV['DATABASE_PASS'] || dev %>
+  username: <%= ENV['DATABASE_USER'] || "dev" %>
+  password: <%= ENV['DATABASE_PASS'] || "dev" %>
   host: 127.0.0.1
 
 test:
