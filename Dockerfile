@@ -52,5 +52,4 @@ mkdir -p shared/pids && \
 mkdir -p log && \
 mkdir -p data/db && \
 # setup the DB and assets
-bundle exec rake db:migrate RAILS_ENV=$RAILS_ENV VALIDATE_SETTINGS=false && \
 bundle exec rake assets:precompile RAILS_ENV=$RAILS_ENV VALIDATE_SETTINGS=false
