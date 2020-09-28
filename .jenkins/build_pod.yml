@@ -46,9 +46,9 @@ spec:
     env:
      - name: MYSQL_DATABASE
        value: predeploychecker_test
-     - MYSQL_USER
+     - name: MYSQL_USER
        value: rr-dev
-     - MYSQL_PASSWORD
+     - name: MYSQL_PASSWORD
        value: dev
     resources:
       requests:
