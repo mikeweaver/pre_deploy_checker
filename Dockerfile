@@ -20,6 +20,7 @@ RUN apt-get update && \
     libz-dev \
     libssl-dev \
     ssh && \
+    wget && \
     # remove apt-get data to save space
     rm -rf /var/lib/apt/lists/* && \
     # install newer version of git for date parsing
