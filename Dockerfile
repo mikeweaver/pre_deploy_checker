@@ -32,6 +32,10 @@ RUN apt-get update && \
     # make a directory for our app
     mkdir -p ${HOME_DIR}
 
+# Install RDS Certificate
+RUN wget http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem -O /usr/local/share/ca-certificates/rds-combined-ca-bundle.crt && \
+    update-ca-certificates
+
 WORKDIR ${HOME_DIR}
 
 COPY Gemfile .

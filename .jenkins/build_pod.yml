@@ -47,7 +47,7 @@ spec:
      - name: MYSQL_DATABASE
        value: predeploychecker_test
      - name: MYSQL_USER
-       value: dev
+       value: rr_dev
      - name: MYSQL_PASSWORD
        value: dev
      - name: MYSQL_RANDOM_ROOT_PASSWORD
