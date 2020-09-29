@@ -355,6 +355,9 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    yaml_db (0.7.0)
+      rails (>= 3.0)
+      rake (>= 0.8.7)
 
 PLATFORMS
   ruby
@@ -400,6 +403,7 @@ DEPENDENCIES
   unicorn
   web-console (~> 3.0)
   webmock
+  yaml_db
 
 BUNDLED WITH
    1.17.3
