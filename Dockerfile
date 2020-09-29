@@ -20,7 +20,6 @@ RUN apt-get update && \
     libz-dev \
     libssl-dev \
     ssh && \
-    wget && \
     # remove apt-get data to save space
     rm -rf /var/lib/apt/lists/* && \
     # install newer version of git for date parsing
@@ -34,7 +33,7 @@ RUN apt-get update && \
     mkdir -p ${HOME_DIR}
 
 # Install RDS Certificate
-RUN wget http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem -O /usr/local/share/ca-certificates/rds-combined-ca-bundle.crt && \
+RUN curl https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem -o /usr/local/share/ca-certificates/rds-combined-ca-bundle.crt && \
     update-ca-certificates
 
 WORKDIR ${HOME_DIR}
