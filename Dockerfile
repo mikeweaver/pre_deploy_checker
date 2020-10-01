@@ -12,6 +12,7 @@ RUN apt-get update && \
     autoconf \
     sqlite3 \
     libsqlite3-dev \
+    default-libmysqlclient-dev \
     nodejs \
     libcurl4-gnutls-dev \
     libexpat1-dev \
@@ -30,6 +31,10 @@ RUN apt-get update && \
     make install && \
     # make a directory for our app
     mkdir -p ${HOME_DIR}
+
+# Install RDS Certificate
+RUN curl https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem -o /usr/local/share/ca-certificates/rds-combined-ca-bundle.crt && \
+    update-ca-certificates
 
 WORKDIR ${HOME_DIR}
 
@@ -51,5 +56,4 @@ mkdir -p shared/pids && \
 mkdir -p log && \
 mkdir -p data/db && \
 # setup the DB and assets
-bundle exec rake db:migrate RAILS_ENV=$RAILS_ENV VALIDATE_SETTINGS=false && \
 bundle exec rake assets:precompile RAILS_ENV=$RAILS_ENV VALIDATE_SETTINGS=false

@@ -3,6 +3,8 @@ PRIVATE_GEM_SERVER = 'https://gem.fury.io/invoca'
 source 'https://rubygems.org'
 source PRIVATE_GEM_SERVER
 
+gem 'mysql2', '~> 0.5.2'
+gem 'yaml_db'
 gem 'rails', '~> 5.2', ">= 5.2.4.4"
 gem 'sqlite3', '~> 1.3.0'
 gem 'sass-rails', '~> 5.0'

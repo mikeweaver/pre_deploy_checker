@@ -41,6 +41,20 @@ spec:
     volumeMounts:
     - name: docker-sock
       mountPath: /var/run/docker.sock
+  - name: mysql
+    image: mysql:5.7.26
+    env:
+     - name: MYSQL_DATABASE
+       value: predeploychecker_test
+     - name: MYSQL_USER
+       value: rr_dev
+     - name: MYSQL_PASSWORD
+       value: dev
+     - name: MYSQL_RANDOM_ROOT_PASSWORD
+       value: true
+    resources:
+      requests:
+        memory: "256Mi"
   volumes:
   - name: docker-sock
     hostPath:
