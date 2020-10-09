@@ -13,9 +13,9 @@ class CreateServices < ActiveRecord::Migration[4.2]
     web_service = Service.create!(name: 'web', ref: 'production')
     Service.create!(
       [
-        { name: 'rs_west',    ref: '2b7a8338fde0a998d8aa6b540f1aa4dcb3f9018f' },
-        { name: 'rs_east',    ref: '2b7a8338fde0a998d8aa6b540f1aa4dcb3f9018f' },
-        { name: 'rs_central', ref: '2b7a8338fde0a998d8aa6b540f1aa4dcb3f9018f' }
+        { name: 'rs_west',    ref: 'd72f6b040022211872a52cdc48c72fd0560bd402' },
+        { name: 'rs_east',    ref: 'd72f6b040022211872a52cdc48c72fd0560bd402' },
+        { name: 'rs_central', ref: 'd72f6b040022211872a52cdc48c72fd0560bd402' }
       ]
     )
     Push.update_all(service_id: web_service.id)
