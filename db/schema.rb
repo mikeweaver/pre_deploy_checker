@@ -96,7 +96,6 @@ ActiveRecord::Schema.define(version: 2020_09_22_230337) do
     t.boolean "email_sent", default: false, null: false
     t.index ["branch_id"], name: "index_pushes_on_branch_id"
     t.integer "service_id", limit: 8, null: false
-    t.index ["branch_id"], name: "index_pushes_on_branch_id"
     t.index ["head_commit_id"], name: "index_pushes_on_head_commit_id"
     t.index ["service_id"], name: "on_service_id"
   end
