@@ -1,6 +1,6 @@
 
 
-<%= form_for @push, url: "/jira/status/push/#{@push.head_commit.sha}.html" do |form| %>
+<%= form_for @push, url: "/jira/status/push/#{@push.head_commit.sha}.html?service_name=#{@push.service_name}" do |form| %>
   <style>
   .error {color: red; font-weight: bold;}
   </style>
