@@ -45,7 +45,7 @@
       </table>
     </div>
     <div class="text-center overview-link">
-      <%= link_to "View commit (#{@push.head_commit.short_sha})", service_name: @push.service_name, controller: "push", action: "edit", id: @push.head_commit.sha %>
+      <%= link_to "View commit (#{@push.head_commit.short_sha})", controller: "push", action: "edit", id: @push.head_commit.sha, service_name: @push.service_name %>
     </div>
   </div>
  </div>

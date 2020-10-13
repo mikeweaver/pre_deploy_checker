@@ -11,7 +11,7 @@
 <nav class="navbar">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a href="<%= "/summary?service_name=#{@push&.service_name || 'web'}" %>">
+      <a href="<%= "/summary?service_name=#{@push.service_name}" %>">
         <div class="navbar-brand">
           <%= image_tag "icon.png", height: 40 %>
         </div>
