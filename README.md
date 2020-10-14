@@ -34,14 +34,6 @@ The PDC can be triggered several ways:
 ## Settings File
 * cache_directory: Location to clone git repositories to. Recommended that you set this to your system temporary folder. Defaults to './data/git'.
 * web_server_url: The publicly available URL of the web application. i.e. 'http://www.myserver.com'. Used in unsubscribe and suppression links sent by the application.
-* ancestor_branches: This is a hash of branch names and the ancestors that should be used to determine what commits they contain. i.e. To determine what commits are in the master branch, you should diff the master and production branches. They are written like this in the yaml:
-```
-ancestor_branches:
-  default: 'master'
-  master: 'production'
-  release: 'production'
-```
-'default' is a reserved branch name. The ancestor assigned to 'default' will be used for all branches that do have an explicit entry in the ancestor_branches hash.
 * project_keys: The keys of the JIRA projects that should be checked.
 * valid_statuses: A list of JIRA statuses that indicate a JIRA issue should be considered ready for deployment.
 * valid_post_deploy_check_statuses: A list of JIRA post deploy check statuses that indicate the post deploy checks are ready for deployment.

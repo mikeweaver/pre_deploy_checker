@@ -34,7 +34,6 @@ describe 'GlobalSettings' do
       @required_settings = DEFAULT_SETTINGS.merge(
         'web_server_url' => 'http://myserver.com',
         'jira' => DEFAULT_JIRA_SETTINGS.merge(
-          'ancestor_branches' => { 'default' => 'master' },
           'project_keys' => ['STORY'],
           'valid_statuses' => ['Ready to Deploy'],
           'valid_sub_task_statuses' => ['Ready to Deploy', 'Closed']
@@ -94,13 +93,6 @@ describe 'GlobalSettings' do
         File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
         expect { load_global_settings }.to raise_exception(InvalidSettings, /private key/)
       end
-    end
-
-    it 'ancestor_branches is required' do
-      @required_settings['jira'].except!('ancestor_branches')
-
-      File.write(Rails.root.join('data', 'config', "settings.#{Rails.env}.yml"), @required_settings.to_yaml)
-      expect { load_global_settings }.to raise_exception(InvalidSettings, /ancestor/)
     end
 
     it 'project_keys is required' do

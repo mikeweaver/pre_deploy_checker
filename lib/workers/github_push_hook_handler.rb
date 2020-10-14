@@ -10,8 +10,10 @@ class GithubPushHookHandler
       Rails.logger.info("Ignoring branch #{payload.branch_name} because it is in the ignore list")
     elsif should_include_push?(payload)
       Rails.logger.info("Queueing push to branch #{payload.branch_name}")
-      push = Push.create_from_github_data!(payload)
-      PushChangeHandler.new.submit_push_for_processing!(push)
+      pushes = Push.create_from_github_data!(payload)
+      pushes.each do |push|
+        PushChangeHandler.new.submit_push_for_processing!(push)
+      end
     else
       Rails.logger.info("Ignoring branch #{payload.branch_name} because it is not in the include list")
     end

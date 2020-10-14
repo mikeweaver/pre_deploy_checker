@@ -47,10 +47,6 @@ class PushManager
       push
     end
 
-    def ancestor_branch_name(branch_name)
-      GlobalSettings.jira.ancestor_branches[branch_name] || GlobalSettings.jira.ancestor_branches['default']
-    end
-
     private
 
     def jira_issue_regexp
@@ -184,10 +180,11 @@ class PushManager
 
     def get_commits_from_push(push)
       git = Git::Git.new(push.branch.repository.name, git_cache_path: GlobalSettings.cache_directory)
-      git.clone_repository(GlobalSettings.jira.ancestor_branches['default'])
+      # If pre-deploy checker ever supports services outside the web repo, we should update the branch reference below accordingly
+      git.clone_repository(Service::DEFAULT_ANCESTOR_BRANCH)
       git.commit_diff_refs(
         push.head_commit.sha,
-        ancestor_branch_name(push.branch.name),
+        push.service.ref,
         fetch: true
       ).collect do |git_commit|
         next if GlobalSettings.jira.ignore_commits_with_messages.include_regexp?(

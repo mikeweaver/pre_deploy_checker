@@ -45,6 +45,7 @@ RSpec.configure do |config|
     Delayed::Worker.delay_jobs = old_value
   end
 
+  config.filter_run_when_matching :focus
   ActionMailer::Base.register_interceptor(DeployEmailInterceptor)
 end
 
@@ -57,12 +58,13 @@ def load_fixture_file(fixture_file_name)
 end
 
 def create_test_push(sha: nil)
+  Service.find_or_create_by!(name: "web")
   json = load_json_fixture('github_push_payload')
   if sha
     json['after'] = sha
     json['head_commit']['id'] = sha
   end
-  Push.create_from_github_data!(Github::Api::PushHookPayload.new(json))
+  Push.create_from_github_data!(Github::Api::PushHookPayload.new(json)).first
 end
 
 def create_test_jira_issue_json(key: nil,

@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe 'GithubPushHookHandler' do
-  def payload
-    @payload ||= load_json_fixture('github_push_payload')
+  let(:payload) { load_json_fixture('github_push_payload') }
+
+  before(:each) do
+    allow(Push).to receive(:create_from_github_data!).and_return([double])
   end
 
   it 'can create be constructed' do

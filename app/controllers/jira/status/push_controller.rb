@@ -48,7 +48,7 @@ module Jira
             end
           end
         flash[:alert] = flash_text
-        redirect_to action: 'edit', id: @push.head_commit.sha
+        redirect_to action: 'edit', id: @push.head_commit.sha, service_name: @push.service_name
       end
 
       def update
@@ -71,7 +71,7 @@ module Jira
         else
           flash[:alert] = 'No changes made'
         end
-        redirect_to action: 'edit', id: @push.head_commit.sha
+        redirect_to action: 'edit', id: @push.head_commit.sha, service_name: @push.service_name
       end
 
       def branch
@@ -79,7 +79,8 @@ module Jira
       end
 
       def summary
-        @push = Branch.where(name: 'master').first!.pushes.last
+        service_name = params[:service_name].presence || "web"
+        @push = Branch.where(name: Service::DEFAULT_ANCESTOR_BRANCH).first!.pushes.for_service(service_name).last
       end
 
       def github_url_for_commit(commit)
@@ -139,11 +140,6 @@ module Jira
       end
       helper_method :commit_error_messages
 
-      def ancestor_branch
-        PushManager.ancestor_branch_name(@push.branch.name)
-      end
-      helper_method :ancestor_branch
-
       def error_class_if_error_present(error_object, error_codes)
         has_error = error_codes.any? do |error_code|
           error_object.has_error?(error_code)
@@ -155,14 +151,15 @@ module Jira
       private
 
       def find_sha_resources
-        @push = Push.joins(:head_commit).where('commits.sha = ?', params[:id]).first!
+        @push = Push.for_commit_and_service(params[:id], params[:service_name]).first!
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The push #{params[:id]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'
       end
 
       def find_branch_resources
-        @push = Branch.where(name: params[:branch]).first!.pushes.last
+        service_name = params[:service_name].presence || "web"
+        @push = Branch.where(name: params[:branch]).first!.pushes.for_service(service_name).last
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The branch #{params[:branch]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'

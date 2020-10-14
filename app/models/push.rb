@@ -2,31 +2,42 @@
 
 class Push < ActiveRecord::Base
   fields do
-    status :string, limit: 32
-    email_sent :boolean, default: false
+    status       :string,  limit: 32
+    email_sent   :boolean, default: false
+
     timestamps
   end
 
   validates :status, inclusion: Github::Api::Status::STATES.map(&:to_s)
 
-  belongs_to :head_commit, class_name: 'Commit', required: true
   has_many :commits_and_pushes, class_name: :CommitsAndPushes, inverse_of: :push, dependent: :destroy
   has_many :commits, through: :commits_and_pushes
   has_many :jira_issues_and_pushes, class_name: :JiraIssuesAndPushes, inverse_of: :push, dependent: :destroy
   has_many :jira_issues, through: :jira_issues_and_pushes
+
+  belongs_to :head_commit, class_name: 'Commit', required: true
   belongs_to :branch, inverse_of: :pushes, required: true
+  belongs_to :service, class_name: 'Service', required: true
 
   def self.create_from_github_data!(github_data)
     commit = Commit.create_from_github_data!(github_data)
     branch = Branch.create_from_git_data!(github_data.git_branch_data)
-    push = Push.where(head_commit: commit, branch: branch).first_or_initialize
-    push.status = Github::Api::Status::STATE_PENDING
-    push.save!
-    CommitsAndPushes.create_or_update!(commit, push)
-    push.reload
+    Service.all.map do |service|
+      push = Push.where(head_commit: commit, branch: branch, service: service).first_or_initialize
+      push.status = Github::Api::Status::STATE_PENDING
+      push.save!
+      CommitsAndPushes.create_or_update!(commit, push)
+      push.reload
+    end
   end
 
-  scope :with_jira_issue, lambda { |key| joins(:jira_issues).where('jira_issues.key = ?', key) }
+  delegate :name, to: :service, prefix: true
+
+  scope :with_jira_issue, ->(key) { joins(:jira_issues).where('jira_issues.key = ?', key) }
+  scope :for_service, ->(service_name) { joins(:service).where('services.name = ?', service_name) }
+  scope :for_commit_and_service, ->(commit, service_name) do
+    joins(:head_commit, :service).where('commits.sha = ? and services.name = ?', commit, service_name)
+  end
 
   def to_s
     "#{branch.name}/#{head_commit.sha}"

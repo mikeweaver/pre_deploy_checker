@@ -1,11 +1,11 @@
 
 
-<%= form_for @push, url: "/jira/status/push/#{@push.head_commit.sha}.html" do |form| %>
+<%= form_for @push, url: "/jira/status/push/#{@push.head_commit.sha}.html?service_name=#{@push.service_name}" do |form| %>
   <style>
   .error {color: red; font-weight: bold;}
   </style>
 
-  <h2 class="page-title">Comparing <%= link_to("#{@push.branch.name} (#{@push.head_commit.short_sha})", github_url_for_commit(@push.head_commit)) %> to '<%=ancestor_branch%>' branch on <%= @push.updated_at%></h2>
+  <h2 class="page-title">Comparing <%= link_to("#{@push.branch.name} (#{@push.head_commit.short_sha})", github_url_for_commit(@push.head_commit)) %> to '<%=@push.service.ref%>' on <%= @push.updated_at%></h2>
 
   <% if flash[:alert] %>
     <div class="alert alert-success"><%= flash[:alert] %></div>
