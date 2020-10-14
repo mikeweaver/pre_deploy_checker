@@ -151,7 +151,10 @@ module Jira
       private
 
       def find_sha_resources
-        @push = Push.for_commit_and_service(params[:id], params[:service_name]).first!
+        # There are some instances where links don't have service name, like for example in Github
+        # Default service name to web because that's more likely the desired service
+        service_name = params[:service_name].presence || "web"
+        @push = Push.for_commit_and_service(params[:id], service_name).first!
       rescue ActiveRecord::RecordNotFound
         flash[:alert] = "The push #{params[:id]} could not be found"
         redirect_to controller: '/errors', action: 'bad_request'
