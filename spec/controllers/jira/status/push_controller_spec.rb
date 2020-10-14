@@ -134,14 +134,31 @@ describe Jira::Status::PushController, type: :controller do
       end
     end
 
-    describe 'edit' do
-      subject { post :edit, params: { id: @commit.sha, service_name: "web" } }
+    describe "edit" do
+      describe "with service name" do
+        subject { post :edit, params: { id: @commit.sha, service_name: "web" } }
 
-      it 'renders edit page with appropriate params' do
-        dbl = double("ActiveRecord Relation", first!: web_push)
-        expect(Push).to receive(:for_commit_and_service).with(@commit.sha, "web").and_return(dbl)
+        it "renders edit page with appropriate params" do
+          dbl = double("ActiveRecord Relation", first!: web_push)
+          expect(Push).to receive(:for_commit_and_service).with(@commit.sha, "web").and_return(dbl)
 
-        expect(subject).to render_template("jira/status/push/edit")
+          expect(subject).to render_template("jira/status/push/edit")
+          expect(assigns(:push)).to eq(web_push)
+          expect(assigns(:push)).to be_persisted
+        end
+      end
+
+      describe "without service name" do
+        subject { post :edit, params: { id: @commit.sha } }
+
+        it "renders edit page for web service" do
+          dbl = double("ActiveRecord Relation", first!: web_push)
+          expect(Push).to receive(:for_commit_and_service).with(@commit.sha, "web").and_return(dbl)
+
+          expect(subject).to render_template("jira/status/push/edit")
+          expect(assigns(:push)).to eq(web_push)
+          expect(assigns(:push)).to be_persisted
+        end
       end
     end
   end
