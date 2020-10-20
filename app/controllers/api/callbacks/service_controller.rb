@@ -3,6 +3,7 @@
 module Api
   module Callbacks
     class ServiceController < ApplicationController
+      protect_from_forgery with: :null_session
       before_action :authorize
       before_action :find_service
 
